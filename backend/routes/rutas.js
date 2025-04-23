@@ -1,18 +1,12 @@
 const express = require('express');
-const app = express();
 const user = express.Router();
 const userController = require('../databaseFunctions/userController');
-app.use(express.json());
 
-user.get('/usuarios', userController.listarPacientes);
-user.get('/usuarios/:id', userController.listarPacientes);
+user.use(express.json());
+
+user.get('/usuarios', userController.listarPacientes); // http://localhost:3000/api/usuarios
+user.get('/usuarios/search', userController.verPaciente); // http://localhost:3000/api/usuarios/search?id_cliente=1
 user.post('/usuarios', userController.crearPaciente);
-user.put('./usuarios/:id', userController.atualizarPaciente);
-user.put('./usuarios/:id', userController.eliminarPaciente);
-
-
-app.use('/ACADES', user);
-
-app.listen(3003, () => {
-    console.log('corriendo en el puerto 3003');
-});
+user.put('/usuarios/:id', userController.atualizarPaciente);
+user.delete('/usuarios/:id', userController.eliminarPaciente);
+module.exports = user;

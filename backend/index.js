@@ -3,6 +3,7 @@ const cors = require('cors');
 const rutas = require('./routes/rutas.js');
 
 const app = express();
+
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 app.use('/api', rutas);

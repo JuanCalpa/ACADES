@@ -1,30 +1,39 @@
 const mysql = require("mysql2/promise");
+
 const connection = mysql.createPool({
     host: "localhost",
-    user: "",
-    password: "",
-    database: ""
+    user: "root",
+    password: "admin",
+    database: "acades"
 });
 
 async function listarPacientes() {
-    const [rows] = await connection.query("SELECT * FROM pacientes");
-    return result [0];
+    const [rows] = await connection.query("SELECT * FROM cliente");
+    return rows;
 }
 
-async function verPaciente() {
-
+async function verPaciente(id_cliente) {
+    const query = "SELECT * FROM cliente WHERE id_cliente = ?";
+    const [rows] = await connection.query(query, [id_cliente]);
+    return rows;
 }
 
-async function adicionarPaciente() {
-
+async function adicionarPaciente(nombre, correo, telefono) {
+    const query = "INSERT INTO cliente (nombre, correo, telefono) VALUES (?, ?, ?)";
+    const [result] = await connection.query(query, [nombre, correo, telefono]);
+    return result;
 }
 
-async function atualizarPaciente(id) {
-
+async function atualizarPaciente(id_cliente, nombre, correo, telefono) {
+    const query = "UPDATE cliente SET nombre = ?, correo = ?, telefono = ? WHERE id_cliente = ?";
+    const [result] = await connection.query(query, [nombre, correo, telefono, id_cliente]);
+    return result;
 }
 
-async function eliminarPaciente(){
-
+async function eliminarPaciente(id_cliente) {
+    const query = "DELETE FROM cliente WHERE id_cliente = ?";
+    const [result] = await connection.query(query, [id_cliente]);
+    return result;
 }
 
 module.exports = {
@@ -33,4 +42,4 @@ module.exports = {
     adicionarPaciente,
     atualizarPaciente,
     eliminarPaciente
-}
+};
