@@ -18,7 +18,7 @@ async function verPaciente(id_cliente) {
     return rows;
 }
 
-async function adicionarPaciente(nombre, correo, telefono) {
+async function crearPaciente(nombre, correo, telefono) {
     const query = "INSERT INTO cliente (nombre, correo, telefono) VALUES (?, ?, ?)";
     const [result] = await connection.query(query, [nombre, correo, telefono]);
     return result;
@@ -39,7 +39,7 @@ async function eliminarPaciente(id_cliente) {
 module.exports = {
     listarPacientes,
     verPaciente,
-    adicionarPaciente,
+    crearPaciente,
     atualizarPaciente,
     eliminarPaciente
 };

@@ -9,4 +9,5 @@ user.get('/usuarios/search', userController.verPaciente); // http://localhost:30
 user.post('/usuarios', userController.crearPaciente);
 user.put('/usuarios/:id', userController.atualizarPaciente);
 user.delete('/usuarios/:id', userController.eliminarPaciente);
+
 module.exports = user;
