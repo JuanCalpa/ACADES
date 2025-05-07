@@ -30,7 +30,7 @@ async function crearPaciente(req, res) {
         if (!nombre || !correo || !telefono) {
             return res.status(400).json({ mensaje: "Faltan datos requeridos" });
         }
-        const resultado = await funcionesSql.adicionarPaciente(nombre, correo, telefono);
+        const resultado = await funcionesSql.crearPaciente(nombre, correo, telefono);
         res.status(201).json({ mensaje: "Paciente creado correctamente", id: resultado.insertId });
     } catch (error) {
         console.error("Error al crear paciente:", error);
