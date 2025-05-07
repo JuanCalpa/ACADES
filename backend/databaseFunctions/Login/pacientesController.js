@@ -63,22 +63,41 @@ async function login(req, res) {
     const { correo, contrasena } = req.body;
     try {
         const usuario = await funcionesSql.autenticarUsuario(correo, contrasena);
+        console.log("Usuario:", usuario);
         if (usuario) {
+            req.session.usuario = {
+                id: usuario.id_cliente,
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                telefono: usuario.telefono
+            };
+            console.log("SESION:", req.session);
             res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario });
         } else {
             res.status(401).json({ mensaje: 'Credenciales inválidas' });
         }
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
-        res.status(500).json({ mensaje: 'Error del servidor' });
+        res.status(500).json({ mensaje: 'Error del servidor', error });
     }
 }
 
+async function logout(req, res) {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error al cerrar sesión:", err);
+            return res.status(500).json({ mensaje: 'Error al cerrar sesión' });
+        }
+        res.clearCookie('connect.sid');
+        res.status(200).json({ mensaje: 'Sesión cerrada exitosamente' });
+    });
+}
 module.exports = {
     listarPacientes,
     verPaciente,
     crearPaciente,
     atualizarPaciente,
     eliminarPaciente, 
-    login
+    login,
+    logout
 };

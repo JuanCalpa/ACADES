@@ -11,6 +11,7 @@ router.post('/usuarios', pacientesController.crearPaciente);
 router.put('/usuarios/:id', pacientesController.atualizarPaciente);
 router.delete('/usuarios/:id', pacientesController.eliminarPaciente);
 router.post('/usuarios/login', pacientesController.login); // http://localhost:3000/api/usuarios/login
+router.post('/usuarios/logout', pacientesController.logout); // http://localhost:3000/api/usuarios/logout   
 
 // Rutas para las citas
 const citasController = require('../databaseFunctions/Citas/citasController');
