@@ -18,9 +18,9 @@ async function verPaciente(id_cliente) {
     return rows;
 }
 
-async function crearPaciente(nombre, correo, telefono) {
-    const query = "INSERT INTO cliente (nombre, correo, telefono) VALUES (?, ?, ?)";
-    const [result] = await connection.query(query, [nombre, correo, telefono]);
+async function crearPaciente(nombre, correo, telefono, contrasena) {
+    const query = "INSERT INTO cliente (nombre, correo, telefono, contrasena) VALUES (?, ?, ?, ?)";
+    const [result] = await connection.query(query, [nombre, correo, telefono, contrasena]);
     return result;
 }
 
@@ -36,10 +36,19 @@ async function eliminarPaciente(id_cliente) {
     return result;
 }
 
+//para el login 
+async function autenticarUsuario(correo, contrasena) {
+    const query = "SELECT * FROM cliente WHERE correo = ? AND contrasena = ?";
+    const [rows] = await connection.query(query, [correo, contrasena]);
+    return rows[0]; 
+}
+
+
 module.exports = {
     listarPacientes,
     verPaciente,
     crearPaciente,
     atualizarPaciente,
-    eliminarPaciente
+    eliminarPaciente,
+    autenticarUsuario
 };

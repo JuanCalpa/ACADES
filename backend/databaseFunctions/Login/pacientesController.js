@@ -1,4 +1,4 @@
-const funcionesSql = require('./sqlFunctions');
+const funcionesSql = require('./pacientesSql');
 
 async function listarPacientes(req, res) {
     try {
@@ -25,16 +25,13 @@ async function verPaciente(req, res) {
 }
 
 async function crearPaciente(req, res) {
+    const { nombre, correo, telefono, contrasena } = req.body;
     try {
-        const { nombre, correo, telefono } = req.body;
-        if (!nombre || !correo || !telefono) {
-            return res.status(400).json({ mensaje: "Faltan datos requeridos" });
-        }
-        const resultado = await funcionesSql.crearPaciente(nombre, correo, telefono);
-        res.status(201).json({ mensaje: "Paciente creado correctamente", id: resultado.insertId });
+        const resultado = await funcionesSql.crearPaciente(nombre, correo, telefono, contrasena);
+        res.status(201).json({ mensaje: 'Usuario registrado exitosamente', id: resultado.insertId });
     } catch (error) {
-        console.error("Error al crear paciente:", error);
-        res.status(500).json({ mensaje: "Error al crear paciente" });
+        console.error("Error al registrar usuario:", error);
+        res.status(500).json({ mensaje: 'Error del servidor' });
     }
 }
 
@@ -61,10 +58,27 @@ async function eliminarPaciente(req, res) {
     }
 }
 
+//para el login
+async function login(req, res) {
+    const { correo, contrasena } = req.body;
+    try {
+        const usuario = await funcionesSql.autenticarUsuario(correo, contrasena);
+        if (usuario) {
+            res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario });
+        } else {
+            res.status(401).json({ mensaje: 'Credenciales inválidas' });
+        }
+    } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+        res.status(500).json({ mensaje: 'Error del servidor' });
+    }
+}
+
 module.exports = {
     listarPacientes,
     verPaciente,
     crearPaciente,
     atualizarPaciente,
-    eliminarPaciente
+    eliminarPaciente, 
+    login
 };

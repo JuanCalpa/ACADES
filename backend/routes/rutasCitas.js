@@ -1,13 +1,12 @@
 const express = require('express');
-const cita = express.Router();
-const citaController = require('../databaseFunctions/citasController');
+const router = express.Router();
+const citasController = require('../databaseFunctions/Citas/citasController');
 
-cita.use(express.json());
+// Rutas para las citas
+router.get('/citas', citasController.listarCitas); // Listar todas las citas
+router.get('/citas/:id', citasController.obtenerCita); // Obtener una cita por ID
+router.post('/citas', citasController.crearCita); // Crear una nueva cita
+router.put('/citas/:id', citasController.actualizarCita); // Actualizar una cita
+router.delete('/citas/:id', citasController.eliminarCita); // Eliminar una cita
 
-cita.get('/citas', citaController.listarCitas);
-cita.get('./citas/search', citaController.verCita);
-cita.post('./citas', citaController.crearCita);
-cita.put('./citas/:id', citaController.actualizarCita);
-cita.delete('./citas/:id', citaController.eliminarCita);
-
-module.exports = cita;
+module.exports = router;
