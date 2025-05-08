@@ -164,9 +164,10 @@ function Login() {
       <div className="decorative-circle circle-5"></div>
       <div className="decorative-circle circle-6"></div>
       
+
       <div className="login-container animate-on-scroll">
         <h2 className="login-title">Iniciar Sesión</h2>
-        
+  
         <form className="login-form" onSubmit={handleLoginSubmit}>
           <div className={`form-group ${activeFieldIndex === 0 ? 'input-active' : ''} ${errors.email ? 'has-error' : ''}`}>
             <label htmlFor="email">Correo Electrónico</label>
