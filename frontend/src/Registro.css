@@ -1,0 +1,419 @@
+/* Registro.css - Estilo elegante y refinado */
+.login-section {
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #fef8fa 0%, #fff0f5 40%, #fcf9fb 60%, #fdf5fa 100%);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .fade-in {
+    opacity: 1;
+  }
+  
+  .login-container {
+    width: 100%;
+    max-width: 450px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 105, 180, 0.05);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+    z-index: 10;
+    position: relative;
+  }
+  
+  .login-container.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .login-title {
+    font-size: 2.2rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    position: relative;
+  }
+  
+  .login-title:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, #ff69b4, #f06292, #ff69b4);
+    box-shadow: 0 2px 10px rgba(240, 98, 146, 0.3);
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .form-group {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #444;
+    transition: color 0.3s ease;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: #ff69b4;
+    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.2);
+    background-color: white;
+  }
+  
+  .input-active label {
+    color: #ff69b4;
+    font-weight: 600;
+  }
+  
+  .input-active input {
+    border-color: #ff69b4;
+    background-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.1);
+  }
+  
+  .btn-login {
+    padding: 14px;
+    background: linear-gradient(135deg, #ff69b4, #f06292);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+  }
+  
+  .btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(255, 105, 180, 0.4);
+    background: linear-gradient(135deg, #ff5ba7, #e95888);
+  }
+  
+  .register-prompt {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+  }
+  
+  .btn-show-register {
+    background: none;
+    border: none;
+    color: #ff69b4;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+  }
+  
+  .btn-show-register:hover {
+    color: #e84c8b;
+    text-decoration: underline;
+  }
+  
+  /* Estilos para errores */
+  .has-error input {
+    border-color: #e74c3c;
+    background-color: rgba(251, 237, 237, 0.5);
+  }
+  
+  .has-error label {
+    color: #e74c3c;
+  }
+  
+  .error-message {
+    display: block;
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  
+  /* Modal de registro - ESPACIADO MEJORADO */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .register-modal {
+    background: white;
+    width: 90%;
+    max-width: 600px; /* Aumentado para más espacio */
+    border-radius: 20px;
+    padding: 40px; /* Aumentado para más espacio interno */
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s ease;
+  }
+  
+  .close-modal:hover {
+    color: #ff69b4;
+  }
+  
+  .modal-title {
+    font-size: 2rem; /* Aumentado */
+    text-align: center;
+    color: #333;
+    margin-bottom: 35px; /* Aumentado */
+    position: relative;
+  }
+  
+  .modal-title:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #ff69b4, #f06292, #ff69b4);
+  }
+  
+  .register-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px; /* Aumentado para más espacio entre campos */
+    padding: 10px; /* Añadido padding interno */
+  }
+  
+  .register-form .form-group {
+    margin-bottom: 10px; /* Espacio adicional entre elementos */
+  }
+  
+  .register-form .form-group label {
+    display: block;
+    margin-bottom: 10px; /* Aumentado */
+    font-weight: 500;
+    color: #444;
+    font-size: 1.05rem; /* Ligeramente más grande */
+  }
+  
+  .register-form .form-group input {
+    width: 100%;
+    padding: 16px; /* Campos más altos */
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .register-form .form-group:nth-child(odd) {
+    grid-column: 1;
+  }
+  
+  .register-form .form-group:nth-child(even) {
+    grid-column: 2;
+  }
+  
+  .btn-register {
+    grid-column: 1 / -1;
+    padding: 16px; /* Botón más grande */
+    background: linear-gradient(135deg, #ff69b4, #f06292);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem; /* Texto más grande */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+    letter-spacing: 0.5px;
+    margin-top: 20px; /* Mayor separación antes del botón */
+  }
+  
+  .btn-register:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(255, 105, 180, 0.4);
+    background: linear-gradient(135deg, #ff5ba7, #e95888);
+  }
+  
+  /* Círculos decorativos de fondo refinados */
+  .decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 192, 203, 0.25); 
+    z-index: 1;
+    backdrop-filter: blur(5px);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+  
+  .circle-1 {
+    width: 350px;
+    height: 350px;
+    top: -150px;
+    right: -80px;
+    background: radial-gradient(circle, rgba(255, 192, 203, 0.25) 0%, rgba(255, 182, 193, 0.15) 70%);
+    animation: floatCircle 18s infinite alternate ease-in-out;
+  }
+  
+  .circle-2 {
+    width: 150px;
+    height: 150px;
+    top: 20%;
+    left: 10%;
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.2) 0%, rgba(255, 172, 183, 0.1) 70%);
+    animation: floatCircle 14s infinite alternate-reverse ease-in-out;
+  }
+  
+  .circle-3 {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    right: 20%;
+    background: radial-gradient(circle, rgba(255, 162, 173, 0.25) 0%, rgba(255, 152, 163, 0.15) 70%);
+    animation: floatCircle 12s infinite alternate ease-in-out 2s;
+  }
+  
+  .circle-4 {
+    width: 180px;
+    height: 180px;
+    bottom: 15%;
+    left: 5%;
+    background: radial-gradient(circle, rgba(255, 142, 153, 0.2) 0%, rgba(255, 132, 143, 0.1) 70%);
+    animation: floatCircle 16s infinite alternate-reverse ease-in-out;
+  }
+  
+  .circle-5 {
+    width: 80px;
+    height: 80px;
+    top: 30%;
+    left: 30%;
+    background: radial-gradient(circle, rgba(255, 122, 133, 0.15) 0%, rgba(255, 112, 123, 0.08) 70%);
+    animation: floatCircle 10s infinite alternate ease-in-out;
+  }
+  
+  .circle-6 {
+    width: 120px;
+    height: 120px;
+    bottom: -20px;
+    right: 30%;
+    background: radial-gradient(circle, rgba(255, 102, 113, 0.2) 0%, rgba(255, 92, 103, 0.1) 70%);
+    animation: floatCircle 20s infinite alternate-reverse ease-in-out;
+  }
+  
+  /* Animaciones */
+  @keyframes floatCircle {
+    0% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(12px, -12px);
+    }
+    100% {
+      transform: translate(-8px, 8px);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes modalSlideIn {
+    from {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .login-container {
+      padding: 30px 20px;
+    }
+    
+    .register-modal {
+      padding: 30px 20px;
+      width: 95%;
+    }
+    
+    .register-form {
+      grid-template-columns: 1fr;
+      gap: 20px; /* Reducido pero aún con buen espaciado */
+    }
+    
+    .register-form .form-group:nth-child(n) {
+      grid-column: 1;
+      margin-bottom: 5px;
+    }
+    
+    .modal-title {
+      font-size: 1.5rem;
+    }
+    
+    .btn-register, .btn-login {
+      padding: 12px;
+      font-size: 1rem;
+    }
+  }

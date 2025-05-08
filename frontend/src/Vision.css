@@ -1,0 +1,618 @@
+/* Vision.css - Estilo elegante y refinado similar a Mision */
+.vision {
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #f9f9f9 0%, #f8f8f8 40%, #fafafa 60%, #f7f7f7 100%);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+  }
+  
+  .fade-in {
+    opacity: 1;
+  }
+  
+  .vision-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Título de sección elegante */
+  .section-title {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #333;
+    margin-bottom: 60px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  
+  .section-title.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .section-title:after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, #ff69b4, #f06292, #ff69b4);
+    transition: transform 0.9s ease 0.4s;
+    box-shadow: 0 2px 10px rgba(240, 98, 146, 0.3);
+  }
+  
+  .section-title.animate-in:after {
+    transform: translateX(-50%) scaleX(1);
+  }
+  
+  /* Círculos decorativos de fondo refinados */
+  .decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 192, 203, 0.25); 
+    z-index: 1;
+    backdrop-filter: blur(5px);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+  
+  .circle-1 {
+    width: 350px;
+    height: 350px;
+    top: -150px;
+    right: -80px;
+    background: radial-gradient(circle, rgba(255, 192, 203, 0.25) 0%, rgba(255, 182, 193, 0.15) 70%);
+    animation: floatCircle 18s infinite alternate ease-in-out;
+  }
+  
+  .circle-2 {
+    width: 150px;
+    height: 150px;
+    top: 20%;
+    left: 10%;
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.2) 0%, rgba(255, 172, 183, 0.1) 70%);
+    animation: floatCircle 14s infinite alternate-reverse ease-in-out;
+  }
+  
+  .circle-3 {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    right: 20%;
+    background: radial-gradient(circle, rgba(255, 162, 173, 0.25) 0%, rgba(255, 152, 163, 0.15) 70%);
+    animation: floatCircle 12s infinite alternate ease-in-out 2s;
+  }
+  
+  .circle-4 {
+    width: 180px;
+    height: 180px;
+    bottom: 15%;
+    left: 5%;
+    background: radial-gradient(circle, rgba(255, 142, 153, 0.2) 0%, rgba(255, 132, 143, 0.1) 70%);
+    animation: floatCircle 16s infinite alternate-reverse ease-in-out;
+  }
+  
+  .circle-5 {
+    width: 80px;
+    height: 80px;
+    top: 30%;
+    left: 30%;
+    background: radial-gradient(circle, rgba(255, 122, 133, 0.15) 0%, rgba(255, 112, 123, 0.08) 70%);
+    animation: floatCircle 10s infinite alternate ease-in-out;
+  }
+  
+  .circle-6 {
+    width: 120px;
+    height: 120px;
+    bottom: -20px;
+    right: 30%;
+    background: radial-gradient(circle, rgba(255, 102, 113, 0.2) 0%, rgba(255, 92, 103, 0.1) 70%);
+    animation: floatCircle 20s infinite alternate-reverse ease-in-out;
+  }
+  
+  /* Cuadro de declaración de visión con efecto espejo estático */
+  .vision-statement-box {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+    padding: 35px 40px;
+    background: linear-gradient(135deg, #ff8da1 0%, #ff7a91 100%);
+    border-radius: 20px;
+    box-shadow: 
+      0 15px 35px rgba(255, 105, 180, 0.25),
+      0 5px 15px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(0); /* Sin movimiento hacia arriba */
+    transition: opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .vision-statement-box.animate-in {
+    opacity: 1;
+  }
+  
+  /* Efecto de espejo/reflejo permanente */
+  .vision-statement-box:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0)
+    );
+    transform: rotate(25deg);
+    animation: mirrorEffect 6s infinite ease-in-out;
+    pointer-events: none; /* Permite que los clics pasen a través */
+    z-index: 1; /* Por debajo del texto */
+  }
+  
+  /* Texto estático con efecto elegante */
+  .vision-statement {
+    font-size: 1.6rem;
+    text-align: center;
+    color: white;
+    line-height: 1.7;
+    font-weight: 400;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.3px;
+    position: relative;
+    z-index: 2; /* Asegura que el texto esté por encima del efecto */
+  }
+  
+  /* Contenido principal */
+  .vision-content {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+  }
+  
+  /* Sección de pilares */
+  .vision-pilares, .vision-metas {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 105, 180, 0.05);
+    padding: 35px;
+    transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  
+  .vision-pilares {
+    flex: 3;
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  
+  .vision-pilares.animate-in {
+    opacity: 1;
+    transform: translateX(0);
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.12),
+      0 0 0 1px rgba(255, 105, 180, 0.08);
+  }
+  
+  .vision-pilares:hover, .vision-metas:hover {
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 105, 180, 0.12);
+    transform: translateY(-5px);
+  }
+  
+  .vision-pilares h3, 
+  .vision-metas h3 {
+    font-size: 1.8rem;
+    color: #e64f93;
+    margin-bottom: 35px;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+    letter-spacing: 0.5px;
+  }
+  
+  .vision-pilares h3:after, 
+  .vision-metas h3:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #ff69b4, #f06292);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) 0.5s;
+    box-shadow: 0 2px 5px rgba(255, 105, 180, 0.2);
+  }
+  
+  .vision-pilares.animate-in h3:after, 
+  .vision-metas.animate-in h3:after {
+    transform: scaleX(1);
+  }
+  
+  .pilares-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  
+  .pilar {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 250, 250, 0.9));
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 
+      0 8px 20px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(255, 105, 180, 0.05);
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  }
+  
+  .pilar-active {
+    transform: translateY(-10px);
+    box-shadow: 
+      0 15px 30px rgba(255, 105, 180, 0.15),
+      0 5px 15px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 250, 250, 1));
+  }
+  
+  .pilar-icon {
+    height: 80px;
+    width: 80px;
+    margin: 0 auto 20px;
+    position: relative;
+  }
+  
+  .icon-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 141, 161, 0.2));
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.15);
+  }
+  
+  .icon-inner {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff69b4, #ff8da1);
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    box-shadow: 0 3px 10px rgba(255, 105, 180, 0.2);
+  }
+  
+  .pilar-active .icon-circle {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.3), rgba(255, 141, 161, 0.3));
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.25);
+  }
+  
+  .pilar-active .icon-inner {
+    transform: scale(1.2);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+  }
+  
+  .pilar h4 {
+    font-size: 1.3rem;
+    color: #ff69b4;
+    margin-bottom: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+  }
+  
+  .pilar-active h4 {
+    color: #e54182;
+    transform: scale(1.05);
+  }
+  
+  .pilar p {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.05rem;
+    letter-spacing: 0.2px;
+  }
+  
+  /* Sección de metas */
+  .vision-metas {
+    flex: 2;
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  
+  .vision-metas.animate-in {
+    opacity: 1;
+    transform: translateX(0);
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.12),
+      0 0 0 1px rgba(255, 105, 180, 0.08);
+  }
+  
+  .metas-lista {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .meta-item {
+    margin-bottom: 20px;
+    padding: 15px 20px 15px 35px;
+    position: relative;
+    line-height: 1.6;
+    color: #444;
+    opacity: 0;
+    transform: translateX(20px);
+    animation: fadeInRight 0.7s ease forwards;
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    border-radius: 10px;
+    letter-spacing: 0.3px;
+    font-size: 1.05rem;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+  }
+  
+  .meta-item:before {
+    content: '•';
+    color: #ff69b4;
+    position: absolute;
+    left: 15px;
+    font-size: 1.4rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    text-shadow: 0 0 1px rgba(255, 105, 180, 0.2);
+  }
+  
+  .meta-active {
+    background: linear-gradient(to right, rgba(255, 105, 180, 0.1), rgba(255, 240, 245, 0.6));
+    padding: 15px 20px 15px 40px;
+    transform: scale(1.03) translateX(5px);
+    box-shadow: 
+      3px 3px 15px rgba(0, 0, 0, 0.05),
+      1px 1px 5px rgba(255, 105, 180, 0.1);
+    color: #333;
+  }
+  
+  .meta-active:before {
+    transform: scale(1.6);
+    color: #f06292;
+    text-shadow: 0 0 6px rgba(255, 105, 180, 0.5);
+    left: 18px;
+  }
+  
+  /* Animaciones refinadas */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes floatCircle {
+    0% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(12px, -12px);
+    }
+    100% {
+      transform: translate(-8px, 8px);
+    }
+  }
+  
+  /* Efecto de espejo permanente */
+  @keyframes mirrorEffect {
+    0% {
+      left: -100%;
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      left: 150%;
+      opacity: 0;
+    }
+  }
+  
+  /* Ajustes responsivos elegantes */
+  @media (max-width: 768px) {
+    .vision-content {
+      flex-direction: column;
+    }
+    
+    .pilares-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .vision-pilares, .vision-metas {
+      transform: translateY(30px);
+    }
+    
+    .vision-pilares.animate-in, .vision-metas.animate-in {
+      transform: translateY(0);
+    }
+    
+    .vision-statement-box {
+      padding: 25px;
+    }
+    
+    .vision-statement {
+      font-size: 1.3rem;
+    }
+    
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+    }
+    
+    .decorative-circle {
+      opacity: 0.4;
+    }
+    /* Estilos para la imagen con animación */
+  .vision-image-container {
+    margin-top: 40px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 105, 180, 0.1);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+    position: relative;
+  }
+  
+  .vision-image-container.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 105, 180, 0.15);
+  }
+  
+  .vision-image-container:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 25px 50px rgba(0, 0, 0, 0.25),
+      0 0 0 2px rgba(255, 105, 180, 0.2);
+  }
+  
+  .vision-image-container:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  /* Estilos para la imagen con animación */
+  .vision-image-container {
+    margin-top: 40px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 105, 180, 0.1);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+    position: relative;
+  }
+  
+  .vision-image-container.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 105, 180, 0.15);
+  }
+  
+  .vision-image-container:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 25px 50px rgba(0, 0, 0, 0.25),
+      0 0 0 2px rgba(255, 105, 180, 0.2);
+  }
+  
+  .vision-image-container:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  
+  .vision-image-container:hover:after {
+    opacity: 1;
+  }
+  
+  .vision-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 1.5s ease;
+  }
+  
+  .vision-image-container:hover .vision-image {
+    transform: scale(1.05);
+  }
+  
+  /* Ajustes responsivos para la imagen */
+  @media (max-width: 768px) {
+    .vision-image-container {
+      margin-top: 30px;
+    }
+  }
+  .vision-image-container:hover:after {
+    opacity: 1;
+  }
+  
+  .vision-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 1.5s ease;
+  }
+  
+  .vision-image-container:hover .vision-image {
+    transform: scale(1.05);
+  }
+  
+  /* Ajustes responsivos para la imagen */
+  @media (max-width: 768px) {
+    .vision-image-container {
+      margin-top: 30px;
+    }
+  }
+  }
