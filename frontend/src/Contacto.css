@@ -1,924 +1,924 @@
 /* Estilos para el componente Contacto */
 /* Estilos para los puntos decorativos animados */
 .contacto {
-    position: relative;
-    background-color: #fff;
-    overflow: hidden;
+  position: relative;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.background-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Puntos flotantes con diferentes tamaños */
+.floating-dot {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: float-animation 10s infinite ease-in-out alternate;
+}
+
+/* Tamaños de puntos */
+.floating-dot.large {
+  width: 15px;
+  height: 15px;
+  background: linear-gradient(135deg, #ff69b4, #f06292);
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+.floating-dot.medium {
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #ff8da1, #ff69b4);
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
+}
+
+.floating-dot.small {
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, #ffb3ba, #ffa8d3);
+  box-shadow: 0 0 5px rgba(255, 105, 180, 0.3);
+}
+
+@keyframes float-animation {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
   }
-  
-  .background-decorations {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
+  33% {
+    transform: translate(7px, -7px) rotate(5deg);
   }
-  
-  /* Puntos flotantes con diferentes tamaños */
-  .floating-dot {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.5;
-    animation: float-animation 10s infinite ease-in-out alternate;
+  66% {
+    transform: translate(-5px, 5px) rotate(-3deg);
   }
-  
-  /* Tamaños de puntos */
-  .floating-dot.large {
-    width: 15px;
-    height: 15px;
-    background: linear-gradient(135deg, #ff69b4, #f06292);
-    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+  100% {
+    transform: translate(3px, -8px) rotate(2deg);
   }
-  
-  .floating-dot.medium {
-    width: 10px;
-    height: 10px;
-    background: linear-gradient(135deg, #ff8da1, #ff69b4);
-    box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
+}
+
+/* Círculos decorativos grandes transparentes */
+.decorative-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 161, 194, 0.1) 0%, rgba(255, 161, 194, 0) 70%);
+  animation: pulse-animation 12s infinite alternate ease-in-out;
+}
+
+.bubble1 {
+  width: 350px;
+  height: 350px;
+  top: -100px;
+  right: -80px;
+  animation-delay: 0s;
+}
+
+.bubble2 {
+  width: 250px;
+  height: 250px;
+  bottom: -50px;
+  left: -80px;
+  animation-delay: 4s;
+}
+
+.bubble3 {
+  width: 300px;
+  height: 300px;
+  top: 40%;
+  left: 35%;
+  animation-delay: 8s;
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+    opacity: 0.05;
   }
-  
-  .floating-dot.small {
-    width: 6px;
-    height: 6px;
-    background: linear-gradient(135deg, #ffb3ba, #ffa8d3);
-    box-shadow: 0 0 5px rgba(255, 105, 180, 0.3);
+  50% {
+    transform: scale(1.05);
+    opacity: 0.1;
   }
-  
-  @keyframes float-animation {
-    0% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-    33% {
-      transform: translate(7px, -7px) rotate(5deg);
-    }
-    66% {
-      transform: translate(-5px, 5px) rotate(-3deg);
-    }
-    100% {
-      transform: translate(3px, -8px) rotate(2deg);
-    }
+  100% {
+    transform: scale(1);
+    opacity: 0.05;
   }
-  
-  /* Círculos decorativos grandes transparentes */
-  .decorative-bubble {
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 161, 194, 0.1) 0%, rgba(255, 161, 194, 0) 70%);
-    animation: pulse-animation 12s infinite alternate ease-in-out;
-  }
-  
-  .bubble1 {
-    width: 350px;
-    height: 350px;
-    top: -100px;
-    right: -80px;
-    animation-delay: 0s;
-  }
-  
-  .bubble2 {
-    width: 250px;
-    height: 250px;
-    bottom: -50px;
-    left: -80px;
-    animation-delay: 4s;
-  }
-  
-  .bubble3 {
-    width: 300px;
-    height: 300px;
-    top: 40%;
-    left: 35%;
-    animation-delay: 8s;
-  }
-  
-  @keyframes pulse-animation {
-    0% {
-      transform: scale(1);
-      opacity: 0.05;
-    }
-    50% {
-      transform: scale(1.05);
-      opacity: 0.1;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 0.05;
-    }
-  }
-  
-  /* Asegúrate de que el contenedor principal esté por encima de los puntos */
-  .contacto-container {
-    position: relative;
-    z-index: 2;
-  }
-  
-  /* Mejora visual para las tarjetas de contacto para que combinen con los puntos */
-  .contacto-card {
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    z-index: 2;
-  }
-  
-  .contacto-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.15);
-  }
-  
-  /* Añadir efecto sutil al hover en las tarjetas */
-  .contacto-card:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(to right, #ff69b4, #ff8da1);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s ease;
-  }
-  
-  .contacto-card:hover:after {
-    transform: scaleX(1);
-  }
-  
-  /* Efecto hover mejorado para el botón de promociones */
-  .promo-button {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .promo-button:after {
-    content: '';
-    position: absolute;
-    top: -50%;
+}
+
+/* Asegúrate de que el contenedor principal esté por encima de los puntos */
+.contacto-container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mejora visual para las tarjetas de contacto para que combinen con los puntos */
+.contacto-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 2;
+}
+
+.contacto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(255, 105, 180, 0.15);
+}
+
+/* Añadir efecto sutil al hover en las tarjetas */
+.contacto-card:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #ff69b4, #ff8da1);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+
+.contacto-card:hover:after {
+  transform: scaleX(1);
+}
+
+/* Efecto hover mejorado para el botón de promociones */
+.promo-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-button:after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  transform: rotate(30deg);
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.promo-button:hover:after {
+  animation: shine-effect 1.5s infinite;
+  opacity: 1;
+}
+
+@keyframes shine-effect {
+  0% {
     left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0)
-    );
-    transform: rotate(30deg);
-    transition: 0.5s;
+  }
+  100% {
+    left: 150%;
+  }
+}
+/* Estilos para puntos animados en el modal de promociones */
+.promociones-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+  overflow: hidden;
+}
+
+/* Contenedor para los puntos del modal */
+.modal-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Puntos decorativos del modal */
+.modal-dot {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.6;
+  z-index: 2001; /* Por encima del overlay pero por debajo del modal */
+  filter: blur(0.5px);
+  animation: float-modal-dot 8s infinite ease-in-out alternate;
+}
+
+/* Tamaños de puntos para el modal */
+.modal-dot.large {
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #ff69b4, #f06292);
+  box-shadow: 0 0 12px rgba(255, 105, 180, 0.6);
+}
+
+.modal-dot.medium {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #ff8da1, #ff69b4);
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+.modal-dot.small {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #ffb3ba, #ffa8d3);
+  box-shadow: 0 0 6px rgba(255, 105, 180, 0.4);
+}
+
+@keyframes float-modal-dot {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(8px, -8px) rotate(5deg);
+  }
+  50% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  75% {
+    transform: translate(-8px, 8px) rotate(-5deg);
+  }
+  100% {
+    transform: translate(8px, 8px) rotate(3deg);
+  }
+}
+
+/* Mejora visual para el modal */
+.promociones-modal {
+  width: 90%;
+  max-width: 1000px;
+  max-height: 85vh;
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(255, 105, 180, 0.3);
+  animation: modalAppear 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 2002; /* Por encima de los puntos */
+}
+
+@keyframes modalAppear {
+  0% {
     opacity: 0;
+    transform: translateY(50px) scale(0.95);
   }
-  
-  .promo-button:hover:after {
-    animation: shine-effect 1.5s infinite;
+  100% {
     opacity: 1;
+    transform: translateY(0) scale(1);
   }
-  
-  @keyframes shine-effect {
-    0% {
-      left: -50%;
-    }
-    100% {
-      left: 150%;
-    }
-  }
-  /* Estilos para puntos animados en el modal de promociones */
-  .promociones-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    backdrop-filter: blur(5px);
-    animation: fadeIn 0.3s ease;
-    overflow: hidden;
-  }
-  
-  /* Contenedor para los puntos del modal */
-  .modal-decorations {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-  
-  /* Puntos decorativos del modal */
-  .modal-dot {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.6;
-    z-index: 2001; /* Por encima del overlay pero por debajo del modal */
-    filter: blur(0.5px);
-    animation: float-modal-dot 8s infinite ease-in-out alternate;
-  }
-  
-  /* Tamaños de puntos para el modal */
-  .modal-dot.large {
-    width: 18px;
-    height: 18px;
-    background: linear-gradient(135deg, #ff69b4, #f06292);
-    box-shadow: 0 0 12px rgba(255, 105, 180, 0.6);
-  }
-  
-  .modal-dot.medium {
-    width: 12px;
-    height: 12px;
-    background: linear-gradient(135deg, #ff8da1, #ff69b4);
-    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-  }
-  
-  .modal-dot.small {
-    width: 8px;
-    height: 8px;
-    background: linear-gradient(135deg, #ffb3ba, #ffa8d3);
-    box-shadow: 0 0 6px rgba(255, 105, 180, 0.4);
-  }
-  
-  @keyframes float-modal-dot {
-    0% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-    25% {
-      transform: translate(8px, -8px) rotate(5deg);
-    }
-    50% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-    75% {
-      transform: translate(-8px, 8px) rotate(-5deg);
-    }
-    100% {
-      transform: translate(8px, 8px) rotate(3deg);
-    }
-  }
-  
-  /* Mejora visual para el modal */
-  .promociones-modal {
-    width: 90%;
-    max-width: 1000px;
-    max-height: 85vh;
-    background-color: white;
-    border-radius: 20px;
-    padding: 30px;
-    position: relative;
-    overflow-y: auto;
-    box-shadow: 0 20px 50px rgba(255, 105, 180, 0.3);
-    animation: modalAppear 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-    z-index: 2002; /* Por encima de los puntos */
-  }
-  
-  @keyframes modalAppear {
-    0% {
-      opacity: 0;
-      transform: translateY(50px) scale(0.95);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-  
-  /* Mejora para los items de promociones */
-  .promo-item {
-    background: linear-gradient(145deg, #ffffff, #f9f4f7);
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    position: relative;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  
-  .promo-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
-  }
-  
-  /* Efecto de brillo al hover */
-  .promo-item:after {
-    content: '';
-    position: absolute;
-    top: -100%;
+}
+
+/* Mejora para los items de promociones */
+.promo-item {
+  background: linear-gradient(145deg, #ffffff, #f9f4f7);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.promo-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
+}
+
+/* Efecto de brillo al hover */
+.promo-item:after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0)
+  );
+  transform: rotate(30deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.promo-item:hover:after {
+  animation: shine-promo 1.5s infinite;
+  opacity: 1;
+}
+
+@keyframes shine-promo {
+  0% {
     left: -100%;
-    width: 300%;
-    height: 300%;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0)
-    );
-    transform: rotate(30deg);
-    transition: all 0.5s ease;
-    opacity: 0;
+    top: -100%;
   }
-  
-  .promo-item:hover:after {
-    animation: shine-promo 1.5s infinite;
-    opacity: 1;
+  100% {
+    left: 100%;
+    top: 100%;
   }
-  
-  @keyframes shine-promo {
-    0% {
-      left: -100%;
-      top: -100%;
-    }
-    100% {
-      left: 100%;
-      top: 100%;
-    }
+}
+
+/* Mejorar la insignia de descuento */
+.promo-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: linear-gradient(135deg, #ff69b4, #f06292);
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 8px 15px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+  animation: pulse-badge 2s infinite alternate;
+  z-index: 1;
+}
+
+@keyframes pulse-badge {
+  0% {
+    transform: scale(1);
   }
-  
-  /* Mejorar la insignia de descuento */
-  .promo-badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: linear-gradient(135deg, #ff69b4, #f06292);
-    color: white;
-    font-weight: bold;
-    font-size: 0.9rem;
-    padding: 8px 15px;
-    border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
-    animation: pulse-badge 2s infinite alternate;
-    z-index: 1;
+  100% {
+    transform: scale(1.05);
   }
-  
-  @keyframes pulse-badge {
-    0% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(1.05);
-    }
-  }
-  
-  /* Responsive para modal */
-  @media (max-width: 768px) {
-    .modal-dot {
-      opacity: 0.4; /* Más sutil en móviles */
-    }
-    
-    .promociones-modal {
-      padding: 20px;
-      width: 95%;
-    }
-  }
-  
-  .contacto {
-    padding: 80px 20px;
-    background-color: #fff;
-    position: relative;
-  }
-  
-  .contacto-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 50px;
-    position: relative;
-  }
-  
-  .section-title:after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background: linear-gradient(to right, #ff69b4, #ff8da1);
-    border-radius: 10px;
-  }
-  
-  /* Nueva estructura de dos columnas más limpia */
-  .contacto-content {
-    display: flex;
-    gap: 40px;
-  }
-  
-  .contacto-left, .contacto-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .contacto-card {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  }
-  
-  .contacto-card h3 {
-    color: #ff69b4;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .info-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .info-icon {
-    font-size: 1.5rem;
-    margin-right: 15px;
-    min-width: 30px;
-    text-align: center;
-  }
-  
-  .redes-sociales {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-  
-  .red-social {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-    padding: 10px;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
-  
-  .red-social:hover {
-    background-color: #ff69b4;
-    color: white;
-  }
-  
-  .red-icon {
-    font-size: 1.2rem;
-    margin-right: 10px;
-    min-width: 25px;
-    text-align: center;
-  }
-  
-  /* Mapa mejorado */
-  .mapa-container {
-    width: 100%;
-  }
-  
-  .mapa-interactivo {
-    height: 300px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    position: relative;
-  }
-  
-  .mapa-interactivo iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-  
-  /* Tarjetas promocionales */
-  .promo-cards-container {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .promo-card {
-    background: linear-gradient(145deg, #ffffff, #f9f4f7);
-    border-radius: 10px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
-  
-  .promo-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .promo-icon {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #ff69b4;
-  }
-  
-  .promo-card h3 {
-    color: #333;
-    font-size: 1.4rem;
-    margin-bottom: 15px;
-  }
-  
-  .promo-card p {
-    color: #666;
-    margin-bottom: 25px;
-    line-height: 1.6;
-  }
-  
-  .promo-button {
-    background: linear-gradient(to right, #ff69b4, #ff8da1);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
-  }
-  
-  .promo-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
-  }
-  
-  /* Estilos para las promociones */
-  .promociones-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    backdrop-filter: blur(5px);
-    animation: fadeIn 0.3s ease;
+}
+
+/* Responsive para modal */
+@media (max-width: 768px) {
+  .modal-dot {
+    opacity: 0.4; /* Más sutil en móviles */
   }
   
   .promociones-modal {
-    width: 90%;
-    max-width: 1000px;
-    max-height: 85vh;
-    background-color: white;
-    border-radius: 15px;
-    padding: 30px;
-    position: relative;
-    overflow-y: auto;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.4s ease;
+    padding: 20px;
+    width: 95%;
   }
-  
-  .close-promociones {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #333;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s;
-  }
-  
-  .close-promociones:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .promociones-modal h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 1.8rem;
-    font-weight: 600;
-  }
-  
-  .promociones-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-  }
-  
-  .promo-item {
-    background: linear-gradient(145deg, #ffffff, #f9f4f7);
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .promo-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(255, 105, 180, 0.15);
-  }
-  
-  .promo-badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: linear-gradient(to right, #ff69b4, #ff8da1);
-    color: white;
-    font-weight: bold;
-    font-size: 0.9rem;
-    padding: 8px 15px;
-    border-radius: 20px;
-    box-shadow: 0 5px 10px rgba(255, 105, 180, 0.3);
-  }
-  
-  .promo-item h3 {
-    color: #333;
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-  }
-  
-  .promo-item p {
-    color: #666;
-    font-size: 0.95rem;
-    margin-bottom: 20px;
-    flex-grow: 1;
-  }
-  
-  .promo-precio {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .precio-actual {
-    color: #ff69b4;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .precio-original {
-    color: #999;
-    font-size: 0.9rem;
-    text-decoration: line-through;
-  }
-  
-  .reservar-promo {
-    background: linear-gradient(to right, #ff69b4, #ff8da1);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-  }
-  
-  .reservar-promo:hover {
-    filter: brightness(1.1);
-  }
-  
-  /* Chat rediseñado según la imagen */
-  .chat-button {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(to right, #ff69b4, #ff8da1);
-    border: none;
-    color: white;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
-    z-index: 1000;
-    animation: pulse 2s infinite;
-  }
-  
-  .chat-widget {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 400px;
-    max-width: 90vw;
-    height: 600px;
-    max-height: 90vh;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    transform: translateY(150%);
+}
+
+.contacto {
+  padding: 80px 20px;
+  background-color: #fff;
+  position: relative;
+}
+
+.contacto-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.section-title:after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, #ff69b4, #ff8da1);
+  border-radius: 10px;
+}
+
+/* Nueva estructura de dos columnas más limpia */
+.contacto-content {
+  display: flex;
+  gap: 40px;
+}
+
+.contacto-left, .contacto-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.contacto-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.contacto-card h3 {
+  color: #ff69b4;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.info-icon {
+  font-size: 1.5rem;
+  margin-right: 15px;
+  min-width: 30px;
+  text-align: center;
+}
+
+.redes-sociales {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.red-social {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.red-social:hover {
+  background-color: #ff69b4;
+  color: white;
+}
+
+.red-icon {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  min-width: 25px;
+  text-align: center;
+}
+
+/* Mapa mejorado */
+.mapa-container {
+  width: 100%;
+}
+
+.mapa-interactivo {
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.mapa-interactivo iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Tarjetas promocionales */
+.promo-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.promo-card {
+  background: linear-gradient(145deg, #ffffff, #f9f4f7);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.promo-card:hover {
+  transform: translateY(-5px);
+}
+
+.promo-icon {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #ff69b4;
+}
+
+.promo-card h3 {
+  color: #333;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.promo-card p {
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.promo-button {
+  background: linear-gradient(to right, #ff69b4, #ff8da1);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+}
+
+.promo-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+}
+
+/* Estilos para las promociones */
+.promociones-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.promociones-modal {
+  width: 90%;
+  max-width: 1000px;
+  max-height: 85vh;
+  background-color: white;
+  border-radius: 15px;
+  padding: 30px;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.4s ease;
+}
+
+.close-promociones {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.close-promociones:hover {
+  background-color: #f0f0f0;
+}
+
+.promociones-modal h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.promociones-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.promo-item {
+  background: linear-gradient(145deg, #ffffff, #f9f4f7);
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.promo-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(255, 105, 180, 0.15);
+}
+
+.promo-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: linear-gradient(to right, #ff69b4, #ff8da1);
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 8px 15px;
+  border-radius: 20px;
+  box-shadow: 0 5px 10px rgba(255, 105, 180, 0.3);
+}
+
+.promo-item h3 {
+  color: #333;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.promo-item p {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.promo-precio {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.precio-actual {
+  color: #ff69b4;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.precio-original {
+  color: #999;
+  font-size: 0.9rem;
+  text-decoration: line-through;
+}
+
+.reservar-promo {
+  background: linear-gradient(to right, #ff69b4, #ff8da1);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.reservar-promo:hover {
+  filter: brightness(1.1);
+}
+
+/* Chat rediseñado según la imagen */
+.chat-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(to right, #ff69b4, #ff8da1);
+  border: none;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+  z-index: 1000;
+  animation: pulse 2s infinite;
+}
+
+.chat-widget {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 400px;
+  max-width: 90vw;
+  height: 600px;
+  max-height: 90vh;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform: translateY(150%);
+  opacity: 0;
+}
+
+.chat-widget.open {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.chat-header {
+  background-color: #ff69b4;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header span {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.chat-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.chat-body {
+  height: calc(100% - 50px);
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  padding: 15px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.message {
+  max-width: 85%;
+  padding: 12px 15px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.message.user {
+  background-color: #e6f7ff;
+  color: #333;
+  align-self: flex-end;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+}
+
+.message.assistant {
+  background-color: #f1f1f1;
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 5px;
+}
+
+.chat-form-container {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+}
+
+.formulario-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: white;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #ff69b4;
+  box-shadow: 0 0 0 2px rgba(255, 105, 180, 0.1);
+}
+
+.btn-chat-submit {
+  background-color: #ff69b4;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+}
+
+.btn-chat-submit:hover {
+  background-color: #ff5ba7;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
     opacity: 0;
   }
-  
-  .chat-widget.open {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
     transform: translateY(0);
     opacity: 1;
   }
-  
-  .chat-header {
-    background-color: #ff69b4;
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4);
   }
-  
-  .chat-header span {
-    font-size: 1.1rem;
-    font-weight: 500;
+  70% {
+    box-shadow: 0 0 0 15px rgba(255, 105, 180, 0);
   }
-  
-  .chat-close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 5px;
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 105, 180, 0);
   }
-  
-  .chat-body {
-    height: calc(100% - 50px);
-    display: flex;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contacto-content {
     flex-direction: column;
   }
   
-  .chat-messages {
-    padding: 15px;
-    max-height: 150px;
-    overflow-y: auto;
+  .redes-sociales {
+    grid-template-columns: 1fr;
   }
   
-  .message {
-    max-width: 85%;
-    padding: 12px 15px;
-    border-radius: 18px;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
+  .promociones-container {
+    grid-template-columns: 1fr;
   }
   
-  .message.user {
-    background-color: #e6f7ff;
-    color: #333;
-    align-self: flex-end;
-    margin-left: auto;
-    border-bottom-right-radius: 5px;
+  .promociones-modal {
+    padding: 20px;
+    width: 95%;
   }
   
-  .message.assistant {
-    background-color: #f1f1f1;
-    color: #333;
-    align-self: flex-start;
-    border-bottom-left-radius: 5px;
+  .chat-widget {
+    width: 320px;
+    right: 20px;
+    bottom: 20px;
   }
   
-  .chat-form-container {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    background-color: #f9f9f9;
-    border-top: 1px solid #eee;
+  .chat-button {
+    right: 20px;
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
   }
   
-  .formulario-chat {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .form-field {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-field label {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    color: #555;
-    font-weight: 500;
-  }
-  
-  .form-field input,
-  .form-field select,
-  .form-field textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background-color: white;
-  }
-  
-  .form-field input:focus,
-  .form-field select:focus,
-  .form-field textarea:focus {
-    outline: none;
-    border-color: #ff69b4;
-    box-shadow: 0 0 0 2px rgba(255, 105, 180, 0.1);
-  }
-  
-  .btn-chat-submit {
-    background-color: #ff69b4;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 5px;
-  }
-  
-  .btn-chat-submit:hover {
-    background-color: #ff5ba7;
-  }
-  
-  /* Animaciones */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateY(50px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes pulse {
-    0% {
-      box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4);
-    }
-    70% {
-      box-shadow: 0 0 0 15px rgba(255, 105, 180, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(255, 105, 180, 0);
-    }
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .contacto-content {
-      flex-direction: column;
-    }
-    
-    .redes-sociales {
-      grid-template-columns: 1fr;
-    }
-    
-    .promociones-container {
-      grid-template-columns: 1fr;
-    }
-    
-    .promociones-modal {
-      padding: 20px;
-      width: 95%;
-    }
-    
-    .chat-widget {
-      width: 320px;
-      right: 20px;
-      bottom: 20px;
-    }
-    
-    .chat-button {
-      right: 20px;
-      bottom: 20px;
-      width: 50px;
-      height: 50px;
-    }
-    
-  }
+}

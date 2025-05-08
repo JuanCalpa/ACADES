@@ -1,525 +1,525 @@
 /* Mision.css - Estilo elegante y refinado */
 .mision {
-    padding: 100px 20px;
-    background: linear-gradient(135deg, #fff0f5 0%, #ffeff5 40%, #fff5f9 60%, #fef0f5 100%);
-    position: relative;
-    overflow: hidden;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #fff0f5 0%, #ffeff5 40%, #fff5f9 60%, #fef0f5 100%);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.5s ease-out;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.mision-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Título de sección elegante */
+.section-title {
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #333;
+  margin-bottom: 60px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.section-title.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-title:after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(to right, #ff69b4, #f06292, #ff69b4);
+  transition: transform 0.9s ease 0.4s;
+  box-shadow: 0 2px 10px rgba(240, 98, 146, 0.3);
+}
+
+.section-title.animate-in:after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.mision-content {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+
+/* Imagen elegante con efecto sofisticado */
+.mision-imagen {
+  flex: 0.7;
+  height: 320px;
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('./img/mision\ .jpg') no-repeat center center;
+  background-size: cover;
+  border-radius: 16px;
+  box-shadow: 
+    0 15px 35px rgba(0,0,0,0.18),
+    0 0 0 1px rgba(255, 105, 180, 0.12),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transform: translateX(-50px);
+  opacity: 0;
+  transition: all 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.mision-imagen.animate-in {
+  transform: translateX(0);
+  opacity: 1;
+  box-shadow: 
+    0 15px 35px rgba(0,0,0,0.18),
+    0 0 0 1px rgba(255, 105, 180, 0.12),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+}
+/* Nosotros.css - Añadir estas reglas para los puntos morados animados */
+
+/* Fondo y contenedor para los puntos decorativos */
+.section-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Puntos decorativos morados con animación */
+.decorative-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #9c27b0; /* Color morado */
+  opacity: 0.3;
+  animation: float-dot 8s infinite ease-in-out;
+}
+
+.decorative-dot:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+.decorative-dot:nth-child(2) { top: 15%; left: 15%; animation-delay: 0.5s; }
+.decorative-dot:nth-child(3) { top: 8%; left: 25%; animation-delay: 1s; }
+.decorative-dot:nth-child(4) { top: 20%; left: 35%; animation-delay: 1.5s; }
+.decorative-dot:nth-child(5) { top: 12%; left: 48%; animation-delay: 2s; }
+.decorative-dot:nth-child(6) { top: 18%; left: 60%; animation-delay: 2.5s; }
+.decorative-dot:nth-child(7) { top: 7%; left: 75%; animation-delay: 3s; }
+.decorative-dot:nth-child(8) { top: 16%; left: 85%; animation-delay: 3.5s; }
+.decorative-dot:nth-child(9) { top: 60%; left: 10%; animation-delay: 4s; }
+.decorative-dot:nth-child(10) { top: 75%; left: 25%; animation-delay: 4.5s; }
+.decorative-dot:nth-child(11) { top: 65%; left: 70%; animation-delay: 5s; }
+.decorative-dot:nth-child(12) { top: 80%; left: 85%; animation-delay: 5.5s; }
+
+@keyframes float-dot {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(5px, -5px);
+  }
+}
+
+/* Actualizar los círculos decorativos existentes para que combinen mejor */
+.decorative-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(156, 39, 176, 0.1), rgba(186, 104, 200, 0.05));
+  z-index: 1;
+  filter: blur(10px);
+  animation: floatAnimation 10s infinite alternate ease-in-out;
+}
+
+/* Actualizar el color de los elementos destacados para que coincidan con los puntos morados */
+.highlight-text {
+  color: #9c27b0; /* Morado para coincidir con los puntos */
+}
+
+.highlight-text:hover {
+  color: #7b1fa2;
+}
+
+.highlight-text:after {
+  background: linear-gradient(to right, #9c27b0, #ba68c8);
+}
+
+/* Actualizar el color de los valores para que coincidan */
+.valor-title {
+  color: #333;
+}
+
+.valor-active .valor-title {
+  color: #9c27b0;
+}
+
+.valor-item:before {
+  background: linear-gradient(to right, #9c27b0, #ba68c8);
+}
+
+/* Actualizar título de valores para coincidir */
+.valores-title {
+  color: #9c27b0;
+}
+
+.valores-title:after {
+  background: linear-gradient(to right, #9c27b0, #ba68c8);
+}
+
+.mision-imagen:hover {
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.22),
+    0 0 0 2px rgba(255, 105, 180, 0.18),
+    inset 0 0 30px rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px) scale(1.02);
+  filter: brightness(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 105, 180, 0.3), rgba(240, 98, 146, 0.1));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.mision-imagen:hover .image-overlay {
+  opacity: 1;
+}
+
+/* Círculos decorativos de fondo refinados */
+.decorative-circle {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 192, 203, 0.25); 
+  z-index: 1;
+  backdrop-filter: blur(5px);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.circle-1 {
+  width: 350px;
+  height: 350px;
+  top: -150px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(255, 192, 203, 0.25) 0%, rgba(255, 182, 193, 0.15) 70%);
+  animation: floatCircle 18s infinite alternate ease-in-out;
+}
+
+.circle-2 {
+  width: 150px;
+  height: 150px;
+  top: 20%;
+  left: 10%;
+  background: radial-gradient(circle, rgba(255, 182, 193, 0.2) 0%, rgba(255, 172, 183, 0.1) 70%);
+  animation: floatCircle 14s infinite alternate-reverse ease-in-out;
+}
+
+.circle-3 {
+  width: 100px;
+  height: 100px;
+  top: 50%;
+  right: 20%;
+  background: radial-gradient(circle, rgba(255, 162, 173, 0.25) 0%, rgba(255, 152, 163, 0.15) 70%);
+  animation: floatCircle 12s infinite alternate ease-in-out 2s;
+}
+
+.circle-4 {
+  width: 180px;
+  height: 180px;
+  bottom: 15%;
+  left: 5%;
+  background: radial-gradient(circle, rgba(255, 142, 153, 0.2) 0%, rgba(255, 132, 143, 0.1) 70%);
+  animation: floatCircle 16s infinite alternate-reverse ease-in-out;
+}
+
+.circle-5 {
+  width: 80px;
+  height: 80px;
+  top: 30%;
+  left: 30%;
+  background: radial-gradient(circle, rgba(255, 122, 133, 0.15) 0%, rgba(255, 112, 123, 0.08) 70%);
+  animation: floatCircle 10s infinite alternate ease-in-out;
+}
+
+.circle-6 {
+  width: 120px;
+  height: 120px;
+  bottom: -20px;
+  right: 30%;
+  background: radial-gradient(circle, rgba(255, 102, 113, 0.2) 0%, rgba(255, 92, 103, 0.1) 70%);
+  animation: floatCircle 20s infinite alternate-reverse ease-in-out;
+}
+
+/* Texto refinado */
+.mision-texto {
+  flex: 1;
+  transform: translateX(50px);
+  opacity: 0;
+  transition: transform 0.9s ease, opacity 0.9s ease;
+}
+
+.mision-texto.animate-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Cita principal elegante */
+.mision-statement {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #e64f93;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  padding: 30px;
+  border-left: 4px solid #ff69b4;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.92), rgba(255, 240, 245, 0.85));
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  box-shadow: 
+    0 10px 25px rgba(255, 105, 180, 0.12),
+    0 5px 10px rgba(255, 105, 180, 0.05);
+  border-radius: 14px;
+}
+
+.statement-active {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.97), rgba(255, 240, 245, 0.92));
+  transform: translateY(-6px);
+  box-shadow: 
+    0 15px 30px rgba(255, 105, 180, 0.18),
+    0 10px 15px rgba(255, 105, 180, 0.08);
+  border-left: 8px solid #ff69b4;
+}
+
+.quote-mark {
+  display: inline-block;
+  font-size: 3rem;
+  color: rgba(255, 105, 180, 0.35);
+  position: absolute;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), color 0.5s ease;
+}
+
+.left {
+  top: 5px;
+  left: 10px;
+}
+
+.right {
+  bottom: 5px;
+  right: 10px;
+}
+
+.statement-active .quote-mark {
+  color: rgba(255, 105, 180, 0.75);
+}
+
+.statement-active .left {
+  transform: translateY(-5px) rotate(-8deg);
+}
+
+.statement-active .right {
+  transform: translateY(5px) rotate(8deg);
+}
+
+/* Animaciones de texto elegantes */
+.text-animated {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.9s ease forwards;
+  animation-delay: 0.4s;
+}
+
+.text-animated-delay {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.9s ease forwards;
+  animation-delay: 0.6s;
+}
+
+.text-animated-last {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.9s ease forwards;
+  animation-delay: 1.4s;
+}
+
+/* Estilo sofisticado para el nombre ACADES */
+.highlight-text {
+  position: relative;
+  color: #ff4e95;
+  font-weight: 700;
+  display: inline-block;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  padding: 0 5px;
+  text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.25);
+  letter-spacing: 1.5px;
+}
+
+.highlight-text:hover {
+  transform: scale(1.12);
+  color: #e54182;
+  text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.35);
+}
+
+.highlight-text:after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #ff69b4, #f06292, #ff69b4);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  box-shadow: 0 2px 5px rgba(255, 105, 180, 0.2);
+}
+
+.highlight-text:hover:after {
+  transform: scaleX(1);
+}
+
+.mision-texto p {
+  margin-bottom: 25px;
+  line-height: 1.7;
+  font-size: 1.15rem;
+  color: #454545;
+  letter-spacing: 0.2px;
+}
+
+/* Modificación para eliminar los puntos negros de la lista */
+.mision-lista {
+  margin: 25px 0;
+  padding-left: 20px;
+  list-style-type: none; /* Elimina los bullets predeterminados */
+}
+
+.lista-item {
+  margin-bottom: 18px;
+  line-height: 1.6;
+  position: relative;
+  padding: 8px 15px 8px 20px;
+  opacity: 0;
+  transform: translateX(20px);
+  animation: fadeInRight 0.7s ease forwards;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  border-radius: 30px 12px 12px 30px;
+  letter-spacing: 0.3px;
+  color: #444;
+  list-style-type: none; /* Refuerza la eliminación de bullets */
+}
+
+.lista-item:before {
+  content: '•';
+  color: #ff69b4;
+  position: absolute;
+  left: 0;
+  font-size: 1.4rem;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  text-shadow: 0 0 1px rgba(255, 105, 180, 0.2);
+}
+.item-active {
+  background: linear-gradient(to right, rgba(255, 105, 180, 0.1), rgba(255, 240, 245, 0.6));
+  padding: 12px 20px 12px 25px;
+  transform: scale(1.03) translateX(5px);
+  box-shadow: 
+    3px 3px 15px rgba(0, 0, 0, 0.05),
+    1px 1px 5px rgba(255, 105, 180, 0.1);
+  color: #333;
+}
+
+.item-active:before {
+  transform: scale(1.6);
+  color: #f06292;
+  text-shadow: 0 0 6px rgba(255, 105, 180, 0.5);
+  left: 5px;
+}
+
+/* Animaciones refinadas */
+@keyframes fadeInUp {
+  from {
     opacity: 0;
-    transition: opacity 1.5s ease-out;
+    transform: translateY(25px);
   }
-  
-  .fade-in {
-    opacity: 1;
-  }
-  
-  .mision-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-  }
-  
-  /* Título de sección elegante */
-  .section-title {
-    text-align: center;
-    font-size: 2.8rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #333;
-    margin-bottom: 60px;
-    position: relative;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.9s ease, transform 0.9s ease;
-  }
-  
-  .section-title.animate-in {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
-  
-  .section-title:after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: 100px;
-    height: 3px;
-    background: linear-gradient(to right, #ff69b4, #f06292, #ff69b4);
-    transition: transform 0.9s ease 0.4s;
-    box-shadow: 0 2px 10px rgba(240, 98, 146, 0.3);
-  }
-  
-  .section-title.animate-in:after {
-    transform: translateX(-50%) scaleX(1);
-  }
-  
-  .mision-content {
-    display: flex;
-    gap: 50px;
-    align-items: center;
-  }
-  
-  /* Imagen elegante con efecto sofisticado */
-  .mision-imagen {
-    flex: 0.7;
-    height: 320px;
-    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('./img/mision\ .jpg') no-repeat center center;
-    background-size: cover;
-    border-radius: 16px;
-    box-shadow: 
-      0 15px 35px rgba(0,0,0,0.18),
-      0 0 0 1px rgba(255, 105, 180, 0.12),
-      inset 0 0 30px rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-    transform: translateX(-50px);
+}
+
+@keyframes fadeInRight {
+  from {
     opacity: 0;
-    transition: all 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform: translateX(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes floatCircle {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(12px, -12px);
+  }
+  100% {
+    transform: translate(-8px, 8px);
+  }
+}
+
+/* Ajustes responsivos elegantes */
+@media (max-width: 768px) {
+  .mision-content {
+    flex-direction: column;
+  }
+  
+  .mision-imagen {
+    width: 100%;
+    margin-bottom: 40px;
+    transform: translateY(-30px);
   }
   
   .mision-imagen.animate-in {
-    transform: translateX(0);
-    opacity: 1;
-    box-shadow: 
-      0 15px 35px rgba(0,0,0,0.18),
-      0 0 0 1px rgba(255, 105, 180, 0.12),
-      inset 0 0 30px rgba(255, 255, 255, 0.1);
-  }
-  /* Nosotros.css - Añadir estas reglas para los puntos morados animados */
-  
-  /* Fondo y contenedor para los puntos decorativos */
-  .section-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+    transform: translateY(0);
   }
   
-  /* Puntos decorativos morados con animación */
-  .decorative-dot {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #9c27b0; /* Color morado */
-    opacity: 0.3;
-    animation: float-dot 8s infinite ease-in-out;
-  }
-  
-  .decorative-dot:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
-  .decorative-dot:nth-child(2) { top: 15%; left: 15%; animation-delay: 0.5s; }
-  .decorative-dot:nth-child(3) { top: 8%; left: 25%; animation-delay: 1s; }
-  .decorative-dot:nth-child(4) { top: 20%; left: 35%; animation-delay: 1.5s; }
-  .decorative-dot:nth-child(5) { top: 12%; left: 48%; animation-delay: 2s; }
-  .decorative-dot:nth-child(6) { top: 18%; left: 60%; animation-delay: 2.5s; }
-  .decorative-dot:nth-child(7) { top: 7%; left: 75%; animation-delay: 3s; }
-  .decorative-dot:nth-child(8) { top: 16%; left: 85%; animation-delay: 3.5s; }
-  .decorative-dot:nth-child(9) { top: 60%; left: 10%; animation-delay: 4s; }
-  .decorative-dot:nth-child(10) { top: 75%; left: 25%; animation-delay: 4.5s; }
-  .decorative-dot:nth-child(11) { top: 65%; left: 70%; animation-delay: 5s; }
-  .decorative-dot:nth-child(12) { top: 80%; left: 85%; animation-delay: 5.5s; }
-  
-  @keyframes float-dot {
-    0%, 100% {
-      transform: translate(0, 0);
-    }
-    50% {
-      transform: translate(5px, -5px);
-    }
-  }
-  
-  /* Actualizar los círculos decorativos existentes para que combinen mejor */
-  .decorative-circle {
-    position: absolute;
-    border-radius: 50%;
-    background: linear-gradient(45deg, rgba(156, 39, 176, 0.1), rgba(186, 104, 200, 0.05));
-    z-index: 1;
-    filter: blur(10px);
-    animation: floatAnimation 10s infinite alternate ease-in-out;
-  }
-  
-  /* Actualizar el color de los elementos destacados para que coincidan con los puntos morados */
-  .highlight-text {
-    color: #9c27b0; /* Morado para coincidir con los puntos */
-  }
-  
-  .highlight-text:hover {
-    color: #7b1fa2;
-  }
-  
-  .highlight-text:after {
-    background: linear-gradient(to right, #9c27b0, #ba68c8);
-  }
-  
-  /* Actualizar el color de los valores para que coincidan */
-  .valor-title {
-    color: #333;
-  }
-  
-  .valor-active .valor-title {
-    color: #9c27b0;
-  }
-  
-  .valor-item:before {
-    background: linear-gradient(to right, #9c27b0, #ba68c8);
-  }
-  
-  /* Actualizar título de valores para coincidir */
-  .valores-title {
-    color: #9c27b0;
-  }
-  
-  .valores-title:after {
-    background: linear-gradient(to right, #9c27b0, #ba68c8);
-  }
-  
-  .mision-imagen:hover {
-    box-shadow: 
-      0 20px 40px rgba(0,0,0,0.22),
-      0 0 0 2px rgba(255, 105, 180, 0.18),
-      inset 0 0 30px rgba(255, 255, 255, 0.15);
-    transform: translateY(-5px) scale(1.02);
-    filter: brightness(1.05);
-  }
-  
-  .image-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, rgba(255, 105, 180, 0.3), rgba(240, 98, 146, 0.1));
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  
-  .mision-imagen:hover .image-overlay {
-    opacity: 1;
-  }
-  
-  /* Círculos decorativos de fondo refinados */
-  .decorative-circle {
-    position: absolute;
-    border-radius: 50%;
-    background-color: rgba(255, 192, 203, 0.25); 
-    z-index: 1;
-    backdrop-filter: blur(5px);
-    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4);
-  }
-  
-  .circle-1 {
-    width: 350px;
-    height: 350px;
-    top: -150px;
-    right: -80px;
-    background: radial-gradient(circle, rgba(255, 192, 203, 0.25) 0%, rgba(255, 182, 193, 0.15) 70%);
-    animation: floatCircle 18s infinite alternate ease-in-out;
-  }
-  
-  .circle-2 {
-    width: 150px;
-    height: 150px;
-    top: 20%;
-    left: 10%;
-    background: radial-gradient(circle, rgba(255, 182, 193, 0.2) 0%, rgba(255, 172, 183, 0.1) 70%);
-    animation: floatCircle 14s infinite alternate-reverse ease-in-out;
-  }
-  
-  .circle-3 {
-    width: 100px;
-    height: 100px;
-    top: 50%;
-    right: 20%;
-    background: radial-gradient(circle, rgba(255, 162, 173, 0.25) 0%, rgba(255, 152, 163, 0.15) 70%);
-    animation: floatCircle 12s infinite alternate ease-in-out 2s;
-  }
-  
-  .circle-4 {
-    width: 180px;
-    height: 180px;
-    bottom: 15%;
-    left: 5%;
-    background: radial-gradient(circle, rgba(255, 142, 153, 0.2) 0%, rgba(255, 132, 143, 0.1) 70%);
-    animation: floatCircle 16s infinite alternate-reverse ease-in-out;
-  }
-  
-  .circle-5 {
-    width: 80px;
-    height: 80px;
-    top: 30%;
-    left: 30%;
-    background: radial-gradient(circle, rgba(255, 122, 133, 0.15) 0%, rgba(255, 112, 123, 0.08) 70%);
-    animation: floatCircle 10s infinite alternate ease-in-out;
-  }
-  
-  .circle-6 {
-    width: 120px;
-    height: 120px;
-    bottom: -20px;
-    right: 30%;
-    background: radial-gradient(circle, rgba(255, 102, 113, 0.2) 0%, rgba(255, 92, 103, 0.1) 70%);
-    animation: floatCircle 20s infinite alternate-reverse ease-in-out;
-  }
-  
-  /* Texto refinado */
   .mision-texto {
-    flex: 1;
-    transform: translateX(50px);
-    opacity: 0;
-    transition: transform 0.9s ease, opacity 0.9s ease;
+    transform: translateY(30px);
   }
   
   .mision-texto.animate-in {
-    transform: translateX(0);
-    opacity: 1;
+    transform: translateY(0);
   }
   
-  /* Cita principal elegante */
-  .mision-statement {
-    font-size: 1.5rem;
-    font-style: italic;
-    color: #e64f93;
-    line-height: 1.7;
+  .section-title {
+    font-size: 2.2rem;
     margin-bottom: 40px;
-    padding: 30px;
-    border-left: 4px solid #ff69b4;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.92), rgba(255, 240, 245, 0.85));
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    box-shadow: 
-      0 10px 25px rgba(255, 105, 180, 0.12),
-      0 5px 10px rgba(255, 105, 180, 0.05);
-    border-radius: 14px;
   }
   
-  .statement-active {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.97), rgba(255, 240, 245, 0.92));
-    transform: translateY(-6px);
-    box-shadow: 
-      0 15px 30px rgba(255, 105, 180, 0.18),
-      0 10px 15px rgba(255, 105, 180, 0.08);
-    border-left: 8px solid #ff69b4;
+  .decorative-circle {
+    opacity: 0.4;
   }
-  
-  .quote-mark {
-    display: inline-block;
-    font-size: 3rem;
-    color: rgba(255, 105, 180, 0.35);
-    position: absolute;
-    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), color 0.5s ease;
+
+  .mision-statement {
+    font-size: 1.3rem;
+    padding: 25px;
   }
-  
-  .left {
-    top: 5px;
-    left: 10px;
-  }
-  
-  .right {
-    bottom: 5px;
-    right: 10px;
-  }
-  
-  .statement-active .quote-mark {
-    color: rgba(255, 105, 180, 0.75);
-  }
-  
-  .statement-active .left {
-    transform: translateY(-5px) rotate(-8deg);
-  }
-  
-  .statement-active .right {
-    transform: translateY(5px) rotate(8deg);
-  }
-  
-  /* Animaciones de texto elegantes */
-  .text-animated {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.9s ease forwards;
-    animation-delay: 0.4s;
-  }
-  
-  .text-animated-delay {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.9s ease forwards;
-    animation-delay: 0.6s;
-  }
-  
-  .text-animated-last {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.9s ease forwards;
-    animation-delay: 1.4s;
-  }
-  
-  /* Estilo sofisticado para el nombre ACADES */
-  .highlight-text {
-    position: relative;
-    color: #ff4e95;
-    font-weight: 700;
-    display: inline-block;
-    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    padding: 0 5px;
-    text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.25);
-    letter-spacing: 1.5px;
-  }
-  
-  .highlight-text:hover {
-    transform: scale(1.12);
-    color: #e54182;
-    text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.35);
-  }
-  
-  .highlight-text:after {
-    content: '';
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(to right, #ff69b4, #f06292, #ff69b4);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-    box-shadow: 0 2px 5px rgba(255, 105, 180, 0.2);
-  }
-  
-  .highlight-text:hover:after {
-    transform: scaleX(1);
-  }
-  
-  .mision-texto p {
-    margin-bottom: 25px;
-    line-height: 1.7;
-    font-size: 1.15rem;
-    color: #454545;
-    letter-spacing: 0.2px;
-  }
-  
-  /* Modificación para eliminar los puntos negros de la lista */
-  .mision-lista {
-    margin: 25px 0;
-    padding-left: 20px;
-    list-style-type: none; /* Elimina los bullets predeterminados */
-  }
-  
-  .lista-item {
-    margin-bottom: 18px;
-    line-height: 1.6;
-    position: relative;
-    padding: 8px 15px 8px 20px;
-    opacity: 0;
-    transform: translateX(20px);
-    animation: fadeInRight 0.7s ease forwards;
-    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    border-radius: 30px 12px 12px 30px;
-    letter-spacing: 0.3px;
-    color: #444;
-    list-style-type: none; /* Refuerza la eliminación de bullets */
-  }
-  
-  .lista-item:before {
-    content: '•';
-    color: #ff69b4;
-    position: absolute;
-    left: 0;
-    font-size: 1.4rem;
-    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    text-shadow: 0 0 1px rgba(255, 105, 180, 0.2);
-  }
-  .item-active {
-    background: linear-gradient(to right, rgba(255, 105, 180, 0.1), rgba(255, 240, 245, 0.6));
-    padding: 12px 20px 12px 25px;
-    transform: scale(1.03) translateX(5px);
-    box-shadow: 
-      3px 3px 15px rgba(0, 0, 0, 0.05),
-      1px 1px 5px rgba(255, 105, 180, 0.1);
-    color: #333;
-  }
-  
-  .item-active:before {
-    transform: scale(1.6);
-    color: #f06292;
-    text-shadow: 0 0 6px rgba(255, 105, 180, 0.5);
-    left: 5px;
-  }
-  
-  /* Animaciones refinadas */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(25px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes fadeInRight {
-    from {
-      opacity: 0;
-      transform: translateX(25px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  @keyframes floatCircle {
-    0% {
-      transform: translate(0, 0);
-    }
-    50% {
-      transform: translate(12px, -12px);
-    }
-    100% {
-      transform: translate(-8px, 8px);
-    }
-  }
-  
-  /* Ajustes responsivos elegantes */
-  @media (max-width: 768px) {
-    .mision-content {
-      flex-direction: column;
-    }
-    
-    .mision-imagen {
-      width: 100%;
-      margin-bottom: 40px;
-      transform: translateY(-30px);
-    }
-    
-    .mision-imagen.animate-in {
-      transform: translateY(0);
-    }
-    
-    .mision-texto {
-      transform: translateY(30px);
-    }
-    
-    .mision-texto.animate-in {
-      transform: translateY(0);
-    }
-    
-    .section-title {
-      font-size: 2.2rem;
-      margin-bottom: 40px;
-    }
-    
-    .decorative-circle {
-      opacity: 0.4;
-    }
-  
-    .mision-statement {
-      font-size: 1.3rem;
-      padding: 25px;
-    }
-  }
+}
