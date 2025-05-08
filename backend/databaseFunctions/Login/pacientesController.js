@@ -25,13 +25,17 @@ async function verPaciente(req, res) {
 }
 
 async function crearPaciente(req, res) {
+    console.log('Datos recibidos en el backend:', req.body); // Verifica los datos aquí
+  
+
     const { nombre, correo, cedula, telefono, contrasena } = req.body;
+  
     try {
         const resultado = await funcionesSql.crearPaciente(nombre, correo, cedula, telefono, contrasena);
         res.status(201).json({ mensaje: 'Usuario registrado exitosamente', id: resultado.insertId });
     } catch (error) {
-        console.error("Error al registrar usuario:", error);
-        res.status(500).json({ mensaje: 'Error del servidor' });
+        console.error('Error al registrar usuario:', error);
+        res.status(500).json({ mensaje: 'Error al registrar usuario' });
     }
 }
 
@@ -61,24 +65,27 @@ async function eliminarPaciente(req, res) {
 //para el login
 async function login(req, res) {
     const { correo, contrasena } = req.body;
+    console.log('Datos recibidos en el backend:', { correo, contrasena });
+
     try {
         const usuario = await funcionesSql.autenticarUsuario(correo, contrasena);
-        console.log("Usuario:", usuario);
+        console.log('Usuario encontrado:', usuario);
+
         if (usuario) {
             req.session.usuario = {
                 id: usuario.id_cliente,
                 nombre: usuario.nombre,
                 correo: usuario.correo,
                 cedula: usuario.cedula,
-                telefono: usuario.telefono
+                telefono: usuario.telefono,
             };
-            console.log("SESION:", req.session);
+            console.log('SESION:', req.session);
             res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario });
         } else {
             res.status(401).json({ mensaje: 'Credenciales inválidas' });
         }
     } catch (error) {
-        console.error("Error al iniciar sesión:", error);
+        console.error('Error al iniciar sesión:', error);
         res.status(500).json({ mensaje: 'Error del servidor', error });
     }
 }
