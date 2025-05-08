@@ -18,15 +18,15 @@ async function verPaciente(id_cliente) {
     return rows;
 }
 
-async function crearPaciente(nombre, correo, telefono, contrasena) {
-    const query = "INSERT INTO cliente (nombre, correo, telefono, contrasena) VALUES (?, ?, ?, ?)";
-    const [result] = await connection.query(query, [nombre, correo, telefono, contrasena]);
+async function crearPaciente(nombre, correo, cedula, telefono, contrasena) {
+    const query = "INSERT INTO cliente (nombre, correo, cedula, telefono, contrasena) VALUES (?, ?, ?, ?, ?)";
+    const [result] = await connection.query(query, [nombre, correo, cedula, telefono, contrasena]);
     return result;
 }
 
-async function atualizarPaciente(id_cliente, nombre, correo, telefono) {
-    const query = "UPDATE cliente SET nombre = ?, correo = ?, telefono = ? WHERE id_cliente = ?";
-    const [result] = await connection.query(query, [nombre, correo, telefono, id_cliente]);
+async function atualizarPaciente(id_cliente, nombre, correo, cedula, telefono) {
+    const query = "UPDATE cliente SET nombre = ?, correo = ?, cedula = ?, telefono = ? WHERE id_cliente = ?";
+    const [result] = await connection.query(query, [nombre, correo, cedula, telefono, id_cliente]);
     return result;
 }
 
