@@ -74,7 +74,7 @@ function Vision() {
 
   return (
     <section className={`vision ${isVisible ? 'fade-in' : ''}`}>
-      {/* Círculos decorativos de fondo */}
+      {/*circulos q hacen parte de la dekoracion*/}
       <div className="decorative-circle circle-1"></div>
       <div className="decorative-circle circle-2"></div>
       <div className="decorative-circle circle-3"></div>
@@ -130,7 +130,7 @@ function Vision() {
               ))}
             </ul>
             
-            {/* Imagen con animación debajo de objetivos */}
+            {/* Imagen con animación debajo de objetivos q puse */}
             <div className="vision-image-container animate-on-scroll">
               <img 
                 src={visionImage} 

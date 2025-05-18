@@ -5,12 +5,14 @@ import Header from './Header';
 import Hero from './Hero';
 import Services from './Services';
 import Nosotros from './Nosotros';
-import Registro from './Registro';
 import Mision from './Mision';
 import Vision from './Vision';
 import Contacto from './Contacto';
 import Reserva from './Reserva';
 import BubbleBackground from './BubbleBackground';
+import PerfilD from './PerfilD';
+import Registro from './Registro';
+
 
 function App() {
   return (
@@ -26,7 +28,9 @@ function App() {
           <Route path="/servicios" element={<Services />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/reserva" element={<Reserva />} />
-          <Route path="/iniciarSesion" element={<Registro />} />
+          <Route path="/registro" element={<Registro />} />
+          
+          <Route path="/perfil" element={<PerfilD />} />
         </Routes>
       </div>
     </Router>

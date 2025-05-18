@@ -1,9 +1,8 @@
-/* Services.css - Versión actualizada */
 .services-section {
   padding: 80px 20px;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #ffe6f2 0%, #fff0fa 100%); /* Fondo rosadito más suave */
+  background: linear-gradient(135deg, #ffe6f2 0%, #fff0fa 100%); 
   min-height: 100vh;
 }
 
@@ -16,13 +15,13 @@
   z-index: 1;
 }
 
-/* Puntos decorativos morados con animación */
+
 .decorative-dot {
   position: absolute;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #9c27b0; /* Color morado */
+  background-color: #9c27b0; 
   opacity: 0.3;
   animation: float-dot 8s infinite ease-in-out;
 }
@@ -114,7 +113,7 @@
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #9c27b0; /* Morado más intenso para el título */
+  color: #9c27b0; 
   margin-bottom: 50px;
   position: relative;
 }
@@ -153,7 +152,7 @@
   box-shadow: 0 15px 40px rgba(156, 39, 176, 0.2);
 }
 
-/* Imagen centrada y que cubra bien el espacio */
+
 .service-image {
   position: relative;
   height: 220px;
@@ -166,7 +165,7 @@
 .service-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Cubrir todo el espacio */
+  object-fit: cover;
   transition: transform 0.5s ease;
 }
 
@@ -174,7 +173,7 @@
   transform: scale(1.05);
 }
 
-/* Overlay morado con degradado */
+
 .service-overlay {
   position: absolute;
   top: 0;
@@ -206,8 +205,8 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centrar contenido */
-  text-align: center; /* Texto centrado */
+  align-items: center; 
+  text-align: center; 
 }
 
 .service-content h3 {
@@ -238,7 +237,7 @@
   color: white;
 }
 
-/* Estilos para el popup sin imagen */
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -256,7 +255,7 @@
 .service-popup {
   background: white;
   width: 90%;
-  max-width: 600px; /* Reducido, ya que no tenemos imagen */
+  max-width: 600px; 
   max-height: 90vh;
   border-radius: 20px;
   overflow: hidden;
@@ -405,7 +404,7 @@
   background: rgba(156, 39, 176, 0.1);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .services-grid {
     grid-template-columns: 1fr;
@@ -444,7 +443,7 @@
   .popup-info h3 {
     font-size: 1.6rem;
   }
-  /* Estilos para el popup mejorado con animaciones y elementos decorativos */
+  
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -477,7 +476,7 @@
   box-shadow: 0 20px 60px rgba(156, 39, 176, 0.3), 0 0 0 2px rgba(255, 192, 203, 0.2);
 }
 
-/* Puntos decorativos dentro del popup */
+
 .service-popup:before {
   content: '';
   position: absolute;
@@ -558,7 +557,7 @@
   position: relative;
 }
 
-/* Fondo con gradiente suave */
+
 .popup-content:before {
   content: '';
   position: absolute;
@@ -578,7 +577,7 @@
   position: relative;
 }
 
-/* Más puntos decorativos animados */
+
 .decorative-popup-dot {
   position: absolute;
   width: 6px;
@@ -630,7 +629,7 @@
   animation: fade-in-up 0.5s ease;
 }
 
-/* Decoración de título */
+
 .popup-info h3:before, .popup-info h3:after {
   content: '•';
   position: absolute;
@@ -667,7 +666,7 @@
   animation: fade-in-up 0.5s ease 0.2s backwards;
 }
 
-/* Decoración de la descripción */
+
 .popup-description:before {
   content: '';
   position: absolute;
@@ -755,7 +754,7 @@
   box-shadow: 0 5px 15px rgba(233, 30, 99, 0.1);
 }
 
-/* Animación escalonada para los elementos de la lista */
+
 .service-list li:nth-child(1), .benefits-list li:nth-child(1) { animation-delay: 0.4s; }
 .service-list li:nth-child(2), .benefits-list li:nth-child(2) { animation-delay: 0.5s; }
 .service-list li:nth-child(3), .benefits-list li:nth-child(3) { animation-delay: 0.6s; }
@@ -846,7 +845,7 @@
   box-shadow: 0 5px 15px rgba(233, 30, 99, 0.1);
 }
 
-/* Efecto de brillo en los botones */
+
 .reservar-btn:before, 
 .consultar-btn:before {
   content: '';

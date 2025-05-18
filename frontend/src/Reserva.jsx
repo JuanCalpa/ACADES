@@ -27,16 +27,16 @@ function Reserva() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validación básica
+    
     if (!formData.nombre || !formData.telefono || !formData.email || !formData.fecha || !formData.hora || !formData.servicio) {
       setError('Por favor completa todos los campos obligatorios');
       return;
     }
     
-    // Aquí iría la lógica para enviar los datos al servidor
+    // aqui es la logica si quitamos lo otro pa conectar a base de datos
     console.log('Datos de reserva:', formData);
     
-    // Simulamos una respuesta exitosa
+    // aki es pa probar
     setEnviado(true);
     setError('');
   };
@@ -47,20 +47,22 @@ function Reserva() {
     { id: 'tratamiento', nombre: 'Tratamientos faciales', precio: 'Desde $350' },
     { id: 'maquillaje', nombre: 'Maquillaje profesional', precio: '$400' }
   ];
-  
+
+  // horas disponibles para la reserva y si algo las corregimos
   const horasDisponibles = [
     '09:00', '10:00', '11:00', '12:00', '13:00', 
     '14:00', '15:00', '16:00', '17:00', '18:00'
   ];
   
-  // Obtener fecha mínima (hoy)
+  // la fecha minima es de el mismo dia pq no puede pedir pa dias anteriores 
   const hoy = new Date().toISOString().split('T')[0];
   
-  // Calcula fecha máxima (3 meses desde hoy)
+  // aki es lo de fecha max de 3 meses 
   const tresMesesDespues = new Date();
   tresMesesDespues.setMonth(tresMesesDespues.getMonth() + 3);
   const maxDate = tresMesesDespues.toISOString().split('T')[0];
-  
+
+  // aqui es lo de la cita q me decias q kite
   if (enviado) {
     return (
       <section className="reserva">
@@ -68,7 +70,7 @@ function Reserva() {
           <div className="confirmation-card">
             <div className="check-icon">✓</div>
             <h2>¡Reserva Confirmada!</h2>
-            <p>Gracias por reservar con ACADES, {formData.nombre}.</p>
+            <p>Gracias por reservar con ACADES, {formData.nombre}!!</p>
             <p>Hemos recibido tu solicitud para el servicio de <strong>{
               servicios.find(s => s.id === formData.servicio)?.nombre
             }</strong> el día <strong>{new Date(formData.fecha).toLocaleDateString()}</strong> a las <strong>{formData.hora}</strong>.</p>
@@ -88,12 +90,11 @@ function Reserva() {
         
         <div className="reserva-content">
           <div className="reserva-info">
-            <h3>Información importante</h3>
+            <h3>Información importante! </h3>
             <ul>
-              <li>Las reservas están sujetas a disponibilidad.</li>
-              <li>Se requiere confirmación por teléfono o email.</li>
-              <li>En caso de cancelación, por favor notificar con 24 horas de anticipación.</li>
-              <li>Para servicios especiales, puede requerirse un depósito.</li>
+              <li>Las reservas están sujetas a disponibilidad</li>
+              <li>Se requiere confirmación por celular o correo</li>
+              <li>En caso de cancelación, por favor notificar con 24 horas de anticipación</li>
             </ul>
             
             <div className="servicios-destacados">
@@ -143,7 +144,7 @@ function Reserva() {
             
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="telefono">Teléfono *</label>
+                <label htmlFor="telefono">Celular*</label>
                 <input 
                   type="tel" 
                   id="telefono" 
@@ -156,7 +157,7 @@ function Reserva() {
               </div>
               
               <div className="form-group">
-                <label htmlFor="email">Email *</label>
+                <label htmlFor="email">Correo *</label>
                 <input 
                   type="email" 
                   id="email" 
