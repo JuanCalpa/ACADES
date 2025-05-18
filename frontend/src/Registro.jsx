@@ -27,10 +27,10 @@ function Login() {
 
   const [registerData, setRegisterData] = useState({
     nombre: '',
-    password: '',
+    correo: '',
+    contrasena: '', // <-- CAMBIA AQUÍ
     cedula: '',
-    email: '',
-    celular: '',
+    telefono: '',
     fechaNacimiento: ''
   });
 
@@ -84,7 +84,7 @@ function Login() {
     }));
 
     // Validación
-    if (name === 'email') {
+    if (name === 'correo') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!value.trim()) {
         setErrors(prev => ({ ...prev, email: 'El correo es obligatorio' }));
@@ -99,22 +99,22 @@ function Login() {
       }
     }
 
-    if (name === 'password') {
+    if (name === 'contrasena') {
       if (!value) {
-        setErrors(prev => ({ ...prev, password: 'La contraseña es obligatoria' }));
+        setErrors(prev => ({ ...prev, contrasena: 'La contraseña es obligatoria' }));
       } else if (value.length < 6) {
-        setErrors(prev => ({ ...prev, password: 'La contraseña debe tener al menos 6 caracteres' }));
+        setErrors(prev => ({ ...prev, contrasena: 'La contraseña debe tener al menos 6 caracteres' }));
       } else {
         setErrors(prev => {
           const newErrors = { ...prev };
-          delete newErrors.password;
+          delete newErrors.contrasena;
           return newErrors;
         });
       }
     }
   };
 
-  // Manejar cambios en el formulario de registro
+
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setRegisterData(prev => ({
@@ -153,34 +153,27 @@ function Login() {
     }
   };
 
-
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
+    try {
+      const response = await fetch('http://localhost:3000/api/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(registerData)
+      });
 
-    // Verificar que todos los campos están completos
-    const camposRequeridos = ['nombre', 'password', 'cedula', 'email', 'celular', 'fechaNacimiento'];
-    const camposFaltantes = camposRequeridos.filter(campo => !registerData[campo]);
+      const data = await response.json();
 
-    if (camposFaltantes.length > 0) {
-      alert('Por favor completa todos los campos del formulario.');
-      return;
+      if (response.ok) {
+        alert('Cuenta creada exitosamente');
+        // Opcional: redirige al login o limpia el formulario
+      } else {
+        alert(data.mensaje || 'Error al crear la cuenta');
+      }
+    } catch (error) {
+      alert('Error de red al crear la cuenta');
     }
-
-    console.log('Registro con:', registerData);
-
-    // Guardar informacion
-    localStorage.setItem('userInfo', JSON.stringify(registerData));
-
-    // Cerrar modal 
-    setShowRegisterModal(false);
-
-    // redirecciona al perfil de una
-    navigate('/perfil');
-
-    // o tambien se puede este 
-    //alert('Registro exitoso!! inicia sesión con tu correo y contraseña');
-
   };
 
   return (
@@ -219,9 +212,8 @@ function Login() {
               name="contrasena"
               value={loginData.contrasena}
               onChange={handleLoginChange}
-              onFocus={() => setActiveFieldIndex(1)}
-              onBlur={() => setActiveFieldIndex(null)}
-              placeholder="Ingresa tu contraseña"
+              placeholder="Contraseña"
+              required
             />
             {errors.contrasena && <span className="error-message">{errors.contrasena}</span>}
           </div>
@@ -268,7 +260,7 @@ function Login() {
                 <input
                   type="email"
                   id="reg-email"
-                  name="email"
+                  name="correo"
                   value={registerData.email}
                   onChange={handleRegisterChange}
                   placeholder="tu@email.com"
@@ -281,7 +273,7 @@ function Login() {
                 <input
                   type="password"
                   id="reg-password"
-                  name="password"
+                  name="contrasena"
                   value={registerData.password}
                   onChange={handleRegisterChange}
                   placeholder="Crea una contraseña segura"
@@ -307,7 +299,7 @@ function Login() {
                 <input
                   type="tel"
                   id="celular"
-                  name="celular"
+                  name="telefono"
                   value={registerData.celular}
                   onChange={handleRegisterChange}
                   placeholder="Número de celular"
