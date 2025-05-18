@@ -6,7 +6,7 @@ function Nosotros() {
   const [isVisible, setIsVisible] = useState(false);
   const [activeValue, setActiveValue] = useState(null);
  
-  // Efecto para activar animación al cargar
+  // Efecto para activar animacion al cargar
   useEffect(() => {
     setIsVisible(true);
    
@@ -40,17 +40,17 @@ function Nosotros() {
     };
   }, []);
  
-  // Función para manejar hover en valores
+  // Funcion para manejar hover en valores
   const handleValueHover = (index) => {
     setActiveValue(index);
   };
  
-  // Función para quitar hover
+  // Funcioon para quitar hover
   const handleValueLeave = () => {
     setActiveValue(null);
   };
  
-  // Array de valores para facilitar la animación secuencial
+  // Array de valores para facilitar la animación 
   const valores = [
     { titulo: 'Excelencia', descripcion: 'Nos esforzamos por superar expectativas en cada servicio' },
     { titulo: 'Innovación', descripcion: 'Constantemente nos actualizamos con las últimas tendencias' },
@@ -104,7 +104,7 @@ function Nosotros() {
         </div>
       </div>
      
-      {/* Elementos decorativos animados circulares */}
+      {/* Circulos decorativos*/}
       <div className="decorative-circle circle-1"></div>
       <div className="decorative-circle circle-2"></div>
       <div className="decorative-circle circle-3"></div>

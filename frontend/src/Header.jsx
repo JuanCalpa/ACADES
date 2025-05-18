@@ -14,7 +14,7 @@ function Header() {
             <li><Link to="/mision">Misión</Link></li>
             <li><Link to="/vision">Visión</Link></li>
             <li><Link to="/contacto">Contacto</Link></li>
-            <li><Link to="/iniciarSesion">Iniciar Sesion</Link></li>
+            <li><Link to="/Registro">Iniciar Sesión</Link></li>
           </ul>
         </nav>
       </div>

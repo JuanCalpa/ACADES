@@ -1,4 +1,4 @@
-/* PerfilD.css - Manteniendo estilo similar al login */
+
 .perfil-container {
     background: linear-gradient(135deg, #fef8fa 0%, #fff0f5 40%, #fcf9fb 60%, #fdf5fa 100%);
     position: relative;
@@ -12,7 +12,7 @@
     opacity: 1;
   }
   
-  /* Círculos decorativos de fondo refinados - igual que en Login */
+  
   .decorative-circle {
     position: absolute;
     border-radius: 50%;
@@ -98,7 +98,7 @@
     }
   }
   
-  /* Navbar */
+  
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -179,14 +179,14 @@
     color: white;
   }
   
-  /* Contenido principal */
+  
   .main-content {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
   }
   
-  /* Animación para secciones */
+  
   .animate-on-scroll {
     opacity: 0;
     transform: translateY(30px);
@@ -218,7 +218,7 @@
     box-shadow: 0 2px 10px rgba(240, 98, 146, 0.3);
   }
   
-  /* Sección Perfil */
+ 
   .profile-card {
     background-color: white;
     border-radius: 20px;
@@ -306,7 +306,7 @@
     box-shadow: 0 8px 20px rgba(240, 98, 146, 0.4);
   }
   
-  /* Sección Citas */
+ 
   .citas-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -433,7 +433,7 @@
     box-shadow: 0 8px 20px rgba(240, 98, 146, 0.4);
   }
   
-  /* Sección Pedir Cita */
+  
   .cita-form-container {
     background-color: white;
     border-radius: 20px;
@@ -513,7 +513,7 @@
     background: linear-gradient(135deg, #ff5ba7, #e95888);
   }
   
-  /* Loading state */
+  
   .loading {
     display: flex;
     justify-content: center;
@@ -523,7 +523,7 @@
     color: #ff69b4;
   }
   
-  /* Responsive */
+  
   @media (max-width: 768px) {
     .navbar {
       flex-direction: column;

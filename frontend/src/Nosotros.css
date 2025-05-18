@@ -1,4 +1,4 @@
-/* Nosotros.css - Estilo Moderno con Animaciones */
+
 .nosotros {
   padding: 100px 20px;
   background: linear-gradient(to bottom, #f8f9fa, #ffffff);
@@ -235,7 +235,7 @@
   color: #ff69b4;
 }
 
-/* Elementos decorativos */
+
 .decorative-circle {
   position: absolute;
   border-radius: 50%;
@@ -269,7 +269,7 @@
   animation-delay: 5s;
 }
 
-/* Animaciones */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -304,7 +304,7 @@
   }
 }
 
-/* Aseguramos compatibilidad con dispositivos móviles */
+
 @media (max-width: 768px) {
   .nosotros {
     padding: 60px 20px;
@@ -334,10 +334,10 @@
   
   .decorative-circle {
     opacity: 0.5;
+ 
   }
-  /* Nosotros.css - Añadir estas reglas para los puntos morados animados */
 
-/* Fondo y contenedor para los puntos decorativos */
+
 .section-background {
   position: absolute;
   top: 0;
@@ -347,13 +347,13 @@
   z-index: 1;
 }
 
-/* Puntos decorativos morados con animación */
+
 .decorative-dot {
   position: absolute;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #9c27b0; /* Color morado */
+  background-color: #9c27b0;
   opacity: 0.3;
   animation: float-dot 8s infinite ease-in-out;
 }
@@ -380,7 +380,7 @@
   }
 }
 
-/* Actualizar los círculos decorativos existentes para que combinen mejor */
+
 .decorative-circle {
   position: absolute;
   border-radius: 50%;
@@ -390,9 +390,9 @@
   animation: floatAnimation 10s infinite alternate ease-in-out;
 }
 
-/* Actualizar el color de los elementos destacados para que coincidan con los puntos morados */
+
 .highlight-text {
-  color: #9c27b0; /* Morado para coincidir con los puntos */
+  color: #9c27b0;
 }
 
 .highlight-text:hover {
@@ -403,7 +403,7 @@
   background: linear-gradient(to right, #9c27b0, #ba68c8);
 }
 
-/* Actualizar el color de los valores para que coincidan */
+
 .valor-title {
   color: #333;
 }
@@ -416,7 +416,7 @@
   background: linear-gradient(to right, #9c27b0, #ba68c8);
 }
 
-/* Actualizar título de valores para coincidir */
+
 .valores-title {
   color: #9c27b0;
 }

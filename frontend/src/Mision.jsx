@@ -49,7 +49,7 @@ function Mision() {
 
   return (
     <section className={`mision ${isVisible ? 'fade-in' : ''}`}>
-      {/* Círculos decorativos de fondo, similar al inicio */}
+      {/* Circulo decorativos de fondo*/}
       <div className="decorative-circle circle-1"></div>
       <div className="decorative-circle circle-2"></div>
       <div className="decorative-circle circle-3"></div>
@@ -62,7 +62,7 @@ function Mision() {
         
         <div className="mision-content">
           <div className="mision-imagen animate-on-scroll">
-            {/* Capa de overlay para efecto hover */}
+            {/* Capa de efecto*/}
             <div className="image-overlay"></div>
           </div>
           

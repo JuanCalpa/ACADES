@@ -201,7 +201,7 @@
   opacity: 1;
 }
 
-/* Círculos decorativos de fondo refinados */
+
 .decorative-circle {
   position: absolute;
   border-radius: 50%;
@@ -265,7 +265,7 @@
   animation: floatCircle 20s infinite alternate-reverse ease-in-out;
 }
 
-/* Texto refinado */
+
 .mision-texto {
   flex: 1;
   transform: translateX(50px);
@@ -278,7 +278,7 @@
   opacity: 1;
 }
 
-/* Cita principal elegante */
+
 .mision-statement {
   font-size: 1.5rem;
   font-style: italic;
@@ -336,7 +336,7 @@
   transform: translateY(5px) rotate(8deg);
 }
 
-/* Animaciones de texto elegantes */
+
 .text-animated {
   opacity: 0;
   transform: translateY(20px);
@@ -358,7 +358,7 @@
   animation-delay: 1.4s;
 }
 
-/* Estilo sofisticado para el nombre ACADES */
+
 .highlight-text {
   position: relative;
   color: #ff4e95;
@@ -402,11 +402,11 @@
   letter-spacing: 0.2px;
 }
 
-/* Modificación para eliminar los puntos negros de la lista */
+
 .mision-lista {
   margin: 25px 0;
   padding-left: 20px;
-  list-style-type: none; /* Elimina los bullets predeterminados */
+  list-style-type: none;
 }
 
 .lista-item {
@@ -421,7 +421,7 @@
   border-radius: 30px 12px 12px 30px;
   letter-spacing: 0.3px;
   color: #444;
-  list-style-type: none; /* Refuerza la eliminación de bullets */
+  list-style-type: none; 
 }
 
 .lista-item:before {
@@ -450,7 +450,7 @@
   left: 5px;
 }
 
-/* Animaciones refinadas */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -485,7 +485,7 @@
   }
 }
 
-/* Ajustes responsivos elegantes */
+
 @media (max-width: 768px) {
   .mision-content {
     flex-direction: column;

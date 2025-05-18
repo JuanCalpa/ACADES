@@ -10,7 +10,7 @@ const PerfilD = () => {
   
   // Estados para las animaciones
   const [fadeIn, setFadeIn] = useState(false);
-  const [activeTab, setActiveTab] = useState('citas'); // Cambiado a 'citas' como página principal
+  const [activeTab, setActiveTab] = useState('citas'); // pag principal dentro de usuario
   const [animateNavbar, setAnimateNavbar] = useState(false);
   const [animateSections, setAnimateSections] = useState({
     perfil: false,
@@ -80,9 +80,9 @@ const PerfilD = () => {
         citas: true // Modificado a citas
       }));
     }, 600);
-  }, [navigate]); // Solo navigate como dependencia
+  }, [navigate]); // dependencia de navigate para evitar bucles infinitos
 
-  // Función para cambiar de pestaña
+  // Funcion para cambiar de pestaña
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     
@@ -111,7 +111,7 @@ const PerfilD = () => {
     
     // Crear nueva cita
     const newCita = {
-      id: Date.now(), // Usar timestamp como ID único
+      id: Date.now(), // ID único
       procedimiento: formData.procedimiento,
       fecha: formData.fecha,
       hora: formData.hora,
@@ -145,7 +145,7 @@ const PerfilD = () => {
     }, 4000);
   };
 
-  // Función para cerrar el modal de confirmación
+  // Funcion para cerrar el modal de confirmación
   const handleCloseModal = () => {
     setShowConfirmationModal(false);
     // Resetear formulario
@@ -156,20 +156,21 @@ const PerfilD = () => {
       hora: '',
       motivo: ''
     });
+
     // Cambiar a la pestaña de citas para mostrar la nueva cita
     handleTabChange('citas');
   };
 
-  // Función para cancelar cita
+  // Funcion para cancelar cita
   const handleCancelCita = (id) => {
     const updatedCitas = citas.filter(cita => cita.id !== id);
     setCitas(updatedCitas);
     localStorage.setItem('userCitas', JSON.stringify(updatedCitas));
   };
 
-  // Función para cerrar sesión
+  // Funcipn para cerrar sesión
   const handleLogout = () => {
-    // Eliminar sólo la info de la sesión, manteniendo otros datos si es necesario
+    // Eliminar  la info de la sesin, manteniendo otros datos si es necesario
     localStorage.removeItem('userInfo');
     // Redireccionar al login
     navigate('/login');
@@ -177,9 +178,9 @@ const PerfilD = () => {
 
   // Función para abrir WhatsApp
   const handleWhatsAppClick = () => {
-    // Reemplaza este número con el número real de ACADES
-    const phoneNumber = "573012345678"; 
-    const message = encodeURIComponent("Hola, me gustaría obtener más información sobre los servicios de ACADES.");
+    // numero de akades
+    const phoneNumber = "573163418557"; 
+    const message = encodeURIComponent("Hola, me gustaría obtener más información sobre los servicios de ACADES!");
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
@@ -188,7 +189,7 @@ const PerfilD = () => {
     return <div className="loading">Cargando perfil...</div>;
   }
 
-  // Obtener iniciales para el avatar
+ 
   const getInitials = (name) => {
     if (!name) return '?';
     return name
@@ -200,7 +201,7 @@ const PerfilD = () => {
 
   return (
     <div className={`perfil-container ${fadeIn ? 'fade-in' : ''}`}>
-      {/* Círculos decorativos */}
+      {/* animacion */}
       <div className="decorative-circle circle-1"></div>
       <div className="decorative-circle circle-2"></div>
       <div className="decorative-circle circle-3"></div>
@@ -243,7 +244,7 @@ const PerfilD = () => {
 
       {/* Contenido principal */}
       <div className="main-content">
-        {/* Sección Mis Citas (ahora es la primera) */}
+        {/* Seccion citas pedidas*/}
         {activeTab === 'citas' && (
           <div className={`animate-on-scroll ${animateSections.citas ? 'animate-in' : ''}`}>
             <h2 className="section-title">Mis Citas</h2>
@@ -293,12 +294,12 @@ const PerfilD = () => {
           </div>
         )}
 
-        {/* Sección Pedir Cita (segunda) */}
+        {/* Seccion */}
         {activeTab === 'pedirCita' && (
           <div className={`animate-on-scroll ${animateSections.pedirCita ? 'animate-in' : ''}`}>
             <h2 className="section-title">Pedir Cita</h2>
             
-            {/* Procedimientos disponibles */}
+            {/* Procedimientos */}
             <div className="procedimientos-container">
               <h3 className="procedimientos-title">Nuestros Procedimientos</h3>
               <div className="procedimientos-grid">
@@ -398,7 +399,7 @@ const PerfilD = () => {
           </div>
         )}
 
-        {/* Sección Perfil (ahora es la tercera) */}
+        {/* Seccion */}
         {activeTab === 'perfil' && (
           <div className={`animate-on-scroll ${animateSections.perfil ? 'animate-in' : ''}`}>
             <h2 className="section-title">Mi Perfil</h2>
@@ -429,7 +430,8 @@ const PerfilD = () => {
               </div>
               <div className="profile-actions">
                 <button className="btn-edit" onClick={() => {
-                  // Aquí puedes implementar la lógica para editar el perfil
+
+                  // logik
                   alert('Funcionalidad de edición de perfil en desarrollo');
                 }}>Editar Perfil</button>
               </div>
@@ -438,7 +440,7 @@ const PerfilD = () => {
         )}
       </div>
       
-      {/* Modal de confirmación */}
+      {/* Modal de confirmar */}
       {showConfirmationModal && (
         <div className="confirmation-modal-overlay">
           <div className="confirmation-modal">

@@ -194,7 +194,7 @@ function Contacto() {
           </div>
         </div>
 
-      {/* Ventana emergente de promociones */}
+      {/* Ventana  de promociones */}
       {showPromociones && (
         <div className="promociones-overlay" onClick={togglePromociones}>
           <div className="promociones-modal" onClick={(e) => e.stopPropagation()}>

@@ -329,6 +329,7 @@
 
 @media (max-width: 768px) {
   .stats-container {
+    
     flex-wrap: wrap;
     justify-content: center;
   }
