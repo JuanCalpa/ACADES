@@ -100,6 +100,7 @@ async function logout(req, res) {
         res.status(200).json({ mensaje: 'Sesión cerrada exitosamente' });
     });
 }
+
 module.exports = {
     listarPacientes,
     verPaciente,

@@ -12,16 +12,21 @@ router.put('/usuarios/:id', pacientesController.atualizarPaciente);
 router.delete('/usuarios/:id', pacientesController.eliminarPaciente);
 
 //Rutas para el login
-router.post('/usuarios/login', pacientesController.login); // http://localhost:3000/api/usuarios/login
-router.post('/usuarios/logout', pacientesController.logout); // http://localhost:3000/api/usuarios/logout   
+router.post('/usuarios/login', pacientesController.login); 
+router.post('/usuarios/logout', pacientesController.logout); 
 
 // Rutas para las citas
 const citasController = require('../databaseFunctions/Citas/citasController');
 
-router.get('/citas', citasController.listarCitas); // Listar todas las citas
-router.get('/citas/:id', citasController.obtenerCita); // Obtener una cita por ID
-router.post('/citas', citasController.crearCita); // Crear una nueva cita
-router.put('/citas/:id', citasController.actualizarCita); // Actualizar una cita
-router.delete('/citas/:id', citasController.eliminarCita); // Eliminar una cita
+router.get('/citas', citasController.listarCitas); 
+router.get('/citas/:id', citasController.obtenerCita); 
+router.get('/citas/paciente/:id_cliente', citasController.obtenerCitasPorPaciente); //http://localhost:3000/api/citas/paciente/ID_DEL_PACIENTE
+router.post('/citas', citasController.crearCita); 
+router.put('/citas/:id', citasController.actualizarCita); 
+router.delete('/citas/:id', citasController.eliminarCita); 
+
+//Rutas para los procedimientos
+const especialistasController = require('../databaseFunctions/Especialistas/especialistasController');
+router.get('/especialistas-por-procedimiento', especialistasController.especialistasPorProcedimiento);
 
 module.exports = router;
