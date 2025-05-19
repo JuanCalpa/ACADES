@@ -244,7 +244,7 @@ const PerfilD = () => {
     setShowEditProfileModal(false);
   };
 
-  // Función para cerrar sesión
+  // Funcion para cerrar sesion
   const handleLogout = () => {
     // Eliminar sólo la info de la sesión, manteniendo otros datos si es necesario
     localStorage.removeItem('userInfo');
@@ -252,7 +252,7 @@ const PerfilD = () => {
     navigate('/login');
   };
 
-  // Función para abrir WhatsApp
+  // Funcion para abrir WhatsApp
   const handleWhatsAppClick = () => {
     // Reemplaza este número con el número real de ACADES
     const phoneNumber = "573012345678"; 
@@ -366,7 +366,7 @@ const PerfilD = () => {
                         Cancelar
                       
                       </button>
-                      
+
                     </div>
                   </div>
                 ))}
@@ -437,6 +437,7 @@ const PerfilD = () => {
                     required
                   >
                     <option value="">Seleccionar especialista</option>
+                    // estos deberian estar en la bd creo
                     <option value="Dra. García">Dra. García</option>
                     <option value="Dr. Martínez">Dr. Martínez</option>
                     <option value="Dra. López">Dra. López</option>
@@ -530,7 +531,7 @@ const PerfilD = () => {
         )}
       </div>
       
-      {/* Modal de confirmación de cita */}
+      {/* Modal de confirmacion de cita */}
       {showConfirmationModal && (
         <div className="confirmation-modal-overlay">
           <div className="confirmation-modal">
@@ -541,7 +542,7 @@ const PerfilD = () => {
                 </svg>
               </div>
               <h3>¡Cita Confirmada!</h3>
-              <p>Te hemos enviado un correo electrónico con los detalles de tu cita.</p>
+              <p>Te hemos enviado un correo electrónico con los detalles de tu cita</p>
               <div className="appointment-details">
                 <span>Procedimiento: {formData.procedimiento}</span>
                 <span>Fecha: {formData.fecha}</span>
@@ -564,8 +565,8 @@ const PerfilD = () => {
                   <path fill="#ef4444" d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0Zm0,18a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,12,18Zm1.5-6A1.5,1.5,0,0,1,12,13.5h0A1.5,1.5,0,0,1,10.5,12v-4A1.5,1.5,0,0,1,12,6.5h0A1.5,1.5,0,0,1,13.5,8Z"/>
                 </svg>
               </div>
-              <h3>Confirmar Cancelación</h3>
-              <p>¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.</p>
+              <h3>Confirmar Eliminaxion?</h3>
+              <p>¿Estas seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.</p>
               <div className="modal-actions">
                 <button className="modal-cancel-btn" onClick={handleCancelDelete}>
                   No, Mantener
