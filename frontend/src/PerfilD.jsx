@@ -4,13 +4,13 @@ import './PerfilD.css';
 
 const PerfilD = () => {
   const navigate = useNavigate();
-
+  
   // Estado para almacenar los datos del usuario
   const [userData, setUserData] = useState(null);
-
+  
   // Estados para las animaciones
   const [fadeIn, setFadeIn] = useState(false);
-  const [activeTab, setActiveTab] = useState('citas'); // pag principal dentro de usuario
+  const [activeTab, setActiveTab] = useState('citas'); 
   const [animateNavbar, setAnimateNavbar] = useState(false);
   const [animateSections, setAnimateSections] = useState({
     perfil: false,
@@ -20,6 +20,21 @@ const PerfilD = () => {
 
   // Estado para mostrar modal de confirmación
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  
+  // Estados para los nuevos modales
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [citaToDelete, setCitaToDelete] = useState(null);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [selectedCita, setSelectedCita] = useState(null);
+  
+  // Estado para el formulario de edición de perfil
+  const [editProfileData, setEditProfileData] = useState({
+    nombre: '',
+    email: '',
+    cedula: '',
+    celular: '',
+    fechaNacimiento: ''
+  });
 
   // Datos para citas
   const [citas, setCitas] = useState([]);
@@ -27,24 +42,12 @@ const PerfilD = () => {
   // Formulario para pedir cita
   const [formData, setFormData] = useState({
     procedimiento: '',
-    doctor: '', // aquí guardarás el id_especialista
+    doctor: '',
     fecha: '',
     hora: '',
     motivo: ''
   });
 
-  const [especialistas, setEspecialistas] = useState([]);
-
-  useEffect(() => {
-    if (formData.procedimiento) {
-      fetch(`http://localhost:3000/api/especialistas-por-procedimiento?procedimiento=${encodeURIComponent(formData.procedimiento)}`)
-        .then(res => res.json())
-        .then(data => setEspecialistas(data))
-        .catch(err => setEspecialistas([]));
-    } else {
-      setEspecialistas([]);
-    }
-  }, [formData.procedimiento]);
 
   // Lista de procedimientos
   const procedimientos = [
@@ -60,12 +63,15 @@ const PerfilD = () => {
   useEffect(() => {
     // Intentar obtener los datos de usuario del localStorage
     const storedUserData = localStorage.getItem('userInfo');
-
+    
     if (storedUserData) {
       try {
         const parsedUserData = JSON.parse(storedUserData);
         setUserData(parsedUserData);
-
+        
+        // También inicializar el formulario de edición con los datos actuales
+        setEditProfileData(parsedUserData);
+        
         // Cargar citas desde localStorage si existen
         const storedCitas = localStorage.getItem('userCitas');
         if (storedCitas) {
@@ -78,10 +84,10 @@ const PerfilD = () => {
       // Si no hay datos de usuario, redirigir al login
       navigate('/login');
     }
-
+    
     // Iniciar animaciones
     setFadeIn(true);
-
+    
     setTimeout(() => {
       setAnimateNavbar(true);
     }, 300);
@@ -93,24 +99,12 @@ const PerfilD = () => {
         citas: true // Modificado a citas
       }));
     }, 600);
-  }, [navigate]); // dependencia de navigate para evitar bucles infinitos
+  }, [navigate]); // Solo navigate como dependencia
 
-  useEffect(() => {
-    // Solo cargar si el usuario está logueado y la pestaña activa es "citas"
-    if (userData && activeTab === 'citas') {
-      const id_cliente = userData.id || userData.id_cliente;
-      fetch(`http://localhost:3000/api/citas/paciente/${id_cliente}`)
-        .then(res => res.json())
-        .then(data => setCitas(data))
-        .catch(() => setCitas([]));
-    }
-
-  }, [userData, activeTab]);
-
-  // Funcion para cambiar de pestaña
+  // Función para cambiar de pestaña
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-
+    
     // Animar la sección seleccionada
     setTimeout(() => {
       // Uso de actualización funcional para mantener consistencia
@@ -124,51 +118,62 @@ const PerfilD = () => {
   // Manejar cambios en el formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
+    setFormData({
+      ...formData,
       [name]: value
-    }));
+    });
+  };
+
+  // Manejar cambios en el formulario de edición de perfil
+  const handleEditProfileInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditProfileData({
+      ...editProfileData,
+      [name]: value
+    });
   };
 
   // Enviar formulario de cita
-  const handleSubmitCita = async (e) => {
+  const handleSubmitCita = (e) => {
     e.preventDefault();
-
-    // Obtén el id_cliente del usuario logueado (por ejemplo, desde localStorage)
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    const id_cliente = userInfo?.id || userInfo?.id_cliente; // Ajusta según tu backend
-
-    // Prepara los datos para el backend
-    const citaData = {
-      id_cliente,
-      id_especialista: formData.doctor,
-      descripcion: formData.motivo,
+    
+    // Crear nueva cita
+    const newCita = {
+      id: Date.now(), // Usar timestamp como ID único
+      procedimiento: formData.procedimiento,
       fecha: formData.fecha,
       hora: formData.hora,
-      estado: 'Pendiente'
+      doctor: formData.doctor,
+      motivo: formData.motivo
     };
-
-    try {
-      const response = await fetch('http://localhost:3000/api/citas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(citaData)
+    
+    // Actualizar estado
+    const updatedCitas = [...citas, newCita];
+    setCitas(updatedCitas);
+    
+    // Guardar en localStorage
+    localStorage.setItem('userCitas', JSON.stringify(updatedCitas));
+    
+    // Mostrar modal de confirmación
+    setShowConfirmationModal(true);
+    
+    // Cerrar el modal después de 4 segundos y cambiar a pestaña de citas
+    setTimeout(() => {
+      setShowConfirmationModal(false);
+      // Resetear formulario
+      setFormData({
+        procedimiento: '',
+        doctor: '',
+        fecha: '',
+        hora: '',
+        motivo: ''
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Cita creada exitosamente');
-        // Limpia el formulario o actualiza el estado según necesites
-      } else {
-        alert(data.mensaje || 'Error al crear la cita');
-      }
-    } catch (error) {
-      alert('Error de red al crear la cita');
-    }
+      // Cambiar a la pestaña de citas para mostrar la nueva cita
+      handleTabChange('citas');
+    }, 4000);
   };
 
-  // Funcion para cerrar el modal de confirmación
+  // Función para cerrar el modal de confirmación
   const handleCloseModal = () => {
     setShowConfirmationModal(false);
     // Resetear formulario
@@ -184,39 +189,74 @@ const PerfilD = () => {
     handleTabChange('citas');
   };
 
-  // Funcion para cancelar cita
-  const handleCancelCita = (id) => {
-    const updatedCitas = citas.filter(cita => cita.id !== id);
-    setCitas(updatedCitas);
-    localStorage.setItem('userCitas', JSON.stringify(updatedCitas));
+  // Función para mostrar modal de eliminación
+  const handleShowDeleteModal = (id) => {
+    setCitaToDelete(id);
+    setShowDeleteModal(true);
   };
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/api/usuarios/logout', {
-        method: 'POST',
-        credentials: 'include', // Importante para enviar la cookie de sesión
-      });
+  // Función para cancelar cita desde el modal de confirmación
+  const handleConfirmDelete = () => {
+    const updatedCitas = citas.filter(cita => cita.id !== citaToDelete);
+    setCitas(updatedCitas);
+    localStorage.setItem('userCitas', JSON.stringify(updatedCitas));
+    setShowDeleteModal(false);
+  };
 
-      const data = await response.json();
+  // Función para cerrar modal de eliminación
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setCitaToDelete(null);
+  };
 
-      if (response.ok) {
-        // Limpia el usuario del localStorage y redirige al login
-        localStorage.removeItem('userInfo');
-        navigate('/login');
-      } else {
-        alert(data.mensaje || 'Error al cerrar sesión');
-      }
-    } catch (error) {
-      alert('Error de red al cerrar sesión');
-    }
+  // Función para mostrar detalles de la cita
+  const handleVerDetalleCita = (cita) => {
+    setSelectedCita(cita);
+  };
+  
+  // Función para cerrar detalle de cita
+  const handleCloseDetalleCita = () => {
+    setSelectedCita(null);
+  };
+
+  // Función para mostrar formulario de edición de perfil
+  const handleShowEditProfileModal = () => {
+    setEditProfileData(userData);
+    setShowEditProfileModal(true);
+  };
+
+  // Función para cerrar modal de edición de perfil
+  const handleCloseEditProfileModal = () => {
+    setShowEditProfileModal(false);
+  };
+
+  // Función para guardar cambios en el perfil
+  const handleSaveProfileChanges = (e) => {
+    e.preventDefault();
+    
+    // Actualizar datos de usuario
+    setUserData(editProfileData);
+    
+    // Guardar en localStorage
+    localStorage.setItem('userInfo', JSON.stringify(editProfileData));
+    
+    // Cerrar modal
+    setShowEditProfileModal(false);
+  };
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    // Eliminar sólo la info de la sesión, manteniendo otros datos si es necesario
+    localStorage.removeItem('userInfo');
+    // Redireccionar al login
+    navigate('/login');
   };
 
   // Función para abrir WhatsApp
   const handleWhatsAppClick = () => {
-    // numero de akades
-    const phoneNumber = "573163418557";
-    const message = encodeURIComponent("Hola, me gustaría obtener más información sobre los servicios de ACADES!");
+    // Reemplaza este número con el número real de ACADES
+    const phoneNumber = "573012345678"; 
+    const message = encodeURIComponent("Hola, me gustaría obtener más información sobre los servicios de ACADES.");
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
@@ -225,7 +265,7 @@ const PerfilD = () => {
     return <div className="loading">Cargando perfil...</div>;
   }
 
-
+  // Obtener iniciales para el avatar
   const getInitials = (name) => {
     if (!name) return '?';
     return name
@@ -235,9 +275,17 @@ const PerfilD = () => {
       .toUpperCase();
   };
 
+  // Función para seleccionar procedimiento
+  const handleSelectProcedimiento = (nombre) => {
+    setFormData({
+      ...formData,
+      procedimiento: nombre
+    });
+  };
+
   return (
     <div className={`perfil-container ${fadeIn ? 'fade-in' : ''}`}>
-      {/* animacion */}
+      {/* Círculos decorativos */}
       <div className="decorative-circle circle-1"></div>
       <div className="decorative-circle circle-2"></div>
       <div className="decorative-circle circle-3"></div>
@@ -251,19 +299,19 @@ const PerfilD = () => {
           <h1>ACADES</h1>
         </div>
         <div className="nav-links">
-          <button
+          <button 
             className={`nav-link ${activeTab === 'citas' ? 'active' : ''}`}
             onClick={() => handleTabChange('citas')}
           >
             Mis Citas
           </button>
-          <button
+          <button 
             className={`nav-link ${activeTab === 'pedirCita' ? 'active' : ''}`}
             onClick={() => handleTabChange('pedirCita')}
           >
             Pedir Cita
           </button>
-          <button
+          <button 
             className={`nav-link ${activeTab === 'perfil' ? 'active' : ''}`}
             onClick={() => handleTabChange('perfil')}
           >
@@ -280,7 +328,7 @@ const PerfilD = () => {
 
       {/* Contenido principal */}
       <div className="main-content">
-        {/* Seccion citas pedidas*/}
+        {/* Sección Mis Citas */}
         {activeTab === 'citas' && (
           <div className={`animate-on-scroll ${animateSections.citas ? 'animate-in' : ''}`}>
             <h2 className="section-title">Mis Citas</h2>
@@ -298,20 +346,27 @@ const PerfilD = () => {
                     <div className="cita-body">
                       {cita.procedimiento && (
                         <p className="cita-procedimiento">
-                          <span className="procedimiento-icon">💜</span>
+                          <span className="procedimiento-icon">💜</span> 
                           {cita.procedimiento}
                         </p>
                       )}
                       <p className="cita-motivo">{cita.motivo}</p>
                     </div>
                     <div className="cita-actions">
-                      <button
-                        className="btn-cancel"
-                        onClick={() => handleCancelCita(cita.id)}
+                      <button 
+                        className="btn-ver-detalle" 
+                        onClick={() => handleVerDetalleCita(cita)}
+                      >
+                        Ver Detalle
+                      </button>
+                      <button 
+                        className="btn-cancel" 
+                        onClick={() => handleShowDeleteModal(cita.id)}
                       >
                         Cancelar
+                      
                       </button>
-                      <button className="btn-reschedule">Reprogramar</button>
+                      
                     </div>
                   </div>
                 ))}
@@ -319,7 +374,7 @@ const PerfilD = () => {
             ) : (
               <div className="no-citas">
                 <p>No tienes citas programadas</p>
-                <button
+                <button 
                   className="btn-primary"
                   onClick={() => handleTabChange('pedirCita')}
                 >
@@ -330,20 +385,21 @@ const PerfilD = () => {
           </div>
         )}
 
-        {/* Seccion */}
+        {/* Sección Pedir Cita */}
         {activeTab === 'pedirCita' && (
           <div className={`animate-on-scroll ${animateSections.pedirCita ? 'animate-in' : ''}`}>
             <h2 className="section-title">Pedir Cita</h2>
-
-            {/* Procedimientos */}
+            
+            {/* Procedimientos disponibles */}
             <div className="procedimientos-container">
               <h3 className="procedimientos-title">Nuestros Procedimientos</h3>
               <div className="procedimientos-grid">
                 {procedimientos.map(proc => (
-                  <div className="procedimiento-card" key={proc.id} onClick={() => {
-                    setFormData({ ...formData, procedimiento: proc.nombre });
-                    document.getElementById('procedimiento').value = proc.nombre;
-                  }}>
+                  <div 
+                    className="procedimiento-card" 
+                    key={proc.id} 
+                    onClick={() => handleSelectProcedimiento(proc.nombre)}
+                  >
                     <div className="procedimiento-icon">{proc.icono}</div>
                     <h4 className="procedimiento-name">{proc.nombre}</h4>
                     <p className="procedimiento-desc">{proc.descripcion}</p>
@@ -351,14 +407,14 @@ const PerfilD = () => {
                 ))}
               </div>
             </div>
-
+            
             <div className="cita-form-container">
               <form className="cita-form" onSubmit={handleSubmitCita}>
                 <div className="form-group">
                   <label htmlFor="procedimiento">Procedimiento</label>
-                  <select
-                    id="procedimiento"
-                    name="procedimiento"
+                  <select 
+                    id="procedimiento" 
+                    name="procedimiento" 
                     value={formData.procedimiento}
                     onChange={handleInputChange}
                     required
@@ -373,27 +429,26 @@ const PerfilD = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="doctor">Especialista</label>
-                  <select
-                    id="doctor"
-                    name="doctor"
+                  <select 
+                    id="doctor" 
+                    name="doctor" 
                     value={formData.doctor}
                     onChange={handleInputChange}
                     required
                   >
                     <option value="">Seleccionar especialista</option>
-                    {especialistas.map(esp => (
-                      <option key={esp.id_especialista} value={esp.id_especialista}>
-                        {esp.nombre} ({esp.especialidad})
-                      </option>
-                    ))}valeria123
+                    <option value="Dra. García">Dra. García</option>
+                    <option value="Dr. Martínez">Dr. Martínez</option>
+                    <option value="Dra. López">Dra. López</option>
+                    <option value="Dr. Rodríguez">Dr. Rodríguez</option>
                   </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="fecha">Fecha</label>
-                  <input
-                    type="date"
-                    id="fecha"
-                    name="fecha"
+                  <input 
+                    type="date" 
+                    id="fecha" 
+                    name="fecha" 
                     value={formData.fecha}
                     onChange={handleInputChange}
                     required
@@ -401,28 +456,28 @@ const PerfilD = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="hora">Hora</label>
-                  <select
-                    id="hora"
-                    name="hora"
+                  <select 
+                    id="hora" 
+                    name="hora" 
                     value={formData.hora}
                     onChange={handleInputChange}
                     required
                   >
                     <option value="">Seleccionar hora</option>
-                    <option value="09:00:00">09:00</option>
-                    <option value="10:00:00">10:00</option>
-                    <option value="11:00:00">11:00</option>
-                    <option value="12:00:00">12:00</option>
-                    <option value="15:00:00">15:00</option>
-                    <option value="16:00:00">16:00</option>
-                    <option value="17:00:00">17:00</option>
+                    <option value="09:00 AM">09:00 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="11:00 AM">11:00 AM</option>
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="15:00 PM">15:00 PM</option>
+                    <option value="16:00 PM">16:00 PM</option>
+                    <option value="17:00 PM">17:00 PM</option>
                   </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="motivo">Notas adicionales</label>
-                  <textarea
-                    id="motivo"
-                    name="motivo"
+                  <textarea 
+                    id="motivo" 
+                    name="motivo" 
                     value={formData.motivo}
                     onChange={handleInputChange}
                     placeholder="Cualquier detalle adicional que desees mencionar..."
@@ -436,7 +491,7 @@ const PerfilD = () => {
           </div>
         )}
 
-        {/* Seccion */}
+        {/* Sección Perfil */}
         {activeTab === 'perfil' && (
           <div className={`animate-on-scroll ${animateSections.perfil ? 'animate-in' : ''}`}>
             <h2 className="section-title">Mi Perfil</h2>
@@ -450,7 +505,7 @@ const PerfilD = () => {
               <div className="profile-info">
                 <div className="info-item">
                   <div className="info-label">Email:</div>
-                  <div className="info-value">{userData.correo}</div>
+                  <div className="info-value">{userData.email}</div>
                 </div>
                 <div className="info-item">
                   <div className="info-label">Cédula:</div>
@@ -458,61 +513,229 @@ const PerfilD = () => {
                 </div>
                 <div className="info-item">
                   <div className="info-label">Teléfono:</div>
-                  <div className="info-value">{userData.telefono}</div>
+                  <div className="info-value">{userData.celular}</div>
                 </div>
-                {userData.fechaNacimiento && (
-                  <div className="info-item">
-                    <div className="info-label">Fecha de nacimiento:</div>
-                    <div className="info-value">{userData.fechaNacimiento}</div>
-                  </div>
-                )}
+                <div className="info-item">
+                  <div className="info-label">Fecha de nacimiento:</div>
+                  <div className="info-value">{userData.fechaNacimiento}</div>
+                </div>
               </div>
               <div className="profile-actions">
-                <button className="btn-edit" onClick={() => {
-
-                  // logik
-                  alert('Funcionalidad de edición de perfil en desarrollo');
-                }}>Editar Perfil</button>
+                <button className="btn-edit" onClick={handleShowEditProfileModal}>
+                  Editar Perfil
+                </button>
               </div>
             </div>
           </div>
         )}
       </div>
-
-      {/* Modal de confirmar */}
+      
+      {/* Modal de confirmación de cita */}
       {showConfirmationModal && (
         <div className="confirmation-modal-overlay">
           <div className="confirmation-modal">
             <div className="modal-content">
               <div className="success-icon">
                 <svg viewBox="0 0 24 24" width="70" height="70">
-                  <path fill="#a855f7" d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0Zm6.93,8.2-6.85,9.29a1,1,0,0,1-1.43.19L5.76,13.77a1,1,0,0,1-.15-1.41A1,1,0,0,1,7,12.21l4.08,3.26L17.32,7a1,1,0,0,1,1.39-.21A1,1,0,0,1,18.93,8.2Z" />
+                  <path fill="#a855f7" d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0Zm6.93,8.2-6.85,9.29a1,1,0,0,1-1.43.19L5.76,13.77a1,1,0,0,1-.15-1.41A1,1,0,0,1,7,12.21l4.08,3.26L17.32,7a1,1,0,0,1,1.39-.21A1,1,0,0,1,18.93,8.2Z"/>
                 </svg>
               </div>
               <h3>¡Cita Confirmada!</h3>
               <p>Te hemos enviado un correo electrónico con los detalles de tu cita.</p>
-              <p className="appointment-details">
+              <div className="appointment-details">
                 <span>Procedimiento: {formData.procedimiento}</span>
                 <span>Fecha: {formData.fecha}</span>
                 <span>Hora: {formData.hora}</span>
                 <span>Especialista: {formData.doctor}</span>
-              </p>
+              </div>
               <button className="modal-ok-btn" onClick={handleCloseModal}>Aceptar</button>
             </div>
           </div>
         </div>
       )}
-
-      {/* Botón flotante de WhatsApp */}
+      
+      {/* Modal de confirmación de eliminación */}
+      {showDeleteModal && (
+        <div className="confirmation-modal-overlay">
+          <div className="confirmation-modal delete-modal">
+            <div className="modal-content">
+              <div className="warning-icon">
+                <svg viewBox="0 0 24 24" width="70" height="70">
+                  <path fill="#ef4444" d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0Zm0,18a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,12,18Zm1.5-6A1.5,1.5,0,0,1,12,13.5h0A1.5,1.5,0,0,1,10.5,12v-4A1.5,1.5,0,0,1,12,6.5h0A1.5,1.5,0,0,1,13.5,8Z"/>
+                </svg>
+              </div>
+              <h3>Confirmar Cancelación</h3>
+              <p>¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.</p>
+              <div className="modal-actions">
+                <button className="modal-cancel-btn" onClick={handleCancelDelete}>
+                  No, Mantener
+                </button>
+                <button className="modal-confirm-btn" onClick={handleConfirmDelete}>
+                  Sí, Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Modal detalle de cita */}
+      {selectedCita && (
+        <div className="confirmation-modal-overlay">
+          <div className="confirmation-modal detail-modal">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h3>Detalle de Cita</h3>
+                <button className="modal-close" onClick={handleCloseDetalleCita}>×</button>
+              </div>
+              <div className="cita-detail">
+                <div className="detail-item">
+                  <div className="detail-label">Procedimiento:</div>
+                  <div className="detail-value">{selectedCita.procedimiento}</div>
+                </div>
+                <div className="detail-item">
+                  <div className="detail-label">Especialista:</div>
+                  <div className="detail-value">{selectedCita.doctor}</div>
+                </div>
+                <div className="detail-item">
+                  <div className="detail-label">Fecha:</div>
+                  <div className="detail-value">{selectedCita.fecha}</div>
+                </div>
+                <div className="detail-item">
+                  <div className="detail-label">Hora:</div>
+                  <div className="detail-value">{selectedCita.hora}</div>
+                </div>
+                {selectedCita.motivo && (
+                  <div className="detail-item">
+                    <div className="detail-label">Notas adicionales:</div>
+                    <div className="detail-value">{selectedCita.motivo}</div>
+                  </div>
+                )}
+                <div className="detail-item location">
+                  <div className="detail-label">Ubicación:</div>
+                  <div className="detail-value">
+                    Centro Médico ACADES<br />
+                    Calle Principal #123, Piso 3<br />
+                    Referencia: Frente al Parque Central
+                  </div>
+                </div>
+                <div className="detail-item recommendations">
+                  <div className="detail-label">Recomendaciones:</div>
+                  <div className="detail-value">
+                    <ul>
+                      <li>Llegar 15 minutos antes de la hora programada</li>
+                      <li>Traer documento de identidad</li>
+                      <li>Usar ropa cómoda</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="cita-actions">
+                <button className="btn-cancel" onClick={() => {
+                  handleCloseDetalleCita();
+                  handleShowDeleteModal(selectedCita.id);
+                }}>
+                  Cancelar Cita
+                </button>
+                <button className="btn-close" onClick={handleCloseDetalleCita}>
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Modal de edición de perfil */}
+      {showEditProfileModal && (
+        <div className="confirmation-modal-overlay">
+          <div className="confirmation-modal edit-profile-modal">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h3>Editar Perfil</h3>
+                <button className="modal-close" onClick={handleCloseEditProfileModal}>×</button>
+              </div>
+              <form className="edit-profile-form" onSubmit={handleSaveProfileChanges}>
+                <div className="form-group">
+                  <label htmlFor="nombre">Nombre</label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    value={editProfileData.nombre}
+                    onChange={handleEditProfileInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">g,ail</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={editProfileData.email}
+                    onChange={handleEditProfileInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="cedula">Cedula</label>
+                  <input
+                    type="text"
+                    id="cedula"
+                    name="cedula"
+                    value={editProfileData.cedula}
+                    onChange={handleEditProfileInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="celular">celar</label>
+                  <input
+                    type="tel"
+                    id="celular"
+                    name="celular"
+                    value={editProfileData.celular}
+                    onChange={handleEditProfileInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="fechaNacimiento">Fecha de nacimiento</label>
+                  <input
+                    type="date"
+                    id="fechaNacimiento"
+                    name="fechaNacimiento"
+                    value={editProfileData.fechaNacimiento}
+                    onChange={handleEditProfileInputChange}
+                    required
+                  />
+                </div>
+                <div className="modal-actions">
+                  <button className="btn-cancel" onClick={handleCloseEditProfileModal}>
+                    Cancelar
+                  </button>
+                  <button type="submit" className="btn-save">
+                    Guardar Cambios
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      
+      {/* Boton flotante de WhatsApp */}
       <div className="whatsapp-button" onClick={handleWhatsAppClick}>
         <div className="whatsapp-icon">
           <svg viewBox="0 0 24 24" width="24" height="24">
-            <path fill="#FFFFFF" d="M17.6 6.2c-1.5-1.5-3.4-2.3-5.5-2.3-4.3 0-7.8 3.5-7.8 7.8 0 1.4 0.4 2.7 1 3.9l-1.1 4 4.1-1.1c1.1 0.6 2.4 0.9 3.7 0.9 4.3 0 7.8-3.5 7.8-7.8 0.1-2-0.7-3.9-2.2-5.4zm-5.5 12c-1.2 0-2.3-0.3-3.3-0.9l-0.2-0.1-2.4 0.6 0.6-2.3-0.1-0.2c-0.6-1-1-2.2-1-3.4 0-3.6 2.9-6.5 6.5-6.5 1.7 0 3.3 0.7 4.6 1.9 1.2 1.2 1.9 2.8 1.9 4.6 0 3.5-2.9 6.3-6.6 6.3zm3.5-4.9c-0.2-0.1-1.1-0.6-1.3-0.6-0.2-0.1-0.3-0.1-0.4 0.1-0.1 0.2-0.4 0.6-0.5 0.8-0.1 0.1-0.2 0.1-0.3 0.1-0.2 0-0.7-0.3-1.3-0.8-0.5-0.4-0.8-1-0.9-1.1-0.1-0.2 0-0.3 0.1-0.4 0.1-0.1 0.2-0.2 0.2-0.3 0.1-0.1 0.1-0.2 0.2-0.3 0.1-0.1 0-0.2 0-0.3 0-0.1-0.4-1.1-0.6-1.4-0.2-0.4-0.3-0.3-0.4-0.3h-0.4c-0.1 0-0.3 0.1-0.5 0.2-0.2 0.2-0.6 0.6-0.6 1.4s0.6 1.6 0.7 1.7c0.1 0.1 1 1.6 2.5 2.2 0.3 0.1 0.6 0.2 0.8 0.3 0.3 0.1 0.6 0.1 0.9 0.1 0.3 0 0.8-0.3 0.9-0.6 0.1-0.3 0.1-0.6 0.1-0.7-0.1-0.1-0.2-0.1-0.4-0.2z" />
+            <path fill="#FFFFFF" d="M17.6 6.2c-1.5-1.5-3.4-2.3-5.5-2.3-4.3 0-7.8 3.5-7.8 7.8 0 1.4 0.4 2.7 1 3.9l-1.1 4 4.1-1.1c1.1 0.6 2.4 0.9 3.7 0.9 4.3 0 7.8-3.5 7.8-7.8 0.1-2-0.7-3.9-2.2-5.4zm-5.5 12c-1.2 0-2.3-0.3-3.3-0.9l-0.2-0.1-2.4 0.6 0.6-2.3-0.1-0.2c-0.6-1-1-2.2-1-3.4 0-3.6 2.9-6.5 6.5-6.5 1.7 0 3.3 0.7 4.6 1.9 1.2 1.2 1.9 2.8 1.9 4.6 0 3.5-2.9 6.3-6.6 6.3zm3.5-4.9c-0.2-0.1-1.1-0.6-1.3-0.6-0.2-0.1-0.3-0.1-0.4 0.1-0.1 0.2-0.4 0.6-0.5 0.8-0.1 0.1-0.2 0.1-0.3 0.1-0.2 0-0.7-0.3-1.3-0.8-0.5-0.4-0.8-1-0.9-1.1-0.1-0.2 0-0.3 0.1-0.4 0.1-0.1 0.2-0.2 0.2-0.3 0.1-0.1 0.1-0.2 0.2-0.3 0.1-0.1 0-0.2 0-0.3 0-0.1-0.4-1.1-0.6-1.4-0.2-0.4-0.3-0.3-0.4-0.3h-0.4c-0.1 0-0.3 0.1-0.5 0.2-0.2 0.2-0.6 0.6-0.6 1.4s0.6 1.6 0.7 1.7c0.1 0.1 1 1.6 2.5 2.2 0.3 0.1 0.6 0.2 0.8 0.3 0.3 0.1 0.6 0.1 0.9 0.1 0.3 0 0.8-0.3 0.9-0.6 0.1-0.3 0.1-0.6 0.1-0.7-0.1-0.1-0.2-0.1-0.4-0.2z"/>
           </svg>
         </div>
         <span>Contáctanos</span>
       </div>
-
+      
     </div>
   );
 };
