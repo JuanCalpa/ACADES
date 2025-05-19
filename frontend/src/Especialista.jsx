@@ -66,7 +66,7 @@ const Especialista = () => {
   
   // Cargar datos del especialista y citas del localStorage al iniciar
   useEffect(() => {
-   const fetchCitas = async (tipo, setCitas) => {
+  const fetchCitas = async (tipo, setCitas) => {
   const especialistaInfo = JSON.parse(localStorage.getItem('userInfo')) || JSON.parse(localStorage.getItem('especialistaInfo'));
   const idEspecialista = especialistaInfo?.id_especialista || especialistaInfo?.id;
   if (!idEspecialista) return;
@@ -102,6 +102,20 @@ const Especialista = () => {
   } catch {
     setCitas([]);
   }
+ const storedEspecialista = localStorage.getItem('userInfo') || localStorage.getItem('especialistaInfo');
+  if (storedEspecialista) {
+    try {
+      const parsed = JSON.parse(storedEspecialista);
+      setEspecialistaData(parsed);
+      setEditData(parsed); // Si tienes edición de perfil
+    } catch (error) {
+      console.error('Error al parsear datos del especialista:', error);
+      navigate('/Registro');
+    }
+  } else {
+    navigate('/Registro');
+  }
+
 };
 
 
@@ -837,10 +851,10 @@ const Especialista = () => {
         </div>
         <div className="user-menu">
           <div className="especialista-mini-avatar">
-            {especialistaData.imagen ? (
+            {especialistaData?.imagen ? (
               <img src={especialistaData.imagen} alt={especialistaData.nombre} />
             ) : (
-              getInitials(especialistaData.nombre)
+              getInitials(especialistaData?.nombre)
             )}
           </div>
           <span className="especialista-name">{especialistaData.nombre}</span>
@@ -1170,14 +1184,14 @@ const Especialista = () => {
                 <>
                   <div className="perfil-header">
                     <div className="perfil-avatar">
-                      {especialistaData.imagen ? (
+                      {especialistaData?.imagen ? (
                         <img src={especialistaData.imagen} alt={especialistaData.nombre} />
                       ) : (
-                        getInitials(especialistaData.nombre)
+                        getInitials(especialistaData?.nombre)
                       )}
                     </div>
-                    <h3 className="perfil-name">{especialistaData.nombre}</h3>
-                    <span className="perfil-especialidad">{especialistaData.especialidad}</span>
+                    <h3 className="perfil-name">{especialistaData?.nombre}</h3>
+                    <span className="perfil-especialidad">{especialistaData?.especialidad}</span>
                   </div>
                   <div className="perfil-info">
                     <div className="info-section">
@@ -1186,7 +1200,7 @@ const Especialista = () => {
                         <div className="info-label">
                           <i className="icon-mail">✉️</i> Email:
                         </div>
-                        <div className="info-value">{especialistaData.email}</div>
+                        <div className="info-value">{especialistaData.correo}</div>
                       </div>
                       <div className="info-item">
                         <div className="info-label">
