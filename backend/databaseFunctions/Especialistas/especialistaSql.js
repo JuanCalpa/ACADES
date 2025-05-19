@@ -1,4 +1,5 @@
 const mysql = require("mysql2/promise");
+const nodemailer = require('nodemailer');
 
 const connection = mysql.createPool({
     host: "localhost",
@@ -20,4 +21,40 @@ async function especialistasPorProcedimiento(procedimiento) {
     return rows;
 }
 
-module.exports = { especialistasPorProcedimiento };
+async function sendConfirmationEmail(to, subject, text) {
+    // Configura el transporte con tus credenciales
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, 
+        auth: {
+            user: 'acadesrespuestas@gmail.com',
+            pass: 'drlb odmn gcrf ennk'
+        }
+    });
+
+    // Configura el mensaje
+    let mailOptions = {
+        from: '"ACADES" <acadesrespuestas@gmail.com>',
+        to,
+        subject,
+        text
+    };
+
+    // Envía el correo
+    await transporter.sendMail(mailOptions);
+}
+
+
+async function listarCitasPorEspecialista(especialistaId) {
+    const query = 'SELECT * FROM citas WHERE id_especialista = ?';
+    const [rows] = await connection.execute(query, [especialistaId]);
+    return rows;
+}
+
+
+module.exports = { 
+    especialistasPorProcedimiento,
+    sendConfirmationEmail,
+    listarCitasPorEspecialista
+ };
