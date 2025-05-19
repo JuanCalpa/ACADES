@@ -78,7 +78,7 @@ const Especialista = () => {
   } else if (tipo === 'confirmadas') {
     url = `http://localhost:3000/api/especialista/citas/confirmadas/${idEspecialista}`;
   } else if (tipo === 'historial') {
-    url = `http://localhost:3000/api/especialista/citas/historial/${idEspecialista}`;
+    url = `http://localhost:3000/api/especialista/citas/${idEspecialista}`;
   }
 
   try {
