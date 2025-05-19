@@ -315,46 +315,46 @@ const Especialista = () => {
     setSearchTerm('');
     setDateFilter('');
     
-    
-    if (isEditing && tab !== 'perfil') {
-      setIsEditing(false);
-      setEditData(especialistaData);
-    }
-  };
+      
+      if (isEditing && tab !== 'perfil') {
+        setIsEditing(false);
+        setEditData(especialistaData);
+      }
+    };
 
-  // Funcion para abrir el modal de confirmar cita
-  const handleConfirmCita = (cita) => {
-    setSelectedCita(cita);
-    setModalAction('confirmar');
-    setModalNote('');
-    setShowActionModal(true);
-  };
+    // Funcion para abrir el modal de confirmar cita
+    const handleConfirmCita = (cita) => {
+      setSelectedCita(cita);
+      setModalAction('confirmar');
+      setModalNote('');
+      setShowActionModal(true);
+    };
 
-  // Funcion para abrir el modal de rechazar cita
-  const handleRejectCita = (cita) => {
-    setSelectedCita(cita);
-    setModalAction('rechazar');
-    setModalNote('');
-    setShowActionModal(true);
-  };
+    // Funcion para abrir el modal de rechazar cita
+    const handleRejectCita = (cita) => {
+      setSelectedCita(cita);
+      setModalAction('rechazar');
+      setModalNote('');
+      setShowActionModal(true);
+    };
 
-  // Funcion para marcar cita como completada
-  const handleCompleteCita = (cita) => {
-    setSelectedCita(cita);
-    setModalAction('completar');
-    setModalNote('');
-    setShowActionModal(true);
-  };
+    // Funcion para marcar cita como completada
+    const handleCompleteCita = (cita) => {
+      setSelectedCita(cita);
+      setModalAction('completar');
+      setModalNote('');
+      setShowActionModal(true);
+    };
 
-  // Funcion para cerrar el modal
-  const handleCloseModal = () => {
-    setShowActionModal(false);
-    setSelectedCita(null);
-    setModalNote('');
-  };
+    // Funcion para cerrar el modal
+    const handleCloseModal = () => {
+      setShowActionModal(false);
+      setSelectedCita(null);
+      setModalNote('');
+    };
 
-  // Funcion para manejar el envío del formulario del modal
-  const handleModalSubmit = (e) => {
+    // Funcion para manejar el envío del formulario del modal
+    const handleModalSubmit = async(e) => {
     e.preventDefault();
     
     if (!selectedCita) return;
@@ -364,52 +364,59 @@ const Especialista = () => {
       ...selectedCita,
       notas: modalNote
     };
-    
-  
-    if (modalAction === 'confirmar') {
-      // Mover de pendientes a confirmadas
-      updatedCita.estado = 'confirmada';
-      
-      // Actualizar estados y localStorage
-      const newPendientes = citasPendientes.filter(c => c.id !== updatedCita.id);
-      const newConfirmadas = [...citasConfirmadas, updatedCita];
-      
-      setCitasPendientes(newPendientes);
-      setCitasConfirmadas(newConfirmadas);
-      
-      localStorage.setItem('citasPendientes', JSON.stringify(newPendientes));
-      localStorage.setItem('citasConfirmadas', JSON.stringify(newConfirmadas));
-    } 
-    else if (modalAction === 'rechazar') {
-      // Mover de pendientes a historial con estado cancelada
-      updatedCita.estado = 'cancelada';
-      updatedCita.razonCancelacion = modalNote;
-      
-      // Actualizar estados y localStorage
-      const newPendientes = citasPendientes.filter(c => c.id !== updatedCita.id);
-      const newHistorial = [...historialCitas, updatedCita];
-      
-      setCitasPendientes(newPendientes);
-      setHistorialCitas(newHistorial);
-      
-      localStorage.setItem('citasPendientes', JSON.stringify(newPendientes));
-      localStorage.setItem('historialCitas', JSON.stringify(newHistorial));
+    let nuevoEstado = '';
+     let extraData = {};
+  if (modalAction === 'confirmar') {
+    nuevoEstado = 'Confirmada';
+    extraData = { notas: modalNote };
+  } else if (modalAction === 'rechazar') {
+    nuevoEstado = 'Cancelada';
+    extraData = { razonCancelacion: modalNote };
+  } else if (modalAction === 'completar') {
+    nuevoEstado = 'Finalizada';
+    extraData = { resultado: modalNote };
+  }
+
+  // Llama al backend para cambiar el estado y enviar correo si aplica
+  try {
+    const res = await fetch('http://localhost:3000/api/especialista/confirmarCita', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_cita: selectedCita.id,
+        id_especialista: especialistaData.id_especialista || especialistaData.id,
+        nuevoEstado,
+        usuarioEmail: selectedCita.correo, // o el campo correcto de email
+        ...extraData
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      // Actualiza el estado local según la acción
+      const updatedCita = { ...selectedCita, estado: nuevoEstado.toLowerCase(), ...extraData };
+
+      if (modalAction === 'confirmar') {
+        setCitasPendientes(citasPendientes.filter(c => c.id !== updatedCita.id));
+        setCitasConfirmadas([...citasConfirmadas, updatedCita]);
+      } else if (modalAction === 'rechazar') {
+        setCitasPendientes(citasPendientes.filter(c => c.id !== updatedCita.id));
+        setHistorialCitas([...historialCitas, updatedCita]);
+      } else if (modalAction === 'completar') {
+        setCitasConfirmadas(citasConfirmadas.filter(c => c.id !== updatedCita.id));
+        setHistorialCitas([...historialCitas, updatedCita]);
+      }
+
+      // Opcional: actualiza localStorage si lo usas
+      // ...
+
+      handleCloseModal();
+      alert(data.mensaje || 'Cita actualizada');
+    } else {
+      alert(data.mensaje || 'Error al actualizar la cita');
     }
-    else if (modalAction === 'completar') {
-      // Mover de confirmadas a historial con estado realizada
-      updatedCita.estado = 'realizada';
-      updatedCita.resultado = modalNote;
-      
-      // Actualizar estados y localStorage
-      const newConfirmadas = citasConfirmadas.filter(c => c.id !== updatedCita.id);
-      const newHistorial = [...historialCitas, updatedCita];
-      
-      setCitasConfirmadas(newConfirmadas);
-      setHistorialCitas(newHistorial);
-      
-      localStorage.setItem('citasConfirmadas', JSON.stringify(newConfirmadas));
-      localStorage.setItem('historialCitas', JSON.stringify(newHistorial));
-    }
+  } catch (error) {
+    alert('Error de red al actualizar la cita', error);
+  }
     
     // Cerrar modal
     handleCloseModal();
@@ -658,6 +665,8 @@ const Especialista = () => {
       method: 'POST',
       credentials: 'include', // importante para que la cookie de sesión se envíe
     });
+
+    localStorage.removeItem('userInfo');
     // Limpia datos locales si es necesario
     localStorage.removeItem('especialistaInfo');
     localStorage.removeItem('citasPendientes');

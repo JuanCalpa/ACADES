@@ -45,6 +45,17 @@ async function sendConfirmationEmail(to, subject, text) {
     await transporter.sendMail(mailOptions);
 }
 
+async function cambiarEstadoCita(id_cita, id_especialista, nuevoEstado) {
+    const query = 'UPDATE citas SET estado = ? WHERE id_cita = ? AND id_especialista = ?';
+    const [result] = await connection.execute(query, [nuevoEstado, id_cita, id_especialista]);
+    if (result.affectedRows > 0) {
+        const queryCita = 'SELECT * FROM citas WHERE id_cita = ?';
+        const [cita] = await connection.execute(queryCita, [id_cita]);
+        return cita[0];
+    } else {
+        throw new Error('No se pudo cambiar el estado de la cita');
+    }
+}
 
 async function listarCitasPorEspecialista(especialistaId) {
     const query = 'SELECT * FROM citas WHERE id_especialista = ?';
@@ -70,5 +81,6 @@ module.exports = {
     sendConfirmationEmail,
     listarCitasPorEspecialista, 
     listarCitasPendientesPorEspecialista,
-    listarCitasConfirmadaPorEspecialista
+    listarCitasConfirmadaPorEspecialista, 
+    cambiarEstadoCita
  };
