@@ -12,6 +12,8 @@ import Reserva from './Reserva';
 import BubbleBackground from './BubbleBackground';
 import PerfilD from './PerfilD';
 import Registro from './Registro';
+import Especialista from './Especialista';
+import Admin from './Admin';
 
 
 function App() {
@@ -19,7 +21,9 @@ function App() {
     <Router>
       <div className="App">
         <BubbleBackground />
-        <Header />
+        {/* Mostrar el Header solo si no estamos en la pagina de perfil o especialista */}
+        {window.location.pathname !== '/perfil' && 
+         window.location.pathname !== '/especialista' && <Header />}
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/nosotros" element={<Nosotros />} />
@@ -29,8 +33,10 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/reserva" element={<Reserva />} />
           <Route path="/registro" element={<Registro />} />
-          
           <Route path="/perfil" element={<PerfilD />} />
+          <Route path="/especialista" element={<Especialista />} /> {/* Ruta corregida */}
+        
+          {/* rutas */}
         </Routes>
       </div>
     </Router>

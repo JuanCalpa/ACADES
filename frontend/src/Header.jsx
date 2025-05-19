@@ -15,6 +15,8 @@ function Header() {
             <li><Link to="/vision">Visión</Link></li>
             <li><Link to="/contacto">Contacto</Link></li>
             <li><Link to="/Registro">Iniciar Sesión</Link></li>
+            <li><Link to="Especialista"> Especialista </Link></li>
+             <li><Link to="/admin">Admin</Link></li>
           </ul>
         </nav>
       </div>
