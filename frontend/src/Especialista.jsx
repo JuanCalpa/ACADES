@@ -63,39 +63,47 @@ const Especialista = () => {
   // Para el calendario
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+  
   // Cargar datos del especialista y citas del localStorage al iniciar
   useEffect(() => {
-    // Define la función loadCitasData dentro del useEffect para evitar advertencias
-    const loadCitasData = () => {
-      try {
-        const storedCitasPendientes = localStorage.getItem('citasPendientes');
-        const storedCitasConfirmadas = localStorage.getItem('citasConfirmadas');
-        const storedHistorialCitas = localStorage.getItem('historialCitas');
-        const storedDisponibilidad = localStorage.getItem('disponibilidadEspecialista');
-        
-        if (storedCitasPendientes) {
-          setCitasPendientes(JSON.parse(storedCitasPendientes));
-        } else {
-          loadDemoCitas(); // Cargar citas de ejemplo si no hay datos
-        }
-        
-        if (storedCitasConfirmadas) {
-          setCitasConfirmadas(JSON.parse(storedCitasConfirmadas));
-        }
-        
-        if (storedHistorialCitas) {
-          setHistorialCitas(JSON.parse(storedHistorialCitas));
-        }
+   const fetchCitas = async (tipo, setCitas) => {
+  const especialistaInfo = JSON.parse(localStorage.getItem('userInfo')) || JSON.parse(localStorage.getItem('especialistaInfo'));
+  const idEspecialista = especialistaInfo?.id_especialista || especialistaInfo?.id;
+  if (!idEspecialista) return;
 
-        if (storedDisponibilidad) {
-          setDisponibilidad(JSON.parse(storedDisponibilidad));
-        }
-      } catch (error) {
-        console.error('Error al cargar datos de citas:', error);
-        loadDemoCitas(); // Cargar citas de ejemplo en caso de error
-      }
-    };
+  // Cambia la URL según tu backend
+  let url = '';
+  if (tipo === 'pendientes') {
+    url = `http://localhost:3000/api/especialista/citas/pendientes/${idEspecialista}`;
+  } else if (tipo === 'confirmadas') {
+    url = `http://localhost:3000/api/especialista/citas/confirmadas/${idEspecialista}`;
+  } else if (tipo === 'historial') {
+    url = `http://localhost:3000/api/especialista/citas/${idEspecialista}`;
+  }
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const citasMapeadas = data.map(cita => ({
+      id: cita.id_cita,
+      paciente: cita.nombre_paciente || 'Paciente',
+      procedimiento: cita.procedimiento,
+      fecha: cita.fecha,
+      hora: cita.hora,
+      estado: cita.estado,
+      motivo: cita.motivo,
+      contacto: cita.contacto || '',
+      celular: cita.celular || '',
+      notas: cita.notas || '',
+      resultado: cita.resultado || '',
+      razonCancelacion: cita.razonCancelacion || ''
+    }));
+    setCitas(citasMapeadas);
+  } catch {
+    setCitas([]);
+  }
+};
+
 
     // Define la función loadDemoCitas dentro del useEffect
     const loadDemoCitas = () => {
@@ -222,8 +230,10 @@ const Especialista = () => {
         setEspecialistaData(parsedData);
         setEditData(parsedData);
         
-        // Cargar citas desde localStorage si existen o usar datos de ejemplo
-        loadCitasData();
+
+      fetchCitas('pendientes', setCitasPendientes);
+      fetchCitas('confirmadas', setCitasConfirmadas);
+      fetchCitas('historial', setHistorialCitas);
       } catch (error) {
         console.error('Error al parsear datos del especialista:', error);
         navigate('/login-especialista');
@@ -628,13 +638,25 @@ const Especialista = () => {
     });
   };
 
-  // Funcion para cerrar sesion y no daros 
-  const handleLogout = () => {
-    // No eliminar los datos de ejm
-    // ahi si se borra 
-    // localStorage.removeItem('especialistaInfo');
+ const handleLogout = async () => {
+  try {
+    await fetch('http://localhost:3000/api/usuarios/logout', {
+      method: 'POST',
+      credentials: 'include', // importante para que la cookie de sesión se envíe
+    });
+    // Limpia datos locales si es necesario
+    localStorage.removeItem('especialistaInfo');
+    localStorage.removeItem('citasPendientes');
+    localStorage.removeItem('citasConfirmadas');
+    localStorage.removeItem('historialCitas');
+    localStorage.removeItem('disponibilidadEspecialista');
+    // Redirige al login de especialista
     navigate('/login-especialista');
-  };
+  } catch (error) {
+    alert('Error al cerrar sesión');
+    navigate('/login-especialista');
+  }
+};
 
   // Si no hay datos de especialista, mostrar estado de carga
   if (!especialistaData) {

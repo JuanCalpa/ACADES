@@ -52,9 +52,23 @@ async function listarCitasPorEspecialista(especialistaId) {
     return rows;
 }
 
+async function listarCitasPendientesPorEspecialista(especialistaId) {
+    const query = 'SELECT * FROM citas WHERE id_especialista = ? AND estado = "Pendiente"';
+    const [rows] = await connection.execute(query, [especialistaId]);
+    return rows;
+}
+
+async function listarCitasConfirmadaPorEspecialista(especialistaId) {
+    const query = 'SELECT * FROM citas WHERE id_especialista = ? AND estado = "Confirmada"';
+    const [rows] = await connection.execute(query, [especialistaId]);
+    return rows;
+}
+
 
 module.exports = { 
     especialistasPorProcedimiento,
     sendConfirmationEmail,
-    listarCitasPorEspecialista
+    listarCitasPorEspecialista, 
+    listarCitasPendientesPorEspecialista,
+    listarCitasConfirmadaPorEspecialista
  };

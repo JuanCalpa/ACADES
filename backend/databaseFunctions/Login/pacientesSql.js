@@ -42,7 +42,17 @@ async function autenticarUsuario(correo, contrasena) {
     const [rows] = await connection.query(query, [correo, contrasena]);
     return rows[0]; 
 }
+async function autenticarEspecialista(correo, contrasena) {
+    const query = "SELECT * FROM especialista WHERE correo = ? AND contrasena = ?";
+    const [rows] = await connection.query(query, [correo, contrasena]);
+    return rows[0];
+}
 
+async function autenticarAdmin(correo, contrasena) {
+    const query = "SELECT * FROM administrador WHERE correo = ? AND contrasena = ?";
+    const [rows] = await connection.query(query, [correo, contrasena]);
+    return rows[0];
+}
 
 module.exports = {
     listarPacientes,
@@ -50,5 +60,7 @@ module.exports = {
     crearPaciente,
     atualizarPaciente,
     eliminarPaciente,
-    autenticarUsuario
+    autenticarUsuario,
+    autenticarEspecialista,
+    autenticarAdmin
 };

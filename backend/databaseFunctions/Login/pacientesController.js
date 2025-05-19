@@ -68,9 +68,8 @@ async function login(req, res) {
     console.log('Datos recibidos en el backend:', { correo, contrasena });
 
     try {
-        const usuario = await funcionesSql.autenticarUsuario(correo, contrasena);
-        console.log('Usuario encontrado:', usuario);
-
+        let usuario = await funcionesSql.autenticarUsuario(correo, contrasena);
+        console.log('Resultado paciente:', usuario);
         if (usuario) {
             req.session.usuario = {
                 id: usuario.id_cliente,
@@ -79,17 +78,48 @@ async function login(req, res) {
                 cedula: usuario.cedula,
                 telefono: usuario.telefono,
             };
+            console.log('Login como paciente');
             console.log('SESION:', req.session);
-            res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario });
-        } else {
-            res.status(401).json({ mensaje: 'Credenciales inválidas' });
+            return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario, tipo: 'paciente' });
         }
+
+        usuario = await funcionesSql.autenticarEspecialista(correo, contrasena);
+        console.log('Resultado especialista:', usuario);
+        if (usuario) {
+            req.session.usuario = {
+                id: usuario.id_especialista,
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                especialidad: usuario.especialidad,
+                telefono: usuario.telefono,
+            };
+            console.log('Login como especialista');
+              console.log('SESION:', req.session);
+            return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario, tipo: 'especialista' });
+        }
+
+        usuario = await funcionesSql.autenticarAdmin(correo, contrasena);
+        console.log('Resultado admin:', usuario);
+        if (usuario) {
+            req.session.usuario = {
+                id: usuario.id_admin,
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+            };
+            console.log('Login como admin');
+              console.log('SESION:', req.session);
+            return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario, tipo: 'admin' });
+        }
+
+        console.log('No se encontró el usuario en ninguna tabla', usuario);
+      
+
+        res.status(401).json({ mensaje: 'Credenciales inválidas' });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ mensaje: 'Error del servidor', error });
     }
 }
-
 async function logout(req, res) {
     req.session.destroy((err) => {
         if (err) {
