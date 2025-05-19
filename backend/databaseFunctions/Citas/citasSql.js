@@ -20,14 +20,41 @@ async function obtenerCitaPorId(id) {
 }
 
 async function obtenerCitasPorPaciente(id_cliente) {
-    const query = "SELECT * FROM citas WHERE id_cliente = ?";
-    const [rows] = await connection.query(query, [id_cliente]);
-    return rows;
+  const query = `
+    SELECT
+      c.id_cita,
+      cl.nombre AS nombre_cliente,
+      e.nombre AS nombre_especialista,
+      p.nombre AS nombre_procedimiento,
+      c.notas,
+      c.fecha,
+      c.hora,
+      c.estado,
+      c.estado_hora
+    FROM citas c
+    JOIN cliente cl ON c.id_cliente = cl.id_cliente
+    JOIN especialista e ON c.id_especialista = e.id_especialista
+    LEFT JOIN procedimientos p ON c.id_procedimiento = p.id_procedimiento
+    WHERE c.id_cliente = ?
+  `;
+  const [rows] = await connection.query(query, [id_cliente]);
+  return rows;
 }
 
-async function crearCita(id_cliente, id_especialista, descripcion, fecha, hora, estado) {
-    const query = "INSERT INTO citas (id_cliente, id_especialista, notas, fecha, hora, estado) VALUES (?, ?, ?, ?, ?, ?)";
-    const [result] = await connection.query(query, [id_cliente, id_especialista, descripcion, fecha, hora, estado]);
+async function crearCita({ id_cliente, id_especialista, id_procedimiento, notas, fecha, hora, estado }) {
+    const query = `
+      INSERT INTO citas (id_cliente, id_especialista, id_procedimiento, notas, fecha, hora, estado)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    const [result] = await connection.query(query, [
+      id_cliente,
+      id_especialista,
+      id_procedimiento,
+      notas,
+      fecha,
+      hora,
+      estado
+    ]);
     return result;
 }
 

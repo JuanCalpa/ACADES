@@ -42,8 +42,8 @@ async function obtenerCitasPorPaciente(req, res) {
 async function crearCita(req, res) {
     try {
         console.log('Datos recibidos para crear cita:', req.body);
-        const { id_cliente, id_especialista, descripcion, fecha, hora, estado } = req.body;
-        const resultado = await citasSql.crearCita(id_cliente, id_especialista, descripcion, fecha, hora, estado);
+        const { id_cliente, id_especialista, id_procedimiento, notas, fecha, hora, estado } = req.body;
+        const resultado = await citasSql.crearCita({ id_cliente, id_especialista, id_procedimiento, notas, fecha, hora, estado });
         res.status(201).json({ mensaje: 'Cita creada exitosamente', id: resultado.insertId });
     } catch (error) {
         console.error('Error al crear la cita:', error);

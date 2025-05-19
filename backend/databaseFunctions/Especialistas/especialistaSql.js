@@ -8,16 +8,16 @@ const connection = mysql.createPool({
     database: "acades"
 });
 
-async function especialistasPorProcedimiento(procedimiento) {
+async function especialistasPorProcedimiento(id_procedimiento) {
     const query = `
         SELECT e.id_especialista, e.nombre, e.especialidad, e.telefono
         FROM procedimientos p
         JOIN especialista_procedimiento ep ON p.id_procedimiento = ep.id_procedimiento
         JOIN especialista e ON ep.id_especialista = e.id_especialista
-        WHERE p.nombre = ?
+        WHERE p.id_procedimiento = ?
         ORDER BY e.nombre
     `;
-    const [rows] = await connection.query(query, [procedimiento]);
+    const [rows] = await connection.query(query, [id_procedimiento]);
     return rows;
 }
 
