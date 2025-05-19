@@ -272,17 +272,40 @@ const PerfilD = () => {
   };
 
   // Función para guardar cambios en el perfil
-  const handleSaveProfileChanges = (e) => {
+  const handleSaveProfileChanges = async (e) => {
     e.preventDefault();
 
-    // Actualizar datos de usuario
-    setUserData(editProfileData);
+    const id = userData.id || userData.id_cliente;
+    const updatedData = {
+      nombre: editProfileData.nombre,
+      correo: editProfileData.correo,     
+      telefono: editProfileData.telefono, 
+      cedula: editProfileData.cedula
 
-    // Guardar en localStorage
-    localStorage.setItem('userInfo', JSON.stringify(editProfileData));
+    };
 
-    // Cerrar modal
-    setShowEditProfileModal(false);
+    try {
+      const response = await fetch(`http://localhost:3000/api/usuarios/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUserData(prev => ({
+          ...prev,
+          ...updatedData
+        }));
+        setShowEditProfileModal(false);
+        alert('Perfil actualizado correctamente');
+      } else {
+        alert(data.mensaje || 'Error al actualizar el perfil');
+      }
+    } catch (error) {
+      alert('Error de red al actualizar el perfil');
+    }
   };
 
   // Función para cerrar sesión
@@ -715,12 +738,12 @@ const PerfilD = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="email">g,ail</label>
+                  <label htmlFor="email">correo</label>
                   <input
                     type="email"
                     id="email"
                     name="email"
-                    value={editProfileData.email}
+                    value={editProfileData.correo}
                     onChange={handleEditProfileInputChange}
                     required
                   />
@@ -737,23 +760,12 @@ const PerfilD = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="celular">celar</label>
+                  <label htmlFor="celular">telefono</label>
                   <input
                     type="tel"
                     id="celular"
                     name="celular"
-                    value={editProfileData.celular}
-                    onChange={handleEditProfileInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="fechaNacimiento">Fecha de nacimiento</label>
-                  <input
-                    type="date"
-                    id="fechaNacimiento"
-                    name="fechaNacimiento"
-                    value={editProfileData.fechaNacimiento}
+                    value={editProfileData.telefono}
                     onChange={handleEditProfileInputChange}
                     required
                   />

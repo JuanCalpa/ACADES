@@ -176,6 +176,7 @@ function Login() {
     }
   };
 
+
   return (
     <section className={`login-section ${isVisible ? 'fade-in' : ''}`}>
       {/* animacion */}
