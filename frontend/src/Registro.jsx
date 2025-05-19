@@ -1,43 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // redireccionar
+import { useNavigate } from 'react-router-dom';
 import './Registro.css';
 
 function Login() {
-
   const navigate = useNavigate();
-
 
   const [loginData, setLoginData] = useState({
     correo: '',
     contrasena: ''
   });
 
-  // Estado para controlar errores
   const [errors, setErrors] = useState({});
-
-  // Estado para efecto de aparecer gradualmente
   const [isVisible, setIsVisible] = useState(false);
-
-  // Estado para controlar el campo activo
   const [activeFieldIndex, setActiveFieldIndex] = useState(null);
-
-  // Estado para mostrar/ocultar el modal de registro
   const [showRegisterModal, setShowRegisterModal] = useState(false);
-
 
   const [registerData, setRegisterData] = useState({
     nombre: '',
     correo: '',
-    contrasena: '', // <-- CAMBIA AQUÍ
+    contrasena: '',
     cedula: '',
     telefono: '',
     fechaNacimiento: ''
   });
 
-
   useEffect(() => {
     setIsVisible(true);
-
 
     const observerOptions = {
       root: null,
@@ -59,7 +47,6 @@ function Login() {
       observer.observe(el);
     });
 
-    // Cerrar modal 
     const handleEsc = (event) => {
       if (event.keyCode === 27) {
         setShowRegisterModal(false);
@@ -75,7 +62,6 @@ function Login() {
     };
   }, []);
 
-  // Manejar cambios en el formulario de login
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginData(prev => ({
@@ -83,17 +69,16 @@ function Login() {
       [name]: value
     }));
 
-    // Validación
     if (name === 'correo') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!value.trim()) {
-        setErrors(prev => ({ ...prev, email: 'El correo es obligatorio' }));
+        setErrors(prev => ({ ...prev, correo: 'El correo es obligatorio' }));
       } else if (!emailRegex.test(value)) {
-        setErrors(prev => ({ ...prev, email: 'Ingrese un correo válido' }));
+        setErrors(prev => ({ ...prev, correo: 'Ingrese un correo válido' }));
       } else {
         setErrors(prev => {
           const newErrors = { ...prev };
-          delete newErrors.email;
+          delete newErrors.correo;
           return newErrors;
         });
       }
@@ -114,7 +99,6 @@ function Login() {
     }
   };
 
-
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setRegisterData(prev => ({
@@ -123,11 +107,9 @@ function Login() {
     }));
   };
 
-  // Manejar envio del formulario de login
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación simple
     if (!loginData.correo || !loginData.contrasena) {
       setErrors({ correo: !loginData.correo ? 'El correo es obligatorio' : '', contrasena: !loginData.contrasena ? 'La contraseña es obligatoria' : '' });
       return;
@@ -144,12 +126,20 @@ function Login() {
 
       if (response.ok) {
         localStorage.setItem('userInfo', JSON.stringify(data.usuario));
-        navigate('/perfil');
+        localStorage.setItem('userType', data.tipo);
+        if (data.tipo === 'paciente') {
+          navigate('/perfil');
+        } else if (data.tipo === 'especialista') {
+          navigate('/especialista');
+        } else if (data.tipo === 'admin') {
+          navigate('/admin');
+        }
       } else {
         alert(data.mensaje || 'Error al iniciar sesión');
       }
-    } catch (error) {
-      alert('Error de red al intentar iniciar sesión');
+    }
+    catch (error) {
+      alert('Error de red al iniciar sesión');
     }
   };
 
@@ -167,7 +157,7 @@ function Login() {
 
       if (response.ok) {
         alert('Cuenta creada exitosamente');
-        // Opcional: redirige al login o limpia el formulario
+        setShowRegisterModal(false);
       } else {
         alert(data.mensaje || 'Error al crear la cuenta');
       }
@@ -233,7 +223,7 @@ function Login() {
         </form>
       </div>
 
-      {/* Modal para reistrar */}
+      {/* Modal para registrar */}
       {showRegisterModal && (
         <div className="modal-overlay" onClick={() => setShowRegisterModal(false)}>
           <div className="register-modal" onClick={e => e.stopPropagation()}>
@@ -261,7 +251,7 @@ function Login() {
                   type="email"
                   id="reg-email"
                   name="correo"
-                  value={registerData.email}
+                  value={registerData.correo}
                   onChange={handleRegisterChange}
                   placeholder="tu@email.com"
                   required
@@ -274,7 +264,7 @@ function Login() {
                   type="password"
                   id="reg-password"
                   name="contrasena"
-                  value={registerData.password}
+                  value={registerData.contrasena}
                   onChange={handleRegisterChange}
                   placeholder="Crea una contraseña segura"
                   required
@@ -300,7 +290,7 @@ function Login() {
                   type="tel"
                   id="celular"
                   name="telefono"
-                  value={registerData.celular}
+                  value={registerData.telefono}
                   onChange={handleRegisterChange}
                   placeholder="Número de celular"
                   required

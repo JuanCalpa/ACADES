@@ -35,8 +35,30 @@ async function listarCitasPorEspecialista(req, res) {
     }
 }
 
+
+async function listarCitasPendientesPorEspecialista(req, res) {
+    const especialistaId = req.params.id;
+    try {
+        const citas = await especialistasSql.listarCitasPendientesPorEspecialista(especialistaId);
+        res.status(200).json(citas);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al listar citas pendientes.', error: error.message });
+    }
+}
+
+async function listarCitasConfirmadaPorEspecialista(req, res) {
+    const especialistaId = req.params.id;
+    try {
+        const citas = await especialistasSql.listarCitasConfirmadaPorEspecialista(especialistaId);
+        res.status(200).json(citas);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al listar citas confirmadas.', error: error.message });
+    }
+}
 module.exports = { 
     especialistasPorProcedimiento,
     confirmarCita,
-    listarCitasPorEspecialista
+    listarCitasPorEspecialista, 
+    listarCitasPendientesPorEspecialista,
+    listarCitasConfirmadaPorEspecialista
  };
