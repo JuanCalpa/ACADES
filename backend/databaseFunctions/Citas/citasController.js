@@ -89,10 +89,25 @@ async function eliminarCita(req, res) {
     }
 }
 
+async function obtenerCitasPorIdCompleta(req, res) {
+    const { id } = req.params;
+    try {
+        const cita = await citasSql.obtenerCitaPorIdCompleta(id);
+        if (cita) {
+            res.status(200).json(cita);
+        } else {
+            res.status(404).json({ mensaje: "Cita no encontrada" });
+        }
+    } catch (error) {
+        console.error("Error al obtener la cita:", error);
+        res.status(500).json({ mensaje: "Error al obtener la cita" });
+    }
+}
 module.exports = {
     listarCitas,
     obtenerCita,
     obtenerCitasPorPaciente,
+    obtenerCitasPorIdCompleta,
     crearCita,
     actualizarCita,
     eliminarCita

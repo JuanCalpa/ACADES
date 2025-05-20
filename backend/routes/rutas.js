@@ -23,6 +23,7 @@ router.post('/usuarios/logout', pacientesController.logout);
 router.get('/citas', citasController.listarCitas); 
 router.get('/citas/:id', citasController.obtenerCita); 
 router.get('/citas/paciente/:id_cliente', citasController.obtenerCitasPorPaciente); //http://localhost:3000/api/citas/paciente/ID_DEL_PACIENTE
+router.get('/citas/especialista/:id', citasController.obtenerCitasPorIdCompleta); 
 router.post('/citas', citasController.crearCita); 
 router.put('/citas/:id', citasController.actualizarCita); 
 router.delete('/citas/:id', citasController.eliminarCita); 
@@ -33,5 +34,5 @@ router.post('/especialista/confirmarCita', especialistasController.cambiarEstado
 router.get('/especialista/citas/:id', especialistasController.listarCitasPorEspecialista);
 router.get('/especialista/citas/pendientes/:id', especialistasController.listarCitasPendientesPorEspecialista);
 router.get('/especialista/citas/confirmadas/:id', especialistasController.listarCitasConfirmadaPorEspecialista);
-
+router.put('/especialista/editar', especialistasController.editarEspecialista);
 module.exports = router;

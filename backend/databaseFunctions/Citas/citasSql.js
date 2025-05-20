@@ -19,6 +19,28 @@ async function obtenerCitaPorId(id) {
     return rows[0];
 }
 
+async function obtenerCitaPorIdCompleta(id) {
+    const query = `
+        SELECT
+            c.id_cita,
+            cl.nombre AS nombre_cliente,
+            e.nombre AS nombre_especialista,
+            p.nombre AS nombre_procedimiento,
+            c.notas,
+            c.fecha,
+            c.hora,
+            cl.correo,
+            c.estado,
+            c.estado_hora
+        FROM citas c
+        JOIN cliente cl ON c.id_cliente = cl.id_cliente
+        JOIN especialista e ON c.id_especialista = e.id_especialista
+        LEFT JOIN procedimientos p ON c.id_procedimiento = p.id_procedimiento
+        WHERE c.id_cita = ?
+    `;
+    const [rows] = await connection.query(query, [id]);
+    return rows[0];
+}
 async function obtenerCitasPorPaciente(id_cliente) {
   const query = `
     SELECT
@@ -74,6 +96,7 @@ module.exports = {
     listarCitas,
     obtenerCitaPorId,
     obtenerCitasPorPaciente,
+    obtenerCitaPorIdCompleta,
     crearCita,
     actualizarCita,
     eliminarCita

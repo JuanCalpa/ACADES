@@ -18,10 +18,10 @@ async function cambiarEstadoCita(req, res) {
     // Puedes personalizar el asunto/mensaje según el estado
     if (nuevoEstado === 'Confirmada') {
         asunto = 'Confirmación de cita';
-        mensaje = 'Tu cita ha sido confirmada por el especialista.';
+        mensaje = 'Tu cita ha sido confirmada.';
     } else if (nuevoEstado === 'Cancelada') {
         asunto = 'Cancelación de cita';
-        mensaje = 'Tu cita ha sido cancelada por el especialista.';
+        mensaje = 'Tu cita ha sido cancelada.';
     } else if (nuevoEstado === 'Realizada') {
         asunto = 'Cita realizada';
         mensaje = 'Tu cita ha sido marcada como realizada.';
@@ -72,10 +72,23 @@ async function listarCitasConfirmadaPorEspecialista(req, res) {
         res.status(500).json({ mensaje: 'Error al listar citas confirmadas.', error: error.message });
     }
 }
+
+async function editarEspecialista(req, res) {
+    const { id_especialista, nombre,especialidad, telefono, correo } = req.body;
+    console.log({ id_especialista, nombre, especialidad, telefono, correo });
+    try {
+        const resultado = await especialistasSql.editarEspecialista(id_especialista, nombre,especialidad, telefono, correo);
+        res.status(200).json(resultado);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al editar especialista.', error: error.message });
+    }
+}
+
 module.exports = { 
     especialistasPorProcedimiento,
     cambiarEstadoCita,
     listarCitasPorEspecialista, 
     listarCitasPendientesPorEspecialista,
-    listarCitasConfirmadaPorEspecialista
+    listarCitasConfirmadaPorEspecialista,
+    editarEspecialista
  };
