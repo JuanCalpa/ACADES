@@ -7,7 +7,6 @@ const especialistasDataInicial = [
   { id: 3, nombre: 'Dr. Carlos Rodríguez', email: 'carlosr@ejemplo.com', telefono: '555-222-333', especialidad: 'Estética' }
 ];
 
-
 //ejemplos eso pondran en la bd 
 const usuariosDataInicial = [
   {
@@ -39,8 +38,26 @@ const AdminDashboard = () => {
   const [usuariosData, setUsuariosData] = useState(usuariosDataInicial);
   const [especialistasData, setEspecialistasData] = useState(especialistasDataInicial);
   const [citasData, setCitasData] = useState([
-    { id: 1, usuario: 'Ana Martínez', especialista: 'Dr. Juan Pérez', fecha: '2025-06-01', hora: '10:00', estado: 'pendiente' },
-    { id: 2, usuario: 'Pedro Sánchez', especialista: 'Dra. María González', fecha: '2025-06-02', hora: '12:00', estado: 'confirmada' }
+    {
+      id: 1,
+      cliente: 'Ana Martínez',
+      especialista: 'Dr. Juan Pérez',
+      procedimiento: 'Limpieza facial',
+      notas: 'Primera vez',
+      fecha: '2025-06-01',
+      hora: '10:00',
+      estado: 'pendiente'
+    },
+    {
+      id: 2,
+      cliente: 'Pedro Sánchez',
+      especialista: 'Dra. María González',
+      procedimiento: 'Consulta nutricional',
+      notas: '',
+      fecha: '2025-06-02',
+      hora: '12:00',
+      estado: 'confirmada'
+    }
   ]);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showAddEspecialistaModal, setShowAddEspecialistaModal] = useState(false);
@@ -70,7 +87,16 @@ const AdminDashboard = () => {
   const [deleteEspecialista, setDeleteEspecialista] = useState(null);
 
   // Citas
-  const [newCita, setNewCita] = useState({ id: 0, usuario: '', especialista: '', fecha: '', hora: '', estado: 'pendiente' });
+  const [newCita, setNewCita] = useState({
+    id: 0,
+    cliente: '',
+    especialista: '',
+    procedimiento: '',
+    notas: '',
+    fecha: '',
+    hora: '',
+    estado: 'pendiente'
+  });
   const [viewCita, setViewCita] = useState(null);
   const [editCita, setEditCita] = useState(null);
   const [deleteCita, setDeleteCita] = useState(null);
@@ -242,7 +268,7 @@ const AdminDashboard = () => {
     const citaToAdd = { ...newCita, id: newId };
     setCitasData([...citasData, citaToAdd]);
     setShowAddCitaModal(false);
-    setNewCita({ id: 0, usuario: '', especialista: '', fecha: '', hora: '', estado: 'pendiente' });
+    setNewCita({ id: 0, cliente: '', especialista: '', procedimiento: '', notas: '', fecha: '', hora: '', estado: 'pendiente' });
   };
   const handleEditCita = cita => setEditCita({ ...cita });
   const handleEditCitaChange = e => setEditCita({ ...editCita, [e.target.name]: e.target.value });
@@ -275,7 +301,7 @@ const AdminDashboard = () => {
     <div className="admin-table-container">
       <div className="table-header">
         <h3>Pacientes Acades </h3>
-        <button className="btn-add" onClick={() => setShowAddUserModal(true)}>+ Añadir Paciente</button>
+        <button className="btn-add" onClick={() => setShowAddUserModal(true)}>+ Añadir Usuario</button>
       </div>
       <div className="admin-table">
         <table>
@@ -354,21 +380,30 @@ const AdminDashboard = () => {
     <div className="admin-table-container">
       <div className="table-header">
         <h3>Todas las Citas</h3>
-        {/* Botón eliminado */}
       </div>
       <div className="admin-table">
         <table>
           <thead>
             <tr>
-              <th>ID</th><th>Usuario</th><th>Especialista</th><th>Fecha</th><th>Hora</th><th>Estado</th><th>Acciones</th>
+              <th>ID Cita</th>
+              <th>Cliente</th>
+              <th>Especialista</th>
+              <th>Procedimiento</th>
+              <th>Notas</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             {citasData.map(cita => (
               <tr key={cita.id}>
                 <td>{cita.id}</td>
-                <td>{cita.usuario}</td>
+                <td>{cita.cliente}</td>
                 <td>{cita.especialista}</td>
+                <td>{cita.procedimiento}</td>
+                <td>{cita.notas}</td>
                 <td>{cita.fecha}</td>
                 <td>{cita.hora}</td>
                 <td>{cita.estado}</td>
@@ -452,7 +487,7 @@ const AdminDashboard = () => {
               <div className="perfil-stats">
                 <div className="stat-card"><div className="stat-icon usuarios-icon">🤍</div><div className="stat-value">{usuariosData.length}</div><div className="stat-label">Usuarios</div></div>
                 <div className="stat-card"><div className="stat-icon especialistas-icon">🩵</div><div className="stat-value">{especialistasData.length}</div><div className="stat-label">Especialistas</div></div>
-                <div className="stat-card"><div className="stat-icon citas-icon">📅</div>🤍<div className="stat-value">{citasData.length}</div><div className="stat-label">Citas</div></div>
+                <div className="stat-card"><div className="stat-icon citas-icon"></div>🤍<div className="stat-value">{citasData.length}</div><div className="stat-label">Citas</div></div>
               </div>
             </div>
           </div>
@@ -724,7 +759,7 @@ const AdminDashboard = () => {
                   <input type="text" id="esp-nombre" name="nombre" value={newEspecialista.nombre} onChange={handleEspecialistaInputChange} required />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="esp-email">Correo</label>
+                  <label htmlFor="esp-email">Email</label>
                   <input type="email" id="esp-email" name="email" value={newEspecialista.email} onChange={handleEspecialistaInputChange} required />
                 </div>
                 <div className="form-group">
@@ -744,7 +779,6 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
-
       {viewEspecialista && (
         <div className="modal-overlay">
           <div className="modal-container form-modal">
@@ -823,8 +857,11 @@ const AdminDashboard = () => {
               <button className="modal-close" onClick={() => setViewCita(null)}>✕</button>
             </div>
             <div className="modal-body">
-              <p><strong>Usuario:</strong> {viewCita.usuario}</p>
+              <p><strong>ID Cita:</strong> {viewCita.id}</p>
+              <p><strong>Cliente:</strong> {viewCita.cliente}</p>
               <p><strong>Especialista:</strong> {viewCita.especialista}</p>
+              <p><strong>Procedimiento:</strong> {viewCita.procedimiento}</p>
+              <p><strong>Notas:</strong> {viewCita.notas}</p>
               <p><strong>Fecha:</strong> {viewCita.fecha}</p>
               <p><strong>Hora:</strong> {viewCita.hora}</p>
               <p><strong>Estado:</strong> {viewCita.estado}</p>
@@ -842,12 +879,20 @@ const AdminDashboard = () => {
             <div className="modal-body">
               <form onSubmit={handleUpdateCita}>
                 <div className="form-group">
-                  <label>Usuario</label>
-                  <input type="text" name="usuario" value={editCita.usuario} onChange={handleEditCitaChange} required />
+                  <label>Cliente</label>
+                  <input type="text" name="cliente" value={editCita.cliente} onChange={handleEditCitaChange} required />
                 </div>
                 <div className="form-group">
                   <label>Especialista</label>
                   <input type="text" name="especialista" value={editCita.especialista} onChange={handleEditCitaChange} required />
+                </div>
+                <div className="form-group">
+                  <label>Procedimiento</label>
+                  <input type="text" name="procedimiento" value={editCita.procedimiento} onChange={handleEditCitaChange} required />
+                </div>
+                <div className="form-group">
+                  <label>Notas</label>
+                  <input type="text" name="notas" value={editCita.notas} onChange={handleEditCitaChange} />
                 </div>
                 <div className="form-group">
                   <label>Fecha</label>
