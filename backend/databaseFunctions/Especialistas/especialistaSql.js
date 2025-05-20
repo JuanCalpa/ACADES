@@ -8,6 +8,21 @@ const connection = mysql.createPool({
     database: "acades"
 });
 
+async function agregarEspecialista(nombre, especialidad, telefono, correo, contrasena) {
+    const query = `
+        INSERT INTO especialista (nombre, especialidad, telefono, correo, contrasena)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+    const [result] = await connection.execute(query, [nombre, especialidad, telefono, correo, contrasena]);
+    return result;
+}
+
+async function eliminarEspecialista(id_especialista) {
+    const query = 'DELETE FROM especialista WHERE id_especialista = ?';
+    const [result] = await connection.execute(query, [id_especialista]);
+    return result;
+}
+
 async function especialistasPorProcedimiento(id_procedimiento) {
     const query = `
         SELECT e.id_especialista, e.nombre, e.especialidad, e.telefono
@@ -20,6 +35,16 @@ async function especialistasPorProcedimiento(id_procedimiento) {
     const [rows] = await connection.query(query, [id_procedimiento]);
     return rows;
 }
+async function listarEspecialistas() {
+    const query = `
+        SELECT id_especialista, nombre, especialidad, telefono, correo
+        FROM especialista
+        ORDER BY nombre
+    `;
+    const [rows] = await connection.execute(query);
+    return rows;
+}
+      
 
 async function sendConfirmationEmail(to, subject, text) {
     // Configura el transporte con tus credenciales
@@ -131,6 +156,9 @@ async function editarEspecialista(id,nombre,especialidad,telefono, correo) {
     return result;
 }
 module.exports = { 
+    agregarEspecialista,
+    eliminarEspecialista,
+    listarEspecialistas,
     especialistasPorProcedimiento,
     sendConfirmationEmail,
     listarCitasPorEspecialista, 

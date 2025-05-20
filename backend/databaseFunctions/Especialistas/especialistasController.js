@@ -1,5 +1,34 @@
 const especialistasSql = require('./especialistaSql');
 
+
+async function agregarEspecialista(req, res) {
+    const { nombre, especialidad, telefono, correo, contrasena } = req.body;
+    try {
+        const resultado = await especialistasSql.agregarEspecialista(nombre, especialidad, telefono, correo, contrasena);
+        res.status(200).json(resultado);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al agregar especialista.', error: error.message });
+    }
+}
+async function eliminarEspecialista(req, res) {
+    const { id } = req.params;
+    try {
+        const resultado = await especialistasSql.eliminarEspecialista(id);
+       
+        res.status(200).json(resultado);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al eliminar especialista.', error: error.message });
+    }
+}
+
+async function listarEspecialistas(req, res) {
+    try {
+        const especialistas = await especialistasSql.listarEspecialistas();
+        res.status(200).json(especialistas);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al listar especialistas.', error: error.message });
+    }
+}
 async function especialistasPorProcedimiento(req, res) {
     const { id_procedimiento } = req.query;
     try {
@@ -85,6 +114,9 @@ async function editarEspecialista(req, res) {
 }
 
 module.exports = { 
+    agregarEspecialista,
+    eliminarEspecialista,
+    listarEspecialistas,
     especialistasPorProcedimiento,
     cambiarEstadoCita,
     listarCitasPorEspecialista, 

@@ -29,6 +29,9 @@ router.put('/citas/:id', citasController.actualizarCita);
 router.delete('/citas/:id', citasController.eliminarCita); 
 
 //Rutas para los especialistas
+router.post('/especialistas', especialistasController.agregarEspecialista);
+router.delete('/especialistas/:id', especialistasController.eliminarEspecialista);
+router.get('/especialistas', especialistasController.listarEspecialistas);
 router.get('/especialistas-por-procedimiento', especialistasController.especialistasPorProcedimiento);
 router.post('/especialista/confirmarCita', especialistasController.cambiarEstadoCita);
 router.get('/especialista/citas/:id', especialistasController.listarCitasPorEspecialista);
