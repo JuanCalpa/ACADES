@@ -72,6 +72,7 @@ const AdminDashboard = () => {
   const [editEspecialista, setEditEspecialista] = useState(null);
   const [deleteEspecialista, setDeleteEspecialista] = useState(null);
 
+
   // Citas
   const [newCita, setNewCita] = useState({
     id: 0,
@@ -87,6 +88,8 @@ const AdminDashboard = () => {
   const [editCita, setEditCita] = useState(null);
   const [deleteCita, setDeleteCita] = useState(null);
 
+  //estados para la edicion de citas
+
   //mapeo citas
   const citasFormateadas = citasData.map(cita => ({
     id: cita.id_cita,
@@ -98,6 +101,34 @@ const AdminDashboard = () => {
     hora: cita.hora,
     estado: cita.estado
   }));
+
+  //funcion para ver la cita
+  const handleViewCita = async (citaId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/citas/${citaId}`);
+      const data = await response.json();
+      if (response.ok) {
+        // Mapea los nombres de las propiedades
+        const citaFormateada = {
+          id: data.id_cita,
+          cliente: data.nombre_cliente,
+          especialista: data.nombre_especialista,
+          procedimiento: data.nombre_procedimiento,
+          notas: data.notas,
+          fecha: data.fecha,
+          hora: data.hora,
+          estado: data.estado
+        };
+        setViewCita(citaFormateada);
+      } else {
+        alert(data.mensaje || 'No se pudo obtener la cita');
+      }
+    } catch (error) {
+      alert('Error de red al obtener la cita');
+    }
+  };
+
+
 
   // Perfil
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -270,12 +301,33 @@ const AdminDashboard = () => {
   };
   const handleEditCita = cita => setEditCita({ ...cita });
   const handleEditCitaChange = e => setEditCita({ ...editCita, [e.target.name]: e.target.value });
-  const handleUpdateCita = e => {
-    e.preventDefault();
-    setCitasData(citasData.map(c => c.id === editCita.id ? editCita : c));
-    setEditCita(null);
+
+
+
+
+  //funcion para eliminar cita
+  const handleDeleteCita = async (cita) => {
+    if (!window.confirm('¿Estás seguro de que deseas eliminar esta cita?')) return;
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/citas/${cita.id_cita || cita.id}`, {
+        method: 'DELETE'
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        // Actualiza la lista de citas después de eliminar
+        setCitasData(prev => prev.filter(c => (c.id_cita || c.id) !== (cita.id_cita || cita.id)));
+        alert('Cita eliminada correctamente');
+      } else {
+        alert(data.mensaje || 'No se pudo eliminar la cita');
+      }
+    } catch (error) {
+      alert('Error de red al eliminar la cita');
+    }
   };
-  const handleDeleteCita = cita => setDeleteCita(cita);
+
+
   const confirmDeleteCita = () => {
     setCitasData(citasData.filter(c => c.id !== deleteCita.id));
     setDeleteCita(null);
@@ -406,9 +458,19 @@ const AdminDashboard = () => {
                 <td>{cita.hora}</td>
                 <td>{cita.estado}</td>
                 <td className="acciones">
-                  <button className="btn-accion ver" title="Ver" onClick={() => setViewCita(cita)}>👁️</button>
-                  <button className="btn-accion editar" title="Editar" onClick={() => handleEditCita(cita)}>✏️</button>
-                  <button className="btn-accion eliminar" title="Eliminar" onClick={() => handleDeleteCita(cita)}>
+                  <button
+                    className="btn-accion ver"
+                    title="Ver"
+                    onClick={() => handleViewCita(cita.id_cita || cita.id)}
+                  >
+                    👁️
+                  </button>
+                  
+                  <button
+                    className="btn-accion eliminar"
+                    title="Eliminar"
+                    onClick={() => handleDeleteCita(cita)}
+                  >
                     🗑️
                   </button>
                 </td>
@@ -860,7 +922,7 @@ const AdminDashboard = () => {
               <p><strong>Especialista:</strong> {viewCita.especialista}</p>
               <p><strong>Procedimiento:</strong> {viewCita.procedimiento}</p>
               <p><strong>Notas:</strong> {viewCita.notas}</p>
-              <p><strong>Fecha:</strong> {viewCita.fecha}</p>
+              <p><strong>Fecha:</strong> {viewCita.fecha && viewCita.fecha.split('T')[0]}</p>
               <p><strong>Hora:</strong> {viewCita.hora}</p>
               <p><strong>Estado:</strong> {viewCita.estado}</p>
             </div>
