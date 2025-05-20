@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Hero.css';
 import salonImage from './img/acades.jpg'; 
 
+
 <div className="hero-image-container">
   <div className="animated-logo-frame">
     <img 
