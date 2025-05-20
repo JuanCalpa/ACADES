@@ -10,17 +10,34 @@ async function especialistasPorProcedimiento(req, res) {
     }
 }
 
-async function confirmarCita(req, res) {
-   
-    const usuarioEmail = req.body.usuarioEmail;
-    const asunto = 'Confirmación de cita';
-    const mensaje = 'Tu cita ha sido confirmada por el especialista.';
+async function cambiarEstadoCita(req, res) {
+    const { id_cita, id_especialista, nuevoEstado, usuarioEmail } = req.body;
+    let asunto = '';
+    let mensaje = '';
+
+    // Puedes personalizar el asunto/mensaje según el estado
+    if (nuevoEstado === 'Confirmada') {
+        asunto = 'Confirmación de cita';
+        mensaje = 'Tu cita ha sido confirmada.';
+    } else if (nuevoEstado === 'Cancelada') {
+        asunto = 'Cancelación de cita';
+        mensaje = 'Tu cita ha sido cancelada.';
+    } else if (nuevoEstado === 'Realizada') {
+        asunto = 'Cita realizada';
+        mensaje = 'Tu cita ha sido marcada como realizada.';
+    }
 
     try {
-        await especialistasSql.sendConfirmationEmail(usuarioEmail, asunto, mensaje);
-        res.status(200).json({ mensaje: 'Cita confirmada y correo enviado.' });
+        await especialistasSql.cambiarEstadoCita(id_cita, id_especialista, nuevoEstado);
+
+        // Solo enviar correo si hay email y asunto
+        if (usuarioEmail && asunto && mensaje) {
+            await especialistasSql.sendConfirmationEmail(usuarioEmail, asunto, mensaje);
+        }
+
+        res.status(200).json({ mensaje: `Cita actualizada a estado: ${nuevoEstado}` });
     } catch (error) {
-        res.status(500).json({ mensaje: 'Error al enviar el correo.', error: error.message });
+        res.status(500).json({ mensaje: 'Error al cambiar el estado de la cita.', error: error.message });
     }
 }
 
@@ -55,10 +72,23 @@ async function listarCitasConfirmadaPorEspecialista(req, res) {
         res.status(500).json({ mensaje: 'Error al listar citas confirmadas.', error: error.message });
     }
 }
+
+async function editarEspecialista(req, res) {
+    const { id_especialista, nombre,especialidad, telefono, correo } = req.body;
+    console.log({ id_especialista, nombre, especialidad, telefono, correo });
+    try {
+        const resultado = await especialistasSql.editarEspecialista(id_especialista, nombre,especialidad, telefono, correo);
+        res.status(200).json(resultado);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al editar especialista.', error: error.message });
+    }
+}
+
 module.exports = { 
     especialistasPorProcedimiento,
-    confirmarCita,
+    cambiarEstadoCita,
     listarCitasPorEspecialista, 
     listarCitasPendientesPorEspecialista,
-    listarCitasConfirmadaPorEspecialista
+    listarCitasConfirmadaPorEspecialista,
+    editarEspecialista
  };
