@@ -53,6 +53,7 @@ const AdminDashboard = () => {
         id: e.id_especialista,
         nombre: e.nombre,
         email: e.correo,
+        contrasena:e.contrasena,
         telefono: e.telefono,
         especialidad: e.especialidad
       }));
@@ -306,7 +307,7 @@ const AdminDashboard = () => {
         // Opcional: recarga la lista desde el backend o agrega el nuevo especialista al estado
         setEspecialistasData([...especialistasData, { ...especialistaToAdd, id: data.insertId || Date.now() }]);
         setShowAddEspecialistaModal(false);
-        setNewEspecialista({ id: 0, nombre: '', email: '', telefono: '', especialidad: '', contrasenia: '' });
+        setNewEspecialista({ id: 0, nombre: '', email: '', telefono: '', especialidad: '', contrasena: '' });
       } else {
         alert(data.mensaje || 'No se pudo agregar el especialista');
       }
@@ -324,7 +325,8 @@ const handleUpdateEspecialista = async (e) => {
     nombre: editEspecialista.nombre,
     especialidad: editEspecialista.especialidad,
     telefono: editEspecialista.telefono,
-    correo: editEspecialista.email
+    correo: editEspecialista.email,
+    contrasena: editEspecialista.contrasena
   };
   try {
     const response = await fetch('http://localhost:3000/api/especialista/editar', {
@@ -949,16 +951,20 @@ const handleUpdateEspecialista = async (e) => {
                   <input type="text" name="nombre" value={editEspecialista.nombre} onChange={handleEditEspecialistaChange} required />
                 </div>
                 <div className="form-group">
-                  <label>Email</label>
-                  <input type="email" name="email" value={editEspecialista.email} onChange={handleEditEspecialistaChange} required />
-                </div>
-                <div className="form-group">
                   <label>Teléfono</label>
                   <input type="tel" name="telefono" value={editEspecialista.telefono} onChange={handleEditEspecialistaChange} required />
                 </div>
                 <div className="form-group">
                   <label>Especialidad</label>
                   <input type="text" name="especialidad" value={editEspecialista.especialidad} onChange={handleEditEspecialistaChange} required />
+                </div>
+                 <div className="form-group">
+                  <label>Email</label>
+                  <input type="email" name="email" value={editEspecialista.email} onChange={handleEditEspecialistaChange} required />
+                </div>
+                 <div className="form-group">
+                  <label>Contraseña</label>
+                  <input type="contrasena" name="contrasena" value={editEspecialista.contrasena} onChange={handleEditEspecialistaChange} required />
                 </div>
                 <div className="modal-actions">
                   <button type="button" className="btn-modal-cancel" onClick={() => setEditEspecialista(null)}>Cancelar</button>

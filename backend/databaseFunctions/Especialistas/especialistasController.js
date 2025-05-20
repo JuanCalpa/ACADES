@@ -103,16 +103,18 @@ async function listarCitasConfirmadaPorEspecialista(req, res) {
 }
 
 async function editarEspecialista(req, res) {
-    const { id_especialista, nombre,especialidad, telefono, correo } = req.body;
-    console.log({ id_especialista, nombre, especialidad, telefono, correo });
+    const { id_especialista, nombre, especialidad, telefono, correo, contrasena } = req.body;
     try {
-        const resultado = await especialistasSql.editarEspecialista(id_especialista, nombre,especialidad, telefono, correo);
+        const resultado = await especialistasSql.editarEspecialista(id_especialista, nombre, especialidad, telefono, correo, contrasena);
         res.status(200).json(resultado);
     } catch (error) {
-        res.status(500).json({ mensaje: 'Error al editar especialista.', error: error.message });
+        if (error.code === 'ER_DUP_ENTRY') {
+            res.status(400).json({ mensaje: 'El correo ya está registrado para otro especialista.' });
+        } else {
+            res.status(500).json({ mensaje: 'Error al editar especialista.', error: error.message });
+        }
     }
 }
-
 module.exports = { 
     agregarEspecialista,
     eliminarEspecialista,
