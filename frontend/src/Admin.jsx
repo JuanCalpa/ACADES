@@ -37,28 +37,14 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [usuariosData, setUsuariosData] = useState(usuariosDataInicial);
   const [especialistasData, setEspecialistasData] = useState(especialistasDataInicial);
-  const [citasData, setCitasData] = useState([
-    {
-      id: 1,
-      cliente: 'Ana Martínez',
-      especialista: 'Dr. Juan Pérez',
-      procedimiento: 'Limpieza facial',
-      notas: 'Primera vez',
-      fecha: '2025-06-01',
-      hora: '10:00',
-      estado: 'pendiente'
-    },
-    {
-      id: 2,
-      cliente: 'Pedro Sánchez',
-      especialista: 'Dra. María González',
-      procedimiento: 'Consulta nutricional',
-      notas: '',
-      fecha: '2025-06-02',
-      hora: '12:00',
-      estado: 'confirmada'
-    }
-  ]);
+  const [citasData, setCitasData] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:3000/api/citas')
+      .then(res => res.json())
+      .then(data => setCitasData(data))
+      .catch(() => setCitasData([]));
+  }, []);
+
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showAddEspecialistaModal, setShowAddEspecialistaModal] = useState(false);
   const [showAddCitaModal, setShowAddCitaModal] = useState(false);
@@ -100,6 +86,18 @@ const AdminDashboard = () => {
   const [viewCita, setViewCita] = useState(null);
   const [editCita, setEditCita] = useState(null);
   const [deleteCita, setDeleteCita] = useState(null);
+
+  //mapeo citas
+  const citasFormateadas = citasData.map(cita => ({
+    id: cita.id_cita,
+    cliente: cita.nombre_cliente,
+    especialista: cita.nombre_especialista,
+    procedimiento: cita.nombre_procedimiento,
+    notas: cita.notas,
+    fecha: cita.fecha,
+    hora: cita.hora,
+    estado: cita.estado
+  }));
 
   // Perfil
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -397,7 +395,7 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {citasData.map(cita => (
+            {citasFormateadas.map(cita => (
               <tr key={cita.id}>
                 <td>{cita.id}</td>
                 <td>{cita.cliente}</td>
@@ -669,7 +667,7 @@ const AdminDashboard = () => {
               <h3>Editar Paciente</h3>
               <button className="modal-close" onClick={() => setEditUsuario(null)}>✕</button>
             </div>
-            
+
             <div className="modal-body">
               <form onSubmit={handleUpdateUsuario}>
                 <div className="form-group">
@@ -848,7 +846,7 @@ const AdminDashboard = () => {
       )}
 
       {/* CRUD CITAS */}
-     
+
       {viewCita && (
         <div className="modal-overlay">
           <div className="modal-container form-modal">
@@ -937,26 +935,26 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      
-{viewUsuario && (
-  <div className="modal-overlay">
-    <div className="modal-container form-modal small-modal">
-      <div className="modal-header">
-        <h3>Detalles del Paciente</h3>
-        <button className="modal-close" onClick={() => setViewUsuario(null)}>✕</button>
-      </div>
-      <div className="modal-body">
-        <p><strong>Cédula:</strong> {viewUsuario.cedula}</p>
-        <p><strong>Contraseña:</strong> {viewUsuario.contrasena}</p>
-        <p><strong>Celular:</strong> {viewUsuario.celular}</p>
-        <p><strong>Email:</strong> {viewUsuario.email}</p>
-        <p><strong>Nombre Completo:</strong> {viewUsuario.nombreCompleto}</p>
-        <p><strong>Fecha Nacimiento:</strong> {viewUsuario.fechaNacimiento}</p>
-        <p><strong>Fecha Registro:</strong> {viewUsuario.fechaRegistro}</p>
-      </div>
-    </div>
-  </div>
-)}
+
+      {viewUsuario && (
+        <div className="modal-overlay">
+          <div className="modal-container form-modal small-modal">
+            <div className="modal-header">
+              <h3>Detalles del Paciente</h3>
+              <button className="modal-close" onClick={() => setViewUsuario(null)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <p><strong>Cédula:</strong> {viewUsuario.cedula}</p>
+              <p><strong>Contraseña:</strong> {viewUsuario.contrasena}</p>
+              <p><strong>Celular:</strong> {viewUsuario.celular}</p>
+              <p><strong>Email:</strong> {viewUsuario.email}</p>
+              <p><strong>Nombre Completo:</strong> {viewUsuario.nombreCompleto}</p>
+              <p><strong>Fecha Nacimiento:</strong> {viewUsuario.fechaNacimiento}</p>
+              <p><strong>Fecha Registro:</strong> {viewUsuario.fechaRegistro}</p>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

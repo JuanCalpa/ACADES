@@ -8,7 +8,22 @@ const connection = mysql.createPool({
 });
 
 async function listarCitas() {
-    const query = "SELECT * FROM citas";
+    const query = `
+        SELECT
+            c.id_cita,
+            cl.nombre AS nombre_cliente,
+            e.nombre AS nombre_especialista,
+            p.nombre AS nombre_procedimiento,
+            c.notas,
+            c.fecha,
+            c.hora,
+            c.estado
+        FROM
+            citas c
+        JOIN cliente cl ON c.id_cliente = cl.id_cliente
+        JOIN especialista e ON c.id_especialista = e.id_especialista
+        LEFT JOIN procedimientos p ON c.id_procedimiento = p.id_procedimiento
+    `;
     const [rows] = await connection.query(query);
     return rows;
 }
