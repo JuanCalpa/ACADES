@@ -45,6 +45,23 @@ const AdminDashboard = () => {
       .catch(() => setCitasData([]));
   }, []);
 
+  useEffect(() => {
+  fetch('http://localhost:3000/api/especialistas')
+    .then(res => res.json())
+    .then(data => {
+      const especialistas = data.map(e => ({
+        id: e.id_especialista,
+        nombre: e.nombre,
+        email: e.correo,
+        telefono: e.telefono,
+        especialidad: e.especialidad
+      }));
+      setEspecialistasData(especialistas);
+    })
+    .catch(() => setEspecialistasData([]));
+}, []);
+
+
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showAddEspecialistaModal, setShowAddEspecialistaModal] = useState(false);
   const [showAddCitaModal, setShowAddCitaModal] = useState(false);
@@ -268,25 +285,84 @@ const AdminDashboard = () => {
 
   // Especialistas CRUD
   const handleEspecialistaInputChange = e => setNewEspecialista({ ...newEspecialista, [e.target.name]: e.target.value });
-  const handleAddEspecialista = e => {
+  const handleAddEspecialista = async (e) => {
     e.preventDefault();
-    const newId = especialistasData.length > 0 ? Math.max(...especialistasData.map(e => e.id)) + 1 : 1;
-    const especialistaToAdd = { ...newEspecialista, id: newId };
-    setEspecialistasData([...especialistasData, especialistaToAdd]);
-    setShowAddEspecialistaModal(false);
-    setNewEspecialista({ id: 0, nombre: '', email: '', telefono: '', especialidad: '' });
+    // Ajusta los nombres de los campos para que coincidan con el backend
+    const especialistaToAdd = {
+      nombre: newEspecialista.nombre,
+      especialidad: newEspecialista.especialidad,
+      telefono: newEspecialista.telefono,
+      correo: newEspecialista.email,
+      contrasena: newEspecialista.contrasenia
+    };
+    try {
+      const response = await fetch('http://localhost:3000/api/especialistas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(especialistaToAdd)
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // Opcional: recarga la lista desde el backend o agrega el nuevo especialista al estado
+        setEspecialistasData([...especialistasData, { ...especialistaToAdd, id: data.insertId || Date.now() }]);
+        setShowAddEspecialistaModal(false);
+        setNewEspecialista({ id: 0, nombre: '', email: '', telefono: '', especialidad: '', contrasenia: '' });
+      } else {
+        alert(data.mensaje || 'No se pudo agregar el especialista');
+      }
+    } catch (error) {
+      alert('Error de red al agregar especialista');
+    }
   };
   const handleEditEspecialista = esp => setEditEspecialista({ ...esp });
   const handleEditEspecialistaChange = e => setEditEspecialista({ ...editEspecialista, [e.target.name]: e.target.value });
-  const handleUpdateEspecialista = e => {
-    e.preventDefault();
-    setEspecialistasData(especialistasData.map(esp => esp.id === editEspecialista.id ? editEspecialista : esp));
-    setEditEspecialista(null);
+const handleUpdateEspecialista = async (e) => {
+  e.preventDefault();
+  // Prepara los datos para el backend
+  const especialistaToUpdate = {
+    id_especialista: editEspecialista.id,
+    nombre: editEspecialista.nombre,
+    especialidad: editEspecialista.especialidad,
+    telefono: editEspecialista.telefono,
+    correo: editEspecialista.email
   };
+  try {
+    const response = await fetch('http://localhost:3000/api/especialista/editar', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(especialistaToUpdate)
+    });
+    const data = await response.json();
+    if (response.ok) {
+      // Actualiza el estado local con los cambios
+      setEspecialistasData(especialistasData.map(esp =>
+        esp.id === editEspecialista.id ? { ...esp, ...editEspecialista } : esp
+      ));
+      setEditEspecialista(null);
+    } else {
+      alert(data.mensaje || 'No se pudo actualizar el especialista');
+    }
+  } catch (error) {
+    alert('Error de red al actualizar especialista');
+  }
+};
   const handleDeleteEspecialista = esp => setDeleteEspecialista(esp);
-  const confirmDeleteEspecialista = () => {
-    setEspecialistasData(especialistasData.filter(esp => esp.id !== deleteEspecialista.id));
-    setDeleteEspecialista(null);
+  const confirmDeleteEspecialista = async() => {
+   if (!deleteEspecialista) return;
+  try {
+    const response = await fetch(`http://localhost:3000/api/especialistas/${deleteEspecialista.id}`, {
+      method: 'DELETE'
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setEspecialistasData(especialistasData.filter(esp => esp.id !== deleteEspecialista.id));
+      setDeleteEspecialista(null);
+    } else {
+      alert(data.mensaje || 'No se pudo eliminar el especialista');
+    }
+  } catch (error) {
+    alert('Error de red al eliminar especialista');
+  }
   };
 
   // Citas CRUD
@@ -375,7 +451,7 @@ const AdminDashboard = () => {
                 <td>{user.cedula}</td>
                 <td>{user.contrasena}</td>
                 <td>{user.celular}</td>
-                <td>{user.email}</td>
+                <td>{user.correo}</td>
                 <td>{user.nombreCompleto}</td>
                 <td>{user.fechaNacimiento}</td>
                 <td>{user.fechaRegistro}</td>
@@ -465,7 +541,7 @@ const AdminDashboard = () => {
                   >
                     👁️
                   </button>
-                  
+
                   <button
                     className="btn-accion eliminar"
                     title="Eliminar"
@@ -819,16 +895,20 @@ const AdminDashboard = () => {
                   <input type="text" id="esp-nombre" name="nombre" value={newEspecialista.nombre} onChange={handleEspecialistaInputChange} required />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="esp-email">Email</label>
-                  <input type="email" id="esp-email" name="email" value={newEspecialista.email} onChange={handleEspecialistaInputChange} required />
-                </div>
-                <div className="form-group">
                   <label htmlFor="esp-telefono">Teléfono</label>
                   <input type="tel" id="esp-telefono" name="telefono" value={newEspecialista.telefono} onChange={handleEspecialistaInputChange} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="esp-especialidad">Especialidad</label>
                   <input type="text" id="esp-especialidad" name="especialidad" value={newEspecialista.especialidad} onChange={handleEspecialistaInputChange} required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="esp-email">Email</label>
+                  <input type="email" id="esp-email" name="email" value={newEspecialista.email} onChange={handleEspecialistaInputChange} required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="esp-contrasenia">Contraseña</label>
+                  <input type="text" id="esp-contrasenia" name="contrasenia" value={newEspecialista.contrasenia} onChange={handleEspecialistaInputChange} required />
                 </div>
                 <div className="modal-actions">
                   <button type="button" className="btn-modal-cancel" onClick={() => setShowAddEspecialistaModal(false)}>Cancelar</button>
@@ -937,7 +1017,7 @@ const AdminDashboard = () => {
               <button className="modal-close" onClick={() => setEditCita(null)}>✕</button>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleUpdateCita}>
+              <form >
                 <div className="form-group">
                   <label>Cliente</label>
                   <input type="text" name="cliente" value={editCita.cliente} onChange={handleEditCitaChange} required />
