@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from './Header';
 import Hero from './Hero';
@@ -15,30 +15,39 @@ import Registro from './Registro';
 import Especialista from './Especialista';
 import Admin from './Admin';
 
+function AppContent() {
+  const location = useLocation();
+  // Rutas donde NO quieres mostrar el Header (en minúsculas)
+  const hideHeaderRoutes = ['/perfil', '/especialista', '/admin', '/registro'];
+  const shouldHideHeader = hideHeaderRoutes.some(route =>
+    location.pathname.toLowerCase().startsWith(route)
+  );
+
+  return (
+    <div className="App">
+      <BubbleBackground />
+      {!shouldHideHeader && <Header />}
+      <Routes>
+        <Route path="/" element={<Hero />} />
+        <Route path="/nosotros" element={<Nosotros />} />
+        <Route path="/mision" element={<Mision />} />
+        <Route path="/vision" element={<Vision />} />
+        <Route path="/servicios" element={<Services />} />
+        <Route path="/contacto" element={<Contacto />} />
+        <Route path="/reserva" element={<Reserva />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/perfil" element={<PerfilD />} />
+        <Route path="/especialista" element={<Especialista />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </div>
+  );
+}
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <BubbleBackground />
-        {/* Mostrar el Header solo si no estamos en la pagina de perfil o especialista */}
-        {window.location.pathname !== '/perfil' && 
-         window.location.pathname !== '/especialista' && <Header />}
-        <Routes>
-          <Route path="/" element={<Hero />} />
-          <Route path="/nosotros" element={<Nosotros />} />
-          <Route path="/mision" element={<Mision />} />
-          <Route path="/vision" element={<Vision />} />
-          <Route path="/servicios" element={<Services />} />
-          <Route path="/contacto" element={<Contacto />} />
-          <Route path="/reserva" element={<Reserva />} />
-          <Route path="/registro" element={<Registro />} />
-          <Route path="/perfil" element={<PerfilD />} />
-          <Route path="/especialista" element={<Especialista />} /> {/* Ruta corregida */}
-        
-          {/* rutas */}
-        </Routes>
-      </div>
+      <AppContent />
     </Router>
   );
 }
