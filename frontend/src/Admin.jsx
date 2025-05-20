@@ -7,35 +7,60 @@ const especialistasDataInicial = [
   { id: 3, nombre: 'Dr. Carlos Rodríguez', email: 'carlosr@ejemplo.com', telefono: '555-222-333', especialidad: 'Estética' }
 ];
 
-//ejemplos eso pondran en la bd 
-const usuariosDataInicial = [
-  {
-    id: 1,
-    cedula: '12345678',
-    contrasena: '1234',
-    celular: '555-123-456',
-    email: 'ana@ejemplo.com',
-    nombreCompleto: 'Ana Martínez',
-    fechaNacimiento: '1990-05-10',
-    fechaRegistro: '2025-01-15'
-  },
-  {
-    id: 2,
-    cedula: '87654321',
-    contrasena: 'abcd',
-    celular: '555-789-123',
-    email: 'pedro@ejemplo.com',
-    nombreCompleto: 'Pedro Sánchez',
-    fechaNacimiento: '1985-09-22',
-    fechaRegistro: '2025-02-22'
-  }
-];
+
 
 const AdminDashboard = () => {
   // Estados
   const [activeSection, setActiveSection] = useState('usuarios');
   const [loading, setLoading] = useState(true);
-  const [usuariosData, setUsuariosData] = useState(usuariosDataInicial);
+
+  //estado para consumir la api de listar usuarios
+  const [usuariosData, setUsuariosData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/usuarios')
+      .then(res => res.json())
+      .then(data => setUsuariosData(data))
+      .catch(() => setUsuariosData([]));
+  }, []);
+
+  //acondicionar la data para mostrarla en la tabla
+  const usuariosFormateados = usuariosData.map(user => ({
+    id: user.id_cliente,
+    cedula: user.cedula,
+    contrasena: user.contrasena,
+    celular: user.telefono,
+    correo: user.correo,
+    nombreCompleto: user.nombre,
+    fechaNacimiento: user.fecha_nacimiento
+  }));
+
+  //funcion para ver usuario
+  const handleViewUsuario = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/usuarios/search?id_cliente=${userId}`);
+      const data = await response.json();
+      if (response.ok) {
+        // Si tu backend devuelve un array, toma el primer elemento
+        const paciente = Array.isArray(data) ? data[0] : data;
+        setViewUsuario({
+          id: paciente.id_cliente,
+          cedula: paciente.cedula,
+          contrasena: paciente.contrasena,
+          celular: paciente.telefono,
+          correo: paciente.correo,
+          nombreCompleto: paciente.nombre,
+          fechaNacimiento: paciente.fecha_nacimiento,
+          fechaRegistro: paciente.fecha_registro
+        });
+      } else {
+        alert(data.mensaje || 'No se pudo obtener el paciente');
+      }
+    } catch (error) {
+      alert('Error de red al obtener el paciente');
+    }
+  };
+
   const [especialistasData, setEspecialistasData] = useState(especialistasDataInicial);
   const [citasData, setCitasData] = useState([]);
   useEffect(() => {
@@ -46,21 +71,21 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
-  fetch('http://localhost:3000/api/especialistas')
-    .then(res => res.json())
-    .then(data => {
-      const especialistas = data.map(e => ({
-        id: e.id_especialista,
-        nombre: e.nombre,
-        email: e.correo,
-        contrasena:e.contrasena,
-        telefono: e.telefono,
-        especialidad: e.especialidad
-      }));
-      setEspecialistasData(especialistas);
-    })
-    .catch(() => setEspecialistasData([]));
-}, []);
+    fetch('http://localhost:3000/api/especialistas')
+      .then(res => res.json())
+      .then(data => {
+        const especialistas = data.map(e => ({
+          id: e.id_especialista,
+          nombre: e.nombre,
+          email: e.correo,
+          contrasena: e.contrasena,
+          telefono: e.telefono,
+          especialidad: e.especialidad
+        }));
+        setEspecialistasData(especialistas);
+      })
+      .catch(() => setEspecialistasData([]));
+  }, []);
 
 
   const [showAddUserModal, setShowAddUserModal] = useState(false);
@@ -201,87 +226,142 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleAddUser = e => {
+  const handleAddUser = async (e) => {
     e.preventDefault();
-    // Validación de longitud de 10 digitos la cedula 
-    if (newUser.cedula.length > 10) {
-      setUserError('La cédula no puede tener más de 10 digitos');
-      return;
+
+    const pacienteData = {
+      nombre: newUser.nombreCompleto,
+      correo: newUser.email,           // <-- CORRECTO
+      cedula: newUser.cedula,
+      fecha_nacimiento: newUser.fechaNacimiento,
+      telefono: newUser.celular,       // <-- CORRECTO
+      contrasena: newUser.contrasena
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/api/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pacienteData)
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setShowAddUserModal(false);
+        setNewUser({ cedula: '', contrasena: '', celular: '', email: '', nombreCompleto: '', fechaNacimiento: '' });
+        fetchUsuarios();
+      } else {
+        setUserError(data.mensaje || 'No se pudo agregar el usuario');
+      }
+    } catch (error) {
+      setUserError('Error de red al agregar usuario');
     }
-    // Validación de unicidad
-    if (
-      usuariosData.some(u => u.cedula === newUser.cedula) ||
-      usuariosData.some(u => u.celular === newUser.celular) ||
-      usuariosData.some(u => u.email === newUser.email)
-    ) {
-      setUserError('No se permiten cédulas, celulares o correos repetidos');
-      return;
-    }
-    // Validación de fecha de nacimiento
-    const fechaError = validarFechaNacimiento(newUser.fechaNacimiento);
-    if (fechaError) {
-      setUserError(fechaError);
-      return;
-    }
-    const newId = usuariosData.length > 0 ? Math.max(...usuariosData.map(u => u.id)) + 1 : 1;
-    const userToAdd = { ...newUser, id: newId };
-    setUsuariosData([...usuariosData, userToAdd]);
-    setShowAddUserModal(false);
-    setNewUser({
-      id: 0,
-      cedula: '',
-      contrasena: '',
-      celular: '',
-      email: '',
-      nombreCompleto: '',
-      fechaNacimiento: '',
-      fechaRegistro: new Date().toISOString().split('T')[0]
-    });
-    setUserError('');
   };
+
+  //para actuaiizar la lista de usuarios al agregar
+  const fetchUsuarios = () => {
+    fetch('http://localhost:3000/api/usuarios')
+      .then(res => res.json())
+      .then(data => setUsuariosData(data))
+      .catch(() => setUsuariosData([]));
+  };
+
+  // Llama a esta función en el useEffect inicial
+  useEffect(() => {
+    fetchUsuarios();
+  }, []);
+
+
   const handleEditUsuario = user => {
-    setEditUsuario({ ...user });
+    setEditUsuario({
+      id: user.id,
+      cedula: user.cedula,
+      contrasena: user.contrasena,
+      celular: user.celular,
+      correo: user.correo,
+      nombreCompleto: user.nombreCompleto,
+      fechaNacimiento: user.fechaNacimiento
+    });
     setEditUserError('');
   };
+
   const handleEditUsuarioChange = e => {
-    // Limitar la cédula a 10 dígitos
-    if (e.target.name === "cedula") {
-      const value = e.target.value.replace(/\D/g, '').slice(0, 10);
-      setEditUsuario({ ...editUsuario, cedula: value });
+    const { name, value } = e.target;
+    if (name === "cedula") {
+      const val = value.replace(/\D/g, '').slice(0, 10);
+      setEditUsuario(prev => ({
+        ...prev,
+        cedula: val
+      }));
+    } else if (name === "celular") {
+      setEditUsuario(prev => ({
+        ...prev,
+        celular: value,
+        telefono: value // sincroniza ambos
+      }));
+    } else if (name === "fechaNacimiento") {
+      setEditUsuario(prev => ({
+        ...prev,
+        fechaNacimiento: value,
+        fecha_nacimiento: value // sincroniza ambos
+      }));
     } else {
-      setEditUsuario({ ...editUsuario, [e.target.name]: e.target.value });
+      setEditUsuario(prev => ({
+        ...prev,
+        [name]: value
+      }));
     }
   };
-  const handleUpdateUsuario = e => {
+
+
+  //para editar usuario
+  const handleUpdateUsuario = async (e) => {
     e.preventDefault();
-    // Validación de longitud de la cc
-    if (editUsuario.cedula.length > 10) {
-      setEditUserError('La cédula no puede tener más de 10 dígitos.');
-      return;
+
+    const usuarioActualizado = {
+      nombre: editUsuario.nombreCompleto,
+      correo: editUsuario.correo,
+      cedula: editUsuario.cedula,
+      fecha_nacimiento: editUsuario.fechaNacimiento,
+      telefono: editUsuario.celular,
+      contrasena: editUsuario.contrasena
+    };
+
+    console.log('Enviando al backend (PUT):', usuarioActualizado);
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/usuarios/${editUsuario.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(usuarioActualizado)
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setEditUsuario(null);
+        fetchUsuarios(); // Vuelve a consultar la base de datos para refrescar la lista
+      } else {
+        setEditUserError(data.mensaje || 'No se pudo actualizar el usuario');
+      }
+    } catch (error) {
+      setEditUserError('Error de red al actualizar usuario');
     }
-    // Validación para q ninguno de estos sea =
-    if (
-      usuariosData.some(u => u.id !== editUsuario.id && u.cedula === editUsuario.cedula) ||
-      usuariosData.some(u => u.id !== editUsuario.id && u.celular === editUsuario.celular) ||
-      usuariosData.some(u => u.id !== editUsuario.id && u.email === editUsuario.email)
-    ) {
-      setEditUserError('No se permiten cédulas, celulares o correos repetidos.');
-      return;
-    }
-    // validacion de fecha de nacimiento
-    const fechaError = validarFechaNacimiento(editUsuario.fechaNacimiento);
-    if (fechaError) {
-      setEditUserError(fechaError);
-      return;
-    }
-    setUsuariosData(usuariosData.map(u => u.id === editUsuario.id ? editUsuario : u));
-    setEditUsuario(null);
-    setEditUserError('');
   };
   const handleDeleteUsuario = user => setDeleteUsuario(user);
-  const confirmDeleteUsuario = () => {
-    setUsuariosData(usuariosData.filter(u => u.id !== deleteUsuario.id));
-    setDeleteUsuario(null);
+
+  const confirmDeleteUsuario = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/usuarios/${deleteUsuario.id}`, {
+        method: 'DELETE'
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setDeleteUsuario(null);
+        fetchUsuarios(); // Actualiza la lista de usuarios
+      } else {
+        alert(data.mensaje || 'No se pudo eliminar el usuario');
+      }
+    } catch (error) {
+      alert('Error de red al eliminar usuario');
+    }
   };
 
   // Especialistas CRUD
@@ -317,54 +397,54 @@ const AdminDashboard = () => {
   };
   const handleEditEspecialista = esp => setEditEspecialista({ ...esp });
   const handleEditEspecialistaChange = e => setEditEspecialista({ ...editEspecialista, [e.target.name]: e.target.value });
-const handleUpdateEspecialista = async (e) => {
-  e.preventDefault();
-  // Prepara los datos para el backend
-  const especialistaToUpdate = {
-    id_especialista: editEspecialista.id,
-    nombre: editEspecialista.nombre,
-    especialidad: editEspecialista.especialidad,
-    telefono: editEspecialista.telefono,
-    correo: editEspecialista.email,
-    contrasena: editEspecialista.contrasena
+  const handleUpdateEspecialista = async (e) => {
+    e.preventDefault();
+    // Prepara los datos para el backend
+    const especialistaToUpdate = {
+      id_especialista: editEspecialista.id,
+      nombre: editEspecialista.nombre,
+      especialidad: editEspecialista.especialidad,
+      telefono: editEspecialista.telefono,
+      correo: editEspecialista.email,
+      contrasena: editEspecialista.contrasena
+    };
+    try {
+      const response = await fetch('http://localhost:3000/api/especialista/editar', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(especialistaToUpdate)
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // Actualiza el estado local con los cambios
+        setEspecialistasData(especialistasData.map(esp =>
+          esp.id === editEspecialista.id ? { ...esp, ...editEspecialista } : esp
+        ));
+        setEditEspecialista(null);
+      } else {
+        alert(data.mensaje || 'No se pudo actualizar el especialista');
+      }
+    } catch (error) {
+      alert('Error de red al actualizar especialista');
+    }
   };
-  try {
-    const response = await fetch('http://localhost:3000/api/especialista/editar', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(especialistaToUpdate)
-    });
-    const data = await response.json();
-    if (response.ok) {
-      // Actualiza el estado local con los cambios
-      setEspecialistasData(especialistasData.map(esp =>
-        esp.id === editEspecialista.id ? { ...esp, ...editEspecialista } : esp
-      ));
-      setEditEspecialista(null);
-    } else {
-      alert(data.mensaje || 'No se pudo actualizar el especialista');
-    }
-  } catch (error) {
-    alert('Error de red al actualizar especialista');
-  }
-};
   const handleDeleteEspecialista = esp => setDeleteEspecialista(esp);
-  const confirmDeleteEspecialista = async() => {
-   if (!deleteEspecialista) return;
-  try {
-    const response = await fetch(`http://localhost:3000/api/especialistas/${deleteEspecialista.id}`, {
-      method: 'DELETE'
-    });
-    const data = await response.json();
-    if (response.ok) {
-      setEspecialistasData(especialistasData.filter(esp => esp.id !== deleteEspecialista.id));
-      setDeleteEspecialista(null);
-    } else {
-      alert(data.mensaje || 'No se pudo eliminar el especialista');
+  const confirmDeleteEspecialista = async () => {
+    if (!deleteEspecialista) return;
+    try {
+      const response = await fetch(`http://localhost:3000/api/especialistas/${deleteEspecialista.id}`, {
+        method: 'DELETE'
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setEspecialistasData(especialistasData.filter(esp => esp.id !== deleteEspecialista.id));
+        setDeleteEspecialista(null);
+      } else {
+        alert(data.mensaje || 'No se pudo eliminar el especialista');
+      }
+    } catch (error) {
+      alert('Error de red al eliminar especialista');
     }
-  } catch (error) {
-    alert('Error de red al eliminar especialista');
-  }
   };
 
   // Citas CRUD
@@ -447,7 +527,7 @@ const handleUpdateEspecialista = async (e) => {
             </tr>
           </thead>
           <tbody>
-            {usuariosData.map(user => (
+            {usuariosFormateados.map(user => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.cedula}</td>
@@ -458,7 +538,13 @@ const handleUpdateEspecialista = async (e) => {
                 <td>{user.fechaNacimiento}</td>
                 <td>{user.fechaRegistro}</td>
                 <td className="acciones">
-                  <button className="btn-accion ver" title="Ver" onClick={() => setViewUsuario(user)}>👁️</button>
+                  <button
+                    className="btn-accion ver"
+                    title="Ver"
+                    onClick={() => handleViewUsuario(user.id || user.id_cliente)}
+                  >
+                    👁️
+                  </button>
                   <button className="btn-accion editar" title="Editar" onClick={() => handleEditUsuario(user)}>✏️</button>
                   <button className="btn-accion eliminar" title="Eliminar" onClick={() => handleDeleteUsuario(user)}>🗑️</button>
                 </td>
@@ -842,7 +928,7 @@ const handleUpdateEspecialista = async (e) => {
                 </div>
                 <div className="form-group">
                   <label>Correo</label>
-                  <input type="email" name="email" value={editUsuario.email} onChange={handleEditUsuarioChange} required />
+                  <input type="email" name="correo" value={editUsuario.correo} onChange={handleEditUsuarioChange} required />
                 </div>
                 <div className="form-group">
                   <label>Nombre Completo</label>
@@ -958,11 +1044,11 @@ const handleUpdateEspecialista = async (e) => {
                   <label>Especialidad</label>
                   <input type="text" name="especialidad" value={editEspecialista.especialidad} onChange={handleEditEspecialistaChange} required />
                 </div>
-                 <div className="form-group">
+                <div className="form-group">
                   <label>Email</label>
                   <input type="email" name="email" value={editEspecialista.email} onChange={handleEditEspecialistaChange} required />
                 </div>
-                 <div className="form-group">
+                <div className="form-group">
                   <label>Contraseña</label>
                   <input type="contrasena" name="contrasena" value={editEspecialista.contrasena} onChange={handleEditEspecialistaChange} required />
                 </div>
@@ -1099,7 +1185,7 @@ const handleUpdateEspecialista = async (e) => {
               <p><strong>Cédula:</strong> {viewUsuario.cedula}</p>
               <p><strong>Contraseña:</strong> {viewUsuario.contrasena}</p>
               <p><strong>Celular:</strong> {viewUsuario.celular}</p>
-              <p><strong>Email:</strong> {viewUsuario.email}</p>
+              <p><strong>Email:</strong> {viewUsuario.correo}</p>
               <p><strong>Nombre Completo:</strong> {viewUsuario.nombreCompleto}</p>
               <p><strong>Fecha Nacimiento:</strong> {viewUsuario.fechaNacimiento}</p>
               <p><strong>Fecha Registro:</strong> {viewUsuario.fechaRegistro}</p>

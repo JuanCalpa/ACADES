@@ -26,10 +26,10 @@ async function verPaciente(req, res) {
 
 async function crearPaciente(req, res) {
     console.log('Datos recibidos en el backend:', req.body); // Verifica los datos aquí
-  
 
-    const { nombre, correo, cedula, fecha_nacimiento, telefono, contrasena} = req.body;
-  
+
+    const { nombre, correo, cedula, fecha_nacimiento, telefono, contrasena } = req.body;
+
     try {
         const resultado = await funcionesSql.crearPaciente(nombre, correo, cedula, fecha_nacimiento, telefono, contrasena);
         res.status(201).json({ mensaje: 'Usuario registrado exitosamente', id: resultado.insertId });
@@ -42,8 +42,8 @@ async function crearPaciente(req, res) {
 async function atualizarPaciente(req, res) {
     try {
         const { id } = req.params;
-        const { nombre, correo, cedula, telefono } = req.body;
-        const resultado = await funcionesSql.atualizarPaciente(id, nombre, correo, cedula, telefono);
+        const { nombre, correo, cedula, fecha_nacimiento, telefono } = req.body; 
+        const resultado = await funcionesSql.atualizarPaciente(id, nombre, correo, cedula, fecha_nacimiento, telefono); 
         res.status(200).json({ mensaje: "Paciente actualizado correctamente" });
     } catch (error) {
         console.error("Error al actualizar paciente:", error);
@@ -94,7 +94,7 @@ async function login(req, res) {
                 telefono: usuario.telefono,
             };
             console.log('Login como especialista');
-              console.log('SESION:', req.session);
+            console.log('SESION:', req.session);
             return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario, tipo: 'especialista' });
         }
 
@@ -107,12 +107,12 @@ async function login(req, res) {
                 correo: usuario.correo,
             };
             console.log('Login como admin');
-              console.log('SESION:', req.session);
+            console.log('SESION:', req.session);
             return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario, tipo: 'admin' });
         }
 
         console.log('No se encontró el usuario en ninguna tabla', usuario);
-      
+
 
         res.status(401).json({ mensaje: 'Credenciales inválidas' });
     } catch (error) {
@@ -136,7 +136,7 @@ module.exports = {
     verPaciente,
     crearPaciente,
     atualizarPaciente,
-    eliminarPaciente, 
+    eliminarPaciente,
     login,
     logout
 };
