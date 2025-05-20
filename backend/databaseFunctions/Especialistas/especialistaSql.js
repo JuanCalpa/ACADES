@@ -18,39 +18,39 @@ async function agregarEspecialista(nombre, especialidad, telefono, correo, contr
 }
 
 async function eliminarEspecialista(id_especialista) {
-  try {
+    try {
 
-    await connection.execute(`ALTER TABLE citas DROP FOREIGN KEY citas_ibfk_3`);
-    await connection.execute(`ALTER TABLE horarios_especialista DROP FOREIGN KEY horarios_especialista_ibfk_1`);
-    await connection.execute(`ALTER TABLE especialista_procedimiento DROP FOREIGN KEY especialista_procedimiento_ibfk_1`);
-    await connection.execute(`
+        await connection.execute(`ALTER TABLE citas DROP FOREIGN KEY citas_ibfk_3`);
+        await connection.execute(`ALTER TABLE horarios_especialista DROP FOREIGN KEY horarios_especialista_ibfk_1`);
+        await connection.execute(`ALTER TABLE especialista_procedimiento DROP FOREIGN KEY especialista_procedimiento_ibfk_1`);
+        await connection.execute(`
       ALTER TABLE citas
       ADD CONSTRAINT fk_citas_especialista
       FOREIGN KEY (id_especialista)
       REFERENCES especialista(id_especialista)
       ON DELETE CASCADE
     `);
-    await connection.execute(`
+        await connection.execute(`
       ALTER TABLE horarios_especialista
       ADD CONSTRAINT fk_horario_especialista
       FOREIGN KEY (id_especialista)
       REFERENCES especialista(id_especialista)
       ON DELETE CASCADE
     `);
-    await connection.execute(`
+        await connection.execute(`
       ALTER TABLE especialista_procedimiento
       ADD CONSTRAINT fk_especialista_procedimiento
       FOREIGN KEY (id_especialista)
       REFERENCES especialista(id_especialista)
       ON DELETE CASCADE
     `);
-    const [result] = await connection.execute(`DELETE FROM especialista WHERE id_especialista = ?`, [id_especialista]);
-    return result;
+        const [result] = await connection.execute(`DELETE FROM especialista WHERE id_especialista = ?`, [id_especialista]);
+        return result;
 
-  } catch (error) {
-    console.error("Error al eliminar especialista:", error);
-    throw error;
-  }
+    } catch (error) {
+        console.error("Error al eliminar especialista:", error);
+        throw error;
+    }
 }
 
 async function especialistasPorProcedimiento(id_procedimiento) {
@@ -74,14 +74,14 @@ async function listarEspecialistas() {
     const [rows] = await connection.execute(query);
     return rows;
 }
-      
+
 
 async function sendConfirmationEmail(to, subject, text) {
     // Configura el transporte con tus credenciales
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
-        secure: true, 
+        secure: true,
         auth: {
             user: 'acadesrespuestas@gmail.com',
             pass: 'drlb odmn gcrf ennk'
@@ -185,15 +185,15 @@ async function editarEspecialista(id, nombre, especialidad, telefono, correo, co
     const [result] = await connection.execute(query, [nombre, especialidad, telefono, correo, contrasena, id]);
     return result;
 }
-module.exports = { 
+module.exports = {
     agregarEspecialista,
     eliminarEspecialista,
     listarEspecialistas,
     especialistasPorProcedimiento,
     sendConfirmationEmail,
-    listarCitasPorEspecialista, 
+    listarCitasPorEspecialista,
     listarCitasPendientesPorEspecialista,
-    listarCitasConfirmadaPorEspecialista, 
+    listarCitasConfirmadaPorEspecialista,
     cambiarEstadoCita,
     editarEspecialista
- };
+};
