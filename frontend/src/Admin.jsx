@@ -983,7 +983,11 @@ const handleUpdateEspecialista = async (e) => {
               <button className="modal-close" onClick={() => setDeleteEspecialista(null)}>✕</button>
             </div>
             <div className="modal-body">
-              <p>¿Seguro que deseas eliminar el especialista <strong>{deleteEspecialista.nombre}</strong>?</p>
+              <p>
+                <strong>¡Atención!</strong> Esta acción es <span style={{ color: 'red', fontWeight: 'bold' }}>irreversible</span>.<br />
+                Si eliminas al especialista <strong>{deleteEspecialista.nombre}</strong>, <u>se eliminarán también todas las citas y registros asociados a este especialista</u>.<br /><br />
+                ¿Estás completamente seguro de que deseas continuar?
+              </p>
               <div className="modal-actions">
                 <button className="btn-modal-cancel" onClick={() => setDeleteEspecialista(null)}>Cancelar</button>
                 <button className="btn-modal-confirm" onClick={confirmDeleteEspecialista}>Eliminar</button>
