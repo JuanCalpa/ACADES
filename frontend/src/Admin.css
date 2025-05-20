@@ -1,21 +1,22 @@
+/* ==== ESTILOS GENERALES ==== */
 :root {
-  --primary: #5d8aa8;
+  --primary: #5d8aa8; /* Azul ACADES - principal */
   --primary-light: #7ba4be;
   --primary-dark: #456880;
-  --secondary: #f0c8d1; 
+  --secondary: #f0c8d1; /* Rosa suave - secundario */
   --secondary-dark: #e6a4b4;
-  --accent: #e2b3a3; 
-  --success: #6bbaa7; 
-  --warning: #ffc857; 
-  --danger: #e87461; 
-  --light: #f9f9f9; 
-  --gray: #e0e0e0; 
-  --dark: #333; 
+  --accent: #e2b3a3; /* Durazno - acento */
+  --success: #6bbaa7; /* Verde menta - éxito */
+  --warning: #ffc857; /* Amarillo - advertencia */
+  --danger: #e87461; /* Coral - peligro */
+  --light: #f9f9f9; /* Gris muy claro - fondo */
+  --gray: #e0e0e0; /* Gris claro - bordes */
+  --dark: #333; /* Gris oscuro - texto */
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --radius: 10px;
   --transition: all 0.3s ease;
 }
-
+/* Modales generales */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -33,16 +34,12 @@
 }
 
 .modal-container {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  max-width: 420px;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   width: 100%;
-  padding: 0;
-  overflow: hidden;
-  animation: modalPop 0.22s;
-  display: flex;
-  flex-direction: column;
+  max-width: 420px; /* <-- Cambia aquí a 420px o el valor que prefieras */
+  animation: scaleIn 0.3s;
 }
 
 @keyframes modalPop {
@@ -239,7 +236,7 @@ body {
   transform: translateY(0);
 }
 
-
+/* ==== DECORACIÓN ==== */
 .decorative-circle {
   position: absolute;
   border-radius: 50%;
@@ -280,7 +277,7 @@ body {
   opacity: 0.3;
 }
 
-
+/* ==== CONTENEDOR PRINCIPAL ==== */
 .admin-dashboard-container {
   max-width: 1600px;
   margin: 0 auto;
@@ -290,7 +287,7 @@ body {
   overflow-x: hidden;
 }
 
-
+/* ==== NAVBAR ==== */
 .navbar-admin {
   background-color: white;
   display: flex;
@@ -398,7 +395,7 @@ body {
   color: white;
 }
 
-
+/* ==== CONTENIDO PRINCIPAL ==== */
 .main-content {
   padding: 2rem;
 }
@@ -422,7 +419,7 @@ body {
   border-radius: 2px;
 }
 
-
+/* ==== ESTADÍSTICAS ==== */
 .admin-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -501,7 +498,7 @@ body {
   font-weight: 500;
 }
 
-
+/* ==== TABLAS ==== */
 .admin-table-container {
   background: white;
   border-radius: var(--radius);
@@ -645,7 +642,7 @@ tr:hover {
   color: white;
 }
 
-
+/* Estilo para el modal de confirmación de eliminación */
 .delete-confirm-modal {
   max-width: 400px;
 }
@@ -844,7 +841,7 @@ tr:hover {
   background-color: var(--primary);
 }
 
-
+/* ==== PERFIL ADMIN ==== */
 .perfil-admin-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -965,7 +962,7 @@ tr:hover {
   gap: 1.5rem;
 }
 
-
+/* ==== DISPONIBILIDAD ==== */
 .disponibilidad-info {
   background-color: rgba(93, 138, 168, 0.1);
   border-left: 4px solid var(--primary);
@@ -975,7 +972,7 @@ tr:hover {
   color: var(--primary-dark);
 }
 
-
+/* ==== MODALES ==== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -994,8 +991,8 @@ tr:hover {
   background: white;
   border-radius: var(--radius);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 420px; /* <-- Cambia aquí a 420px o el valor que prefieras */
   animation: scaleIn 0.3s;
 }
 
@@ -1301,8 +1298,8 @@ tr:hover {
 }
 
 .small-modal {
-  max-width: 350px !important;
-  width: 95%;
-  min-width: unset;
-  padding: 20px 10px;
+  max-width: 400px;
+  width: 100%;
 }
+
+
