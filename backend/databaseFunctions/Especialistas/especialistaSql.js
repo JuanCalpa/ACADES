@@ -18,41 +18,72 @@ async function agregarEspecialista(nombre, especialidad, telefono, correo, contr
 }
 
 async function eliminarEspecialista(id_especialista) {
-    try {
+  try {
+    const foreignKeys = [
+      { table: 'citas', key: 'citas_ibfk_3' },
+      { table: 'horarios_especialista', key: 'horarios_especialista_ibfk_1' },
+      { table: 'especialista_procedimiento', key: 'especialista_procedimiento_ibfk_1' },
+    ];
 
-        await connection.execute(`ALTER TABLE citas DROP FOREIGN KEY citas_ibfk_3`);
-        await connection.execute(`ALTER TABLE horarios_especialista DROP FOREIGN KEY horarios_especialista_ibfk_1`);
-        await connection.execute(`ALTER TABLE especialista_procedimiento DROP FOREIGN KEY especialista_procedimiento_ibfk_1`);
-        await connection.execute(`
-      ALTER TABLE citas
-      ADD CONSTRAINT fk_citas_especialista
-      FOREIGN KEY (id_especialista)
-      REFERENCES especialista(id_especialista)
-      ON DELETE CASCADE
-    `);
-        await connection.execute(`
-      ALTER TABLE horarios_especialista
-      ADD CONSTRAINT fk_horario_especialista
-      FOREIGN KEY (id_especialista)
-      REFERENCES especialista(id_especialista)
-      ON DELETE CASCADE
-    `);
-        await connection.execute(`
-      ALTER TABLE especialista_procedimiento
-      ADD CONSTRAINT fk_especialista_procedimiento
-      FOREIGN KEY (id_especialista)
-      REFERENCES especialista(id_especialista)
-      ON DELETE CASCADE
-    `);
-        const [result] = await connection.execute(`DELETE FROM especialista WHERE id_especialista = ?`, [id_especialista]);
-        return result;
+    for (const { table, key } of foreignKeys) {
+      const [rows] = await connection.execute(
+        `SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+         WHERE TABLE_NAME = ? AND CONSTRAINT_NAME = ?`,
+        [table, key]
+      );
 
-    } catch (error) {
-        console.error("Error al eliminar especialista:", error);
-        throw error;
+      if (rows.length > 0) {
+        await connection.execute(`ALTER TABLE \`${table}\` DROP FOREIGN KEY \`${key}\``);
+      }
     }
-}
 
+    const cascadedKeys = [
+      {
+        table: 'citas',
+        name: 'fk_citas_especialista',
+        column: 'id_especialista'
+      },
+      {
+        table: 'horarios_especialista',
+        name: 'fk_horario_especialista',
+        column: 'id_especialista'
+      },
+      {
+        table: 'especialista_procedimiento',
+        name: 'fk_especialista_procedimiento',
+        column: 'id_especialista'
+      },
+    ];
+
+    for (const { table, name, column } of cascadedKeys) {
+      const [rows] = await connection.execute(
+        `SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+         WHERE TABLE_NAME = ? AND CONSTRAINT_NAME = ?`,
+        [table, name]
+      );
+
+      if (rows.length === 0) {
+        await connection.execute(`
+          ALTER TABLE \`${table}\`
+          ADD CONSTRAINT \`${name}\`
+          FOREIGN KEY (\`${column}\`)
+          REFERENCES especialista(id_especialista)
+          ON DELETE CASCADE
+        `);
+      }
+    }
+
+    const [result] = await connection.execute(
+      `DELETE FROM especialista WHERE id_especialista = ?`,
+      [id_especialista]
+    );
+
+    return result;
+  } catch (error) {
+    console.error("Error al eliminar especialista:", error);
+    throw error;
+  }
+}
 async function especialistasPorProcedimiento(id_procedimiento) {
     const query = `
         SELECT e.id_especialista, e.nombre, e.especialidad, e.telefono
