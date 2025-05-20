@@ -275,7 +275,7 @@ const AdminDashboard = () => {
     <div className="admin-table-container">
       <div className="table-header">
         <h3>Pacientes Acades </h3>
-        <button className="btn-add" onClick={() => setShowAddUserModal(true)}>+ Añadir Usuario</button>
+        <button className="btn-add" onClick={() => setShowAddUserModal(true)}>+ Añadir Paciente</button>
       </div>
       <div className="admin-table">
         <table>
@@ -354,7 +354,7 @@ const AdminDashboard = () => {
     <div className="admin-table-container">
       <div className="table-header">
         <h3>Todas las Citas</h3>
-        <button className="btn-add" onClick={() => setShowAddCitaModal(true)}>+ Añadir Cita</button>
+        {/* Botón eliminado */}
       </div>
       <div className="admin-table">
         <table>
@@ -565,7 +565,7 @@ const AdminDashboard = () => {
       {/* CRUD PACIENTES (antes USUARIOS) */}
       {showAddUserModal && (
         <div className="modal-overlay">
-          <div className="modal-container form-modal small-modal">
+          <div className="modal-container form-modal">
             <div className="modal-header">
               <h3>Añadir Nuevo Paciente</h3>
               <button className="modal-close" onClick={() => setShowAddUserModal(false)}>✕</button>
@@ -724,7 +724,7 @@ const AdminDashboard = () => {
                   <input type="text" id="esp-nombre" name="nombre" value={newEspecialista.nombre} onChange={handleEspecialistaInputChange} required />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="esp-email">Email</label>
+                  <label htmlFor="esp-email">Correo</label>
                   <input type="email" id="esp-email" name="email" value={newEspecialista.email} onChange={handleEspecialistaInputChange} required />
                 </div>
                 <div className="form-group">
@@ -744,6 +744,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
+
       {viewEspecialista && (
         <div className="modal-overlay">
           <div className="modal-container form-modal">
@@ -813,48 +814,7 @@ const AdminDashboard = () => {
       )}
 
       {/* CRUD CITAS */}
-      {showAddCitaModal && (
-        <div className="modal-overlay">
-          <div className="modal-container form-modal">
-            <div className="modal-header">
-              <h3>Añadir Nueva Cita</h3>
-              <button className="modal-close" onClick={() => setShowAddCitaModal(false)}>✕</button>
-            </div>
-            <div className="modal-body">
-              <form onSubmit={handleAddCita}>
-                <div className="form-group">
-                  <label>Usuario</label>
-                  <input type="text" name="usuario" value={newCita.usuario} onChange={handleCitaInputChange} required />
-                </div>
-                <div className="form-group">
-                  <label>Especialista</label>
-                  <input type="text" name="especialista" value={newCita.especialista} onChange={handleCitaInputChange} required />
-                </div>
-                <div className="form-group">
-                  <label>Fecha</label>
-                  <input type="date" name="fecha" value={newCita.fecha} onChange={handleCitaInputChange} required />
-                </div>
-                <div className="form-group">
-                  <label>Hora</label>
-                  <input type="time" name="hora" value={newCita.hora} onChange={handleCitaInputChange} required />
-                </div>
-                <div className="form-group">
-                  <label>Estado</label>
-                  <select name="estado" value={newCita.estado} onChange={handleCitaInputChange}>
-                    <option value="pendiente">Pendiente</option>
-                    <option value="confirmada">Confirmada</option>
-                    <option value="cancelada">Cancelada</option>
-                  </select>
-                </div>
-                <div className="modal-actions">
-                  <button type="button" className="btn-modal-cancel" onClick={() => setShowAddCitaModal(false)}>Cancelar</button>
-                  <button type="submit" className="btn-modal-confirm add">Añadir Cita</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
+     
       {viewCita && (
         <div className="modal-overlay">
           <div className="modal-container form-modal">
@@ -931,6 +891,28 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
+
+      
+{viewUsuario && (
+  <div className="modal-overlay">
+    <div className="modal-container form-modal small-modal">
+      <div className="modal-header">
+        <h3>Detalles del Paciente</h3>
+        <button className="modal-close" onClick={() => setViewUsuario(null)}>✕</button>
+      </div>
+      <div className="modal-body">
+        <p><strong>Cédula:</strong> {viewUsuario.cedula}</p>
+        <p><strong>Contraseña:</strong> {viewUsuario.contrasena}</p>
+        <p><strong>Celular:</strong> {viewUsuario.celular}</p>
+        <p><strong>Email:</strong> {viewUsuario.email}</p>
+        <p><strong>Nombre Completo:</strong> {viewUsuario.nombreCompleto}</p>
+        <p><strong>Fecha Nacimiento:</strong> {viewUsuario.fechaNacimiento}</p>
+        <p><strong>Fecha Registro:</strong> {viewUsuario.fechaRegistro}</p>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
