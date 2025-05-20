@@ -28,10 +28,10 @@ async function crearPaciente(req, res) {
     console.log('Datos recibidos en el backend:', req.body); // Verifica los datos aquí
   
 
-    const { nombre, correo, cedula, telefono, contrasena } = req.body;
+    const { nombre, correo, cedula, fecha_nacimiento, telefono, contrasena} = req.body;
   
     try {
-        const resultado = await funcionesSql.crearPaciente(nombre, correo, cedula, telefono, contrasena);
+        const resultado = await funcionesSql.crearPaciente(nombre, correo, cedula, fecha_nacimiento, telefono, contrasena);
         res.status(201).json({ mensaje: 'Usuario registrado exitosamente', id: resultado.insertId });
     } catch (error) {
         console.error('Error al registrar usuario:', error);

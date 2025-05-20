@@ -154,7 +154,6 @@ const PerfilD = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(citaData)
       });
-
       const data = await response.json();
 
       if (response.ok) {
@@ -166,7 +165,8 @@ const PerfilD = () => {
           hora: '',
           motivo: ''
         });
-        // Opcional: recargar citas o cambiar de tab
+        // <-- Aquí recargas las citas
+        await fetchCitas();
         handleTabChange('citas');
       } else {
         alert(data.mensaje || 'Error al crear la cita');
@@ -244,6 +244,18 @@ const PerfilD = () => {
     }
   };
 
+  //cargar citas del paciente
+  const fetchCitas = async () => {
+    const id_cliente = userData.id || userData.id_cliente;
+    try {
+      const response = await fetch(`http://localhost:3000/api/citas/paciente/${id_cliente}`);
+      const data = await response.json();
+      setCitas(data);
+    } catch {
+      setCitas([]);
+    }
+  };
+
   // Función para cerrar modal de eliminación
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
@@ -278,9 +290,10 @@ const PerfilD = () => {
     const id = userData.id || userData.id_cliente;
     const updatedData = {
       nombre: editProfileData.nombre,
-      correo: editProfileData.correo,     
-      telefono: editProfileData.telefono, 
-      cedula: editProfileData.cedula
+      correo: editProfileData.correo,
+      telefono: editProfileData.telefono,
+      cedula: editProfileData.cedula,
+      fecha_nacimiento: editProfileData.fecha_nacimiento
 
     };
 
@@ -593,7 +606,7 @@ const PerfilD = () => {
                 </div>
                 <div className="info-item">
                   <div className="info-label">Fecha de nacimiento:</div>
-                  <div className="info-value">{userData.fechaNacimiento}</div>
+                  <div className="info-value">{userData.fecha_nacimiento}</div>
                 </div>
               </div>
               <div className="profile-actions">

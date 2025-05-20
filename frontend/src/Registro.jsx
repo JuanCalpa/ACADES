@@ -150,7 +150,14 @@ function Login() {
       const response = await fetch('http://localhost:3000/api/usuarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(registerData)
+        body: JSON.stringify({
+          nombre: registerData.nombre,
+          correo: registerData.correo,
+          cedula: registerData.cedula,
+          telefono: registerData.telefono,
+          contrasena: registerData.contrasena,
+          fecha_nacimiento: registerData.fechaNacimiento // <-- nombre correcto
+        })
       });
 
       const data = await response.json();
