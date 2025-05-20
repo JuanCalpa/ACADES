@@ -1,4 +1,4 @@
-/* Contacto.css mejorado en estilo rosa pastel */
+
 .contacto {
   padding: 80px 20px;
   background: linear-gradient(135deg, #fff6f9 0%, #fffafc 40%, #fff8fa 60%, #fff0f5 100%);
@@ -16,7 +16,7 @@
   pointer-events: none;
 }
 
-/* Puntos flotantes con diferentes tamaños */
+
 .floating-dot {
   position: absolute;
   border-radius: 50%;
@@ -24,7 +24,7 @@
   animation: float-animation 10s infinite ease-in-out alternate;
 }
 
-/* Tamaños de puntos */
+
 .floating-dot.large {
   width: 15px;
   height: 15px;
@@ -61,7 +61,7 @@
   }
 }
 
-/* Círculos decorativos grandes transparentes */
+
 .decorative-bubble {
   position: absolute;
   border-radius: 50%;
@@ -108,7 +108,7 @@
   }
 }
 
-/* Asegúrate de que el contenedor principal esté por encima de los puntos */
+
 .contacto-container {
   position: relative;
   z-index: 2;
@@ -137,7 +137,7 @@
   border-radius: 10px;
 }
 
-/* Nueva estructura de dos columnas más limpia */
+
 .contacto-content {
   display: flex;
   gap: 40px;
@@ -150,7 +150,7 @@
   gap: 30px;
 }
 
-/* Mejora visual para las tarjetas de contacto */
+
 .contacto-card {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 16px;
@@ -168,7 +168,7 @@
   box-shadow: 0 15px 35px rgba(255, 182, 193, 0.25);
 }
 
-/* Añadir efecto sutil al hover en las tarjetas */
+
 .contacto-card:after {
   content: '';
   position: absolute;
@@ -240,7 +240,7 @@
   line-height: 1.5;
 }
 
-/* Redes sociales mejoradas */
+
 .redes-sociales {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -284,7 +284,7 @@
   font-weight: 500;
 }
 
-/* Mapa mejorado */
+
 .mapa-container {
   width: 100%;
 }
@@ -315,7 +315,7 @@
   border: none;
 }
 
-/* Tarjeta promocional */
+
 .promo-card {
   background: linear-gradient(145deg, #ffffff, #fff0f5);
   border-radius: 16px;
@@ -413,7 +413,7 @@
   }
 }
 
-/* Estilos para las promociones mejoradas */
+
 .promociones-overlay {
   position: fixed;
   top: 0;
@@ -514,7 +514,7 @@
   position: relative;
 }
 
-/* Añadir puntos decorativos flotantes dentro del modal */
+
 .modal-dots {
   position: absolute;
   top: 0;
@@ -565,7 +565,7 @@
   }
 }
 
-/* Promociones items con diseño mejorado */
+
 .promo-item {
   background: white;
   border-radius: 16px;

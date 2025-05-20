@@ -57,41 +57,40 @@ function Contacto() {
     }
   ];
 
-  // Función para abrir/cerrar modal de promociones
+
   const togglePromociones = () => {
     setShowPromociones(!showPromociones);
   };
   
-  // Función para redireccionar a WhatsApp
+ 
   const redirectToWhatsApp = () => {
-    // Número de teléfono con código de país (reemplazar con el número correcto)
+    
     const phoneNumber = "573213087029";
-    // Mensaje predeterminado (opcional)
     const message = "Hola, me gustaría obtener información sobre los servicios de ACADES!! 💜";
-    // URL de WhatsApp con el número y mensaje
+    
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    // Abrir en una nueva pestaña
+
     window.open(whatsappUrl, '_blank');
   };
 
   return (
     <section className="contacto">
-      {/* Puntos decorativos animados */}
+      {}
       <div className="background-decorations">
-        {/* Puntos más grandes */}
+        {}
         <div className="floating-dot large" style={{ top: '10%', left: '5%', animationDelay: '0s' }}></div>
         <div className="floating-dot large" style={{ top: '70%', right: '8%', animationDelay: '2.3s' }}></div>
         <div className="floating-dot large" style={{ top: '40%', right: '15%', animationDelay: '1.1s' }}></div>
         <div className="floating-dot large" style={{ bottom: '15%', left: '12%', animationDelay: '0.7s' }}></div>
         
-        {/* Puntos medianos */}
+        {}
         <div className="floating-dot medium" style={{ top: '25%', left: '18%', animationDelay: '1.5s' }}></div>
         <div className="floating-dot medium" style={{ top: '15%', right: '25%', animationDelay: '0.5s' }}></div>
         <div className="floating-dot medium" style={{ bottom: '30%', left: '30%', animationDelay: '2s' }}></div>
         <div className="floating-dot medium" style={{ top: '55%', right: '5%', animationDelay: '1.8s' }}></div>
         <div className="floating-dot medium" style={{ bottom: '10%', right: '28%', animationDelay: '3.2s' }}></div>
         
-        {/* Puntos pequeños */}
+        {}
         <div className="floating-dot small" style={{ top: '8%', left: '30%', animationDelay: '0.3s' }}></div>
         <div className="floating-dot small" style={{ top: '20%', right: '40%', animationDelay: '1.2s' }}></div>
         <div className="floating-dot small" style={{ top: '45%', left: '10%', animationDelay: '2.7s' }}></div>
@@ -101,7 +100,7 @@ function Contacto() {
         <div className="floating-dot small" style={{ top: '60%', left: '22%', animationDelay: '1.6s' }}></div>
         <div className="floating-dot small" style={{ top: '80%', right: '45%', animationDelay: '0.2s' }}></div>
         
-        {/* Círculos decorativos */}
+        {}
         <div className="decorative-bubble bubble1"></div>
         <div className="decorative-bubble bubble2"></div>
         <div className="decorative-bubble bubble3"></div>
@@ -135,15 +134,15 @@ function Contacto() {
             <div className="contacto-card">
               <h3>Redes Sociales</h3>
               <div className="redes-sociales">
-                <a href="https://facebook.com/acades" className="red-social" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.facebook.com/share/16fJUgVDzQ/" className="red-social" target="_blank" rel="noopener noreferrer">
                   <div className="red-icon">𝕗</div>
                   <span>Facebook</span>
                 </a>
-                <a href="https://instagram.com/acades" className="red-social" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/estetica.acades?igsh=dm5sYnF5OXpkdzl5" className="red-social" target="_blank" rel="noopener noreferrer">
                   <div className="red-icon">📸</div>
                   <span>Instagram</span>
                 </a>
-                <a href="https://tiktok.com/@acades" className="red-social" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.tiktok.com/@estetica.acades?_t=ZS-8wWau6Si1tI&_r=1" className="red-social" target="_blank" rel="noopener noreferrer">
                   <div className="red-icon">🎵</div>
                   <span>TikTok</span>
                 </a>
@@ -171,23 +170,23 @@ function Contacto() {
             </div>
               
             <div className="promo-card">
-              <div className="promo-icon">🎁</div>
+              <div className="promo-icon">💜</div>
               <h3>Promociones especiales</h3>
-              <p>Descubre nuestras increíbles promociones y paquetes exclusivos. Tenemos opciones diseñadas especialmente para realzar tu belleza y bienestar a precios increíbles.</p>
+              <p>Descubre nuestras increíbles promociones y paquetes exclusivos, tenemos opciones diseñadas especialmente para realzar tu belleza y bienestar a precios increíbles.</p>
               <button className="promo-button" onClick={togglePromociones}>Ver promociones</button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Ventana emergente de promociones mejorada */}
+      {}
       {showPromociones && (
         <div className="promociones-overlay" onClick={togglePromociones}>
           <div className="promociones-modal" onClick={(e) => e.stopPropagation()}>
             <button className="close-promociones" onClick={togglePromociones}>✕</button>
             <h2>Promociones y Kits Especiales</h2>
             
-            {/* Puntos decorativos dentro del modal */}
+            {}
             <div className="modal-dots">
               <div className="modal-dot large"></div>
               <div className="modal-dot medium"></div>
@@ -211,7 +210,7 @@ function Contacto() {
         </div>
       )}
 
-      {/* Botón de WhatsApp flotante */}
+      {}
       <button className="whatsapp-button" onClick={redirectToWhatsApp}>
         <span className="whatsapp-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="currentColor">
