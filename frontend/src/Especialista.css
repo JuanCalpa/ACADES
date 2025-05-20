@@ -13,7 +13,7 @@ opacity: 1;
 .decorative-circle {
 position: absolute;
 border-radius: 50%;
-z-index: -1; /* Crucial para que estén detrás del contenido */
+z-index: -1; 
 backdrop-filter: blur(5px);
 box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4);
 }
@@ -70,7 +70,7 @@ padding: 20px 40px;
 background-color: white;
 box-shadow: 0 2px 15px rgba(100, 149, 237, 0.1);
 position: relative;
-z-index: 100; /* Mayor que los círculos */
+z-index: 100; 
 opacity: 0;
 transform: translateY(-20px);
 transition: all 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -961,13 +961,13 @@ box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 color: #ccc;
 opacity: 0.7;
 }
-/* Día actual */
+
 .today {
 font-weight: bold;
 border: 2px solid #4682b4;
 position: relative;
 }
-/* Día disponible */
+
 .available {
 background-color: rgba(70, 130, 180, 0.2);
 color: #4682b4;
@@ -976,7 +976,7 @@ font-weight: 600;
 .available:hover {
 background-color: rgba(70, 130, 180, 0.35);
 }
-/* Día no disponible */
+
 .unavailable {
 background-color: rgba(180, 180, 180, 0.15);
 color: #666;
@@ -984,7 +984,7 @@ color: #666;
 .unavailable:hover {
 background-color: rgba(180, 180, 180, 0.3);
 }
-/* Leyenda del calendario */
+
 .calendar-legend {
 display: flex;
 justify-content: center;
@@ -1023,7 +1023,7 @@ border: 1px solid rgba(180, 180, 180, 0.5);
 border: 2px solid #4682b4;
 background-color: transparent;
 }
-/* Horario laboral */
+
 .horario-laboral,
 .dias-semana,
 .configuracion-info {
@@ -1039,13 +1039,13 @@ transition: transform 0.3s ease;
 .configuracion-info:hover {
 transform: translateY(-5px);
 }
-/* Contenedor de horarios */
+
 .horario-container {
 display: flex;
 gap: 20px;
 margin-top: 20px;
 }
-/* Inputs de horario */
+
 .horario-input {
 flex: 1;
 }
@@ -1069,7 +1069,7 @@ outline: none;
 border-color: #4682b4;
 box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.15);
 }
-/* Contenedor de días de la semana */
+
 .dias-container {
 display: flex;
 gap: 12px;
@@ -1077,7 +1077,7 @@ margin-top: 20px;
 flex-wrap: wrap;
 justify-content: center;
 }
-/* Botones de días de la semana */
+
 .dia-semana {
 width: 55px;
 height: 55px;
@@ -1103,7 +1103,7 @@ box-shadow: 0 4px 12px rgba(70, 130, 180, 0.2);
 transform: scale(1.1);
 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-/* Sección de información de configuración */
+
 .configuracion-info h3 {
 margin-bottom: 20px;
 }
@@ -1116,7 +1116,7 @@ line-height: 1.6;
 color: #4682b4;
 font-weight: 600;
 }
-/* Estilos responsivos para la sección de disponibilidad */
+
 @media (max-width: 768px) {
 .horario-container {
 flex-direction: column;

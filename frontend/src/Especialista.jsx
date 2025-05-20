@@ -1362,6 +1362,7 @@ const handleSaveProfile = async (e) => {
                 className="modal-close"
                 onClick={handleCloseModal}
               >
+                
                 ✕
               </button>
             </div>

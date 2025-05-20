@@ -10,11 +10,11 @@ const especialistasDataInicial = [
 
 
 const AdminDashboard = () => {
-  // Estados
+  
   const [activeSection, setActiveSection] = useState('usuarios');
   const [loading, setLoading] = useState(true);
 
-  //estado para consumir la api de listar usuarios
+ 
   const [usuariosData, setUsuariosData] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const AdminDashboard = () => {
       .catch(() => setUsuariosData([]));
   }, []);
 
-  //acondicionar la data para mostrarla en la tabla
+ 
   const usuariosFormateados = usuariosData.map(user => ({
     id: user.id_cliente,
     cedula: user.cedula,
@@ -35,13 +35,13 @@ const AdminDashboard = () => {
     fechaNacimiento: user.fecha_nacimiento
   }));
 
-  //funcion para ver usuario
+ 
   const handleViewUsuario = async (userId) => {
     try {
       const response = await fetch(`http://localhost:3000/api/usuarios/search?id_cliente=${userId}`);
       const data = await response.json();
       if (response.ok) {
-        // Si tu backend devuelve un array, toma el primer elemento
+       
         const paciente = Array.isArray(data) ? data[0] : data;
         setViewUsuario({
           id: paciente.id_cliente,
