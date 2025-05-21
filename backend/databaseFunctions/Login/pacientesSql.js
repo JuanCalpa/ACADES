@@ -34,9 +34,60 @@ async function atualizarPaciente(id_cliente, nombre, correo, cedula, fecha_nacim
 }
 
 async function eliminarPaciente(id_cliente) {
-    const query = "DELETE FROM cliente WHERE id_cliente = ?";
-    const [result] = await connection.query(query, [id_cliente]);
+  try {
+    const foreignKeys = [
+      { table: 'citas', key: 'citas_ibfk_1' }, // nombre de la clave foránea por defecto, puede cambiar si la nombraste distinta
+    ];
+
+    for (const { table, key } of foreignKeys) {
+      const [rows] = await connection.execute(
+        `SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+         WHERE TABLE_NAME = ? AND CONSTRAINT_NAME = ?`,
+        [table, key]
+      );
+
+      if (rows.length > 0) {
+        await connection.execute(`ALTER TABLE \`${table}\` DROP FOREIGN KEY \`${key}\``);
+      }
+    }
+
+    // Agregar de nuevo la restricción con ON DELETE CASCADE
+    const cascadedKeys = [
+      {
+        table: 'citas',
+        name: 'fk_citas_cliente',
+        column: 'id_cliente'
+      },
+    ];
+
+    for (const { table, name, column } of cascadedKeys) {
+      const [rows] = await connection.execute(
+        `SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+         WHERE TABLE_NAME = ? AND CONSTRAINT_NAME = ?`,
+        [table, name]
+      );
+
+      if (rows.length === 0) {
+        await connection.execute(`
+          ALTER TABLE \`${table}\`
+          ADD CONSTRAINT \`${name}\`
+          FOREIGN KEY (\`${column}\`)
+          REFERENCES cliente(id_cliente)
+          ON DELETE CASCADE
+        `);
+      }
+    }
+
+    const [result] = await connection.execute(
+      `DELETE FROM cliente WHERE id_cliente = ?`,
+      [id_cliente]
+    );
+
     return result;
+  } catch (error) {
+    console.error("Error al eliminar cliente:", error);
+    throw error;
+  }
 }
 
 //para el login 

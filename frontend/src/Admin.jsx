@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, act } from 'react';
 import './Admin.css';
 
 const especialistasDataInicial = [
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
       .then(res => res.json())
       .then(data => setCitasData(data))
       .catch(() => setCitasData([]));
-  }, []);
+  }, [activeSection]);
 
   useEffect(() => {
     fetch('http://localhost:3000/api/especialistas')
