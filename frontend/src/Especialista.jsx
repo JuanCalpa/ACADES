@@ -846,41 +846,13 @@ const handleSaveProfile = async (e) => {
         {(activeTab === 'citasPendientes' || activeTab === 'citasConfirmadas' || activeTab === 'historialCitas') && (
           <div className="filters-container">
             <div className="search-box">
-              <input
-                type="text"
-                placeholder="Buscar por nombre o procedimiento..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <i className="search-icon">🔍</i>
-            </div>
-            <div className="date-filter">
-              <input
-                type="date"
-                value={dateFilter}
-                onChange={(e) => setDateFilter(e.target.value)}
-              />
-              {dateFilter && (
-                <button
-                  className="clear-filter"
-                  onClick={() => setDateFilter('')}
-                >
-                  ✕
-                </button>
-              )}
+             
             </div>
 
             {/* Filtro de estado - solo visible en historial */}
             {activeTab === 'historialCitas' && (
               <div className="status-filter">
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                >
-                  <option value="todas">Todos los estados</option>
-                  <option value="realizada">Realizadas</option>
-                  <option value="cancelada">Canceladas</option>
-                </select>
+               
               </div>
             )}
           </div>
