@@ -1,4 +1,5 @@
 import React, { useState, useEffect, act } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Admin.css';
 
 const especialistasDataInicial = [
@@ -13,7 +14,8 @@ const AdminDashboard = () => {
   
   const [activeSection, setActiveSection] = useState('usuarios');
   const [loading, setLoading] = useState(true);
-
+  const [showDeleteCitaModal, setShowDeleteCitaModal] = useState(false);
+  const [citaToDelete, setCitaToDelete] = useState(null);
  
   const [usuariosData, setUsuariosData] = useState([]);
 
@@ -464,60 +466,61 @@ const AdminDashboard = () => {
 
 
   //funcion para eliminar cita
-  const handleDeleteCita = async (cita) => {
-    if (!window.confirm('¿Estás seguro de que deseas eliminar esta cita?')) return;
+const handleDeleteCita = async (cita) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/citas/${cita.id_cita || cita.id}`, {
+      method: 'DELETE'
+    });
+    const data = await response.json();
 
-    try {
-      const response = await fetch(`http://localhost:3000/api/citas/${cita.id_cita || cita.id}`, {
-        method: 'DELETE'
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        // Actualiza la lista de citas después de eliminar
-        setCitasData(prev => prev.filter(c => (c.id_cita || c.id) !== (cita.id_cita || cita.id)));
-        alert('Cita eliminada correctamente');
-      } else {
-        alert(data.mensaje || 'No se pudo eliminar la cita');
-      }
-    } catch (error) {
-      alert('Error de red al eliminar la cita');
+    if (response.ok) {
+      setCitasData(prev => prev.filter(c => (c.id_cita || c.id) !== (cita.id_cita || cita.id)));
+      setShowDeleteCitaModal(false); // Cierra el modal
+      setCitaToDelete(null);         // Limpia el estado
+    } else {
+      alert(data.mensaje || 'No se pudo eliminar la cita');
     }
-  };
+  } catch (error) {
+    alert('Error de red al eliminar la cita');
+  }
+};
 
 
-  const confirmDeleteCitaModal = async () => {
-    if (!citaToDelete) return;
-    try {
-      const response = await fetch(`http://localhost:3000/api/citas/${citaToDelete.id_cita || citaToDelete.id}`, {
-        method: 'DELETE'
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setCitasData(prev => prev.filter(c => (c.id_cita || c.id) !== (citaToDelete.id_cita || citaToDelete.id)));
-        setShowDeleteCitaModal(false);
-        setCitaToDelete(null);
-        alert('Cita eliminada correctamente');
-      } else {
-        alert(data.mensaje || 'No se pudo eliminar la cita');
-      }
-    } catch (error) {
-      alert('Error de red al eliminar la cita');
-    }
+  const confirmDeleteCita = () => {
+    setCitasData(citasData.filter(c => c.id !== deleteCita.id));
+    setDeleteCita(null);
   };
 
   // Perfil
   const openProfileModal = () => { setEditData({ ...adminData }); setShowProfileModal(true); };
   const closeProfileModal = () => setShowProfileModal(false);
   const saveProfileChanges = () => { setAdminData({ ...editData }); setShowProfileModal(false); };
+  const navigate = useNavigate();
 
   // Logout
   const handleLogoutClick = () => setShowLogoutModal(true);
   const cancelLogout = () => setShowLogoutModal(false);
-  const confirmLogout = () => {
+const confirmLogout = async () => {
+  try {
+    await fetch('http://localhost:3000/api/usuarios/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+    // Limpia datos locales
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('especialistaInfo');
+    localStorage.removeItem('citasPendientes');
+    localStorage.removeItem('citasConfirmadas');
+    localStorage.removeItem('historialCitas');
+    localStorage.removeItem('disponibilidadEspecialista');
+    setShowLogoutModal(false); // Cierra el modal antes de navegar
+    navigate('/registro');
+  } catch (error) {
+    alert('Error al cerrar sesión');
     setShowLogoutModal(false);
-    window.location.href = '/registro'; // esta lleva a registro no le van a cambiar la ruta
-  };
+    navigate('/login-especialista');
+  }
+};
 
   // Render helpers
   const renderUsuarios = () => (
@@ -646,12 +649,12 @@ const AdminDashboard = () => {
                   </button>
 
                   <button
-                    className="btn-accion eliminar"
+                    className="btn-accion ver"
                     title="Eliminar"
                     onClick={() => {
-                      setCitaToDelete(cita);
-                      setShowDeleteCitaModal(true);
-                    }}
+                    setCitaToDelete(cita);
+                    setShowDeleteCitaModal(true);
+                  }}
                   >
                     🗑️
                   </button>
@@ -1211,7 +1214,28 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
-
+      
+      {showDeleteCitaModal && (
+  <div className="modal-overlay">
+    <div className="modal-container logout-modal">
+      <div className="modal-header">
+        <h3>Eliminar Cita</h3>
+        <button className="modal-close" onClick={() => setShowDeleteCitaModal(false)}>✕</button>
+      </div>
+      <div className="modal-body">
+        <p>¿Seguro que deseas eliminar la cita de <strong>{citaToDelete?.cliente}</strong>?</p>
+        <div className="modal-actions">
+          <button className="btn-modal-cancel" onClick={() => setShowDeleteCitaModal(false)}>
+            Cancelar
+          </button>
+          <button className="btn-modal-confirm rechazar" onClick={() => handleDeleteCita(citaToDelete)}>
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+    )} 
     </div>
   );
 };

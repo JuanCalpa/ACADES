@@ -17,8 +17,8 @@ import Admin from './Admin';
 
 function AppContent() {
   const location = useLocation();
-  // Rutas donde NO quieres mostrar el Header (en minúsculas)
-  const hideHeaderRoutes = ['/perfil', '/especialista', '/admin', '/registro'];
+
+  const hideHeaderRoutes = ['/perfil', '/especialista', '/admin'];
   const shouldHideHeader = hideHeaderRoutes.some(route =>
     location.pathname.toLowerCase().startsWith(route)
   );

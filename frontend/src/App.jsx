@@ -20,7 +20,6 @@ function AppContent() {
       <Routes>
         <Route path="/Especialista" element={<EspecialistaPanel />} />
         <Route path="/Admin" element={<AdminPanel />} />
-        <Route path="/Registro" element={<Registro />} />
         <Route path="/perfilD" element={<PerfilD />} />
       </Routes>
     </>

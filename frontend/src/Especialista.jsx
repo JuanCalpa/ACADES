@@ -644,10 +644,10 @@ const handleSaveProfile = async (e) => {
       localStorage.removeItem('historialCitas');
       localStorage.removeItem('disponibilidadEspecialista');
       // Redirige al login de especialista
-      navigate('/login-especialista');
+      navigate('/registro');
     } catch (error) {
       alert('Error al cerrar sesión');
-      navigate('/login-especialista');
+      navigate('/registro');
     }
   };
 
