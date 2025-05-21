@@ -12,7 +12,10 @@ const Especialista = () => {
   const [fadeIn, setFadeIn] = useState(false);
   const [activeTab, setActiveTab] = useState('citasPendientes');
   const [animateNavbar, setAnimateNavbar] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [animateSections, setAnimateSections] = useState({
+  
+
     perfil: false,
     citasPendientes: false,
     citasConfirmadas: false,
@@ -812,12 +815,7 @@ const handleSaveProfile = async (e) => {
           >
             Historial
           </button>
-          <button
-            className={`nav-link ${activeTab === 'disponibilidad' ? 'active' : ''}`}
-            onClick={() => handleTabChange('disponibilidad')}
-          >
-            Disponibilidad
-          </button>
+          {}
           <button
             className={`nav-link ${activeTab === 'perfil' ? 'active' : ''}`}
             onClick={() => handleTabChange('perfil')}
@@ -834,7 +832,7 @@ const handleSaveProfile = async (e) => {
             )}
           </div>
           <span className="especialista-name">{especialistaData.nombre}</span>
-          <button className="btn-logout" onClick={handleLogout}>
+          <button className="btn-logout" onClick={() => setShowLogoutModal(true)}>
             Cerrar Sesión
           </button>
         </div>
@@ -1191,27 +1189,7 @@ const handleSaveProfile = async (e) => {
                         <div className="info-value">{especialistaData.telefono}</div>
                       </div>
                     </div>
-
-                    <div className="info-section">
-                      <h4>Horario de Atención</h4>
-                      <div className="info-item">
-                        <div className="info-label">
-                          <i className="icon-calendar">📅</i> Días:
-                        </div>
-                        <div className="info-value">{especialistaData.diasAtencion}</div>
-                      </div>
-                      <div className="info-item">
-                        <div className="info-label">
-                          <i className="icon-clock">🕒</i> Horas:
-                        </div>
-                        <div className="info-value">{especialistaData.horasAtencion}</div>
-                      </div>
-                    </div>
-
-                    <div className="info-section">
-                      <h4>Acerca de Mí</h4>
-                      <p className="biografia">{especialistaData.biografia}</p>
-                    </div>
+                    {/* Eliminado: días, horas y acerca de mí */}
                   </div>
                   <div className="perfil-actions">
                     <button
@@ -1253,7 +1231,7 @@ const handleSaveProfile = async (e) => {
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="email">Email</label>
+                      <label htmlFor="correo">Email</label>
                       <input
                         type="email"
                         id="correo"
@@ -1272,36 +1250,7 @@ const handleSaveProfile = async (e) => {
                         onChange={handleEditInputChange}
                       />
                     </div>
-                    <div className="form-group">
-                      <label htmlFor="diasAtencion">Días de Atención</label>
-                      <input
-                        type="text"
-                        id="diasAtencion"
-                        name="diasAtencion"
-                        value={editData.diasAtencion}
-                        onChange={handleEditInputChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="horasAtencion">Horario</label>
-                      <input
-                        type="text"
-                        id="horasAtencion"
-                        name="horasAtencion"
-                        value={editData.horasAtencion}
-                        onChange={handleEditInputChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="biografia">Biografía</label>
-                      <textarea
-                        id="biografia"
-                        name="biografia"
-                        value={editData.biografia}
-                        onChange={handleEditInputChange}
-                        rows="4"
-                      ></textarea>
-                    </div>
+                    {}
                   </div>
                   <div className="perfil-actions edit-actions">
                     <button
@@ -1406,6 +1355,29 @@ const handleSaveProfile = async (e) => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de csecionn */}
+      {showLogoutModal && (
+        <div className="modal-overlay">
+          <div className="modal-container logout-modal">
+            <div className="modal-header">
+              <h3>¿Cerrar sesión?</h3>
+              <button className="modal-close" onClick={() => setShowLogoutModal(false)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <p>¿Estás seguro que deseas cerrar sesión?</p>
+              <div className="modal-actions">
+                <button className="btn-modal-cancel" onClick={() => setShowLogoutModal(false)}>
+                  Cancelar
+                </button>
+                <button className="btn-modal-confirm" style={{ background: "#f472b6", color: "#fff" }} onClick={handleLogout}>
+                  Cerrar Sesión
+                </button>
+              </div>
             </div>
           </div>
         </div>

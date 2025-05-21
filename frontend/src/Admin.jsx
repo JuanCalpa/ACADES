@@ -486,9 +486,24 @@ const AdminDashboard = () => {
   };
 
 
-  const confirmDeleteCita = () => {
-    setCitasData(citasData.filter(c => c.id !== deleteCita.id));
-    setDeleteCita(null);
+  const confirmDeleteCitaModal = async () => {
+    if (!citaToDelete) return;
+    try {
+      const response = await fetch(`http://localhost:3000/api/citas/${citaToDelete.id_cita || citaToDelete.id}`, {
+        method: 'DELETE'
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setCitasData(prev => prev.filter(c => (c.id_cita || c.id) !== (citaToDelete.id_cita || citaToDelete.id)));
+        setShowDeleteCitaModal(false);
+        setCitaToDelete(null);
+        alert('Cita eliminada correctamente');
+      } else {
+        alert(data.mensaje || 'No se pudo eliminar la cita');
+      }
+    } catch (error) {
+      alert('Error de red al eliminar la cita');
+    }
   };
 
   // Perfil
@@ -633,7 +648,10 @@ const AdminDashboard = () => {
                   <button
                     className="btn-accion eliminar"
                     title="Eliminar"
-                    onClick={() => handleDeleteCita(cita)}
+                    onClick={() => {
+                      setCitaToDelete(cita);
+                      setShowDeleteCitaModal(true);
+                    }}
                   >
                     🗑️
                   </button>
